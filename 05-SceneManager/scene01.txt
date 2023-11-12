@@ -61,5 +61,5 @@ objectscene1.txt
 0	20	10
 
 [MAP]
-Worldmap1-1\worldmap1-1.txt	Worldmap1-1\world-1-1.png	1110	4	4	29	30		
+Worldmap1-1\worldmap1-1.txt	Worldmap1-1\world-1-1.png	1110	176	41	29	30		
 

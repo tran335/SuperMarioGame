@@ -139,14 +139,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		break;
 	}
 
-	case OBJECT_TYPE_PORTAL:
+	/*case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());
 		float b = (float)atof(tokens[4].c_str());
 		int scene_id = atoi(tokens[5].c_str());
 		obj = new CPortal(x, y, r, b, scene_id);
 	}
-	break;
+	break;*/
 
 
 	default:
@@ -165,15 +165,15 @@ void CPlayScene::_ParseSection_MAP(string line)
 
 	if (tokens.size() < 7) return; // skip invalid lines
 
-	//LPCWSTR mapFilePath = ToLPCWSTR(tokens[0].c_str());
-	//LPCWSTR tilesetFilePath = ToLPCWSTR(tokens[1].c_str());
-	//int texId = atoi(tokens[2].c_str());
-	//int width_map = atoi(tokens[3].c_str());
-	//int height_map = atoi(tokens[4].c_str());
-	//int columns = atoi(tokens[5].c_str());
-	//int rows = atoi(tokens[6].c_str());
+	LPCWSTR mapFilePath = ToLPCWSTR(tokens[0].c_str());
+	LPCWSTR tilesetFilePath = ToLPCWSTR(tokens[1].c_str());
+	int texId = atoi(tokens[2].c_str());
+	int width_map = atoi(tokens[3].c_str());
+	int height_map = atoi(tokens[4].c_str());
+	int columns = atoi(tokens[5].c_str());
+	int rows = atoi(tokens[6].c_str());
 
-	map = new CMap(ToLPCWSTR(tokens[0].c_str()), ToLPCWSTR(tokens[1].c_str()), atoi(tokens[2].c_str()), atoi(tokens[3].c_str()), atoi(tokens[5].c_str()), atoi(tokens[5].c_str()), atoi(tokens[6].c_str()));
+	map = new CMap(mapFilePath, tilesetFilePath, texId, width_map, height_map, columns, rows);
 	map->LoadResourceMap();
 
 }

@@ -1,4 +1,5 @@
 #include "Map.h"
+#include "Utils.h"
 
 CMap::CMap(LPCWSTR mapFilePath, LPCWSTR tilesetFilePath, int texId, int width_map, int height_map, int columns, int rows)
 {
@@ -22,9 +23,9 @@ void CMap::LoadResourceMap()
 		for (int j = 0; j < width_map; j++)
 		{
 			f >> map[i][j];
-
-			DebugOut(L"map: %d \n", map[i][j]);
+			//DebugOut(L"map: %d \n", map[i][j]);
 		}
+		
 	}
 
 	f.close();

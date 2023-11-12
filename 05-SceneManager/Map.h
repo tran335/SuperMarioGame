@@ -8,6 +8,7 @@
 #define TILE_HEIGHT 48
 #define ID_MAP_TILE_SET 100;
 #define MAX_TILE 200
+#define MAX_MAP_LINE 10000
 
 class CMap
 {

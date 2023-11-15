@@ -275,7 +275,8 @@ void CPlayScene::Update(DWORD dt)
 
 	CGame *game = CGame::GetInstance();
 	cx -= game->GetBackBufferWidth() / 2;
-	cy -= game->GetBackBufferHeight()/ 2;
+	//cy -= game->GetBackBufferHeight() /2;
+	cy = game->GetBackBufferHeight();
 
 	if (cx < 0) cx = 0;
 

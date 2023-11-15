@@ -41,7 +41,7 @@ CBigbox::CBigbox(float x, float y, float width, float height)
 
 void CBigbox::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CBigbox::GetBoundingBox(float& l, float& t, float& r, float& b)

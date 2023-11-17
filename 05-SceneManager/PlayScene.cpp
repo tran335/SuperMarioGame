@@ -9,6 +9,7 @@
 #include "Portal.h"
 #include "Coin.h"
 #include "Platform.h"
+#include "Questionbrick.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -136,6 +137,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float height = (float)atof(tokens[4].c_str());
 		obj = new CBigbox(x, y, width, height);
 
+		break;
+	}
+	case OBJECT_TYPE_QUESTIONBRICK:
+	{
+
+		int item_type = (float)atof(tokens[3].c_str());
+		obj = new CQuestionbrick(x, y, item_type);
 		break;
 	}
 

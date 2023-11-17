@@ -1,0 +1,24 @@
+#pragma once
+#include "GameObject.h"
+
+#define QUESTIONBRICK_STATE_NORMAL 1100
+#define QUESTIONBRICK_STATE_DISABLE 1200
+
+#define ID_ANI_QUESTIONBRICK_NORMAL  7000
+#define ID_ANI_QUESTIONBRICK_DISABLE 7001
+
+#define QUESTIONBRICK_BBOX_WIDTH 48
+#define QUESTIONBRICK_BBOX_HEIGHT 48 
+
+class CQuestionbrick : public CGameObject
+{
+protected:
+	float x,y, start_y;
+	int item_type;
+public:
+	CQuestionbrick(float x, float y, int item_type);
+	void Render();
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	void GetBoundingBox(float& l, float& t, float& r, float& b);
+};
+

@@ -10,15 +10,22 @@
 #define QUESTIONBRICK_BBOX_WIDTH 48
 #define QUESTIONBRICK_BBOX_HEIGHT 48 
 
+#define QUESTIONBRICK_JUMP_Y		20.0f
+
+
 class CQuestionbrick : public CGameObject
 {
 protected:
 	float x,y, start_y;
 	int item_type;
+	ULONGLONG throwup_start;
 public:
 	CQuestionbrick(float x, float y, int item_type);
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	void GetBoundingBox(float& l, float& t, float& r, float& b);
+	void GetBoundingBox(float& l, float& t, float& r, float& b); 
+	virtual void SetState(int state);
+	void StartThrowup(){ throwup_start = GetTickCount64(); }
+	
 };
 

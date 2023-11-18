@@ -8,6 +8,7 @@
 #include "Goomba.h"
 #include "Map.h"
 #include "Bigbox.h"
+#include "MapPipe.h"
 //#include "Koopas.h"
 
 
@@ -19,6 +20,7 @@ protected:
 
 	vector<LPGAMEOBJECT> objects;
 	CMap* map;
+	CMapPipe* map_pipe;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -26,6 +28,7 @@ protected:
 	void _ParseSection_ASSETS(string line);
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
+	void _ParseSection_MAPPIPE(string line);
 
 	void LoadAssets(LPCWSTR assetFile);
 	

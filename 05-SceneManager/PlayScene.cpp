@@ -27,6 +27,7 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 #define SCENE_SECTION_ASSETS	1
 #define SCENE_SECTION_OBJECTS	2
 #define SCENE_SECTION_MAP	3
+#define SCENE_SECTION_MAPPIPE	4
 
 #define ASSETS_SECTION_UNKNOWN -1
 #define ASSETS_SECTION_SPRITES 1
@@ -185,6 +186,25 @@ void CPlayScene::_ParseSection_MAP(string line)
 	map->LoadResourceMap();
 
 }
+void CPlayScene::_ParseSection_MAPPIPE(string line)
+{
+	vector<string> tokens = split(line);
+
+	if (tokens.size() < 7) return; // skip invalid lines
+
+	LPCWSTR mapFilePath = ToLPCWSTR(tokens[0].c_str());
+	LPCWSTR tilesetFilePath = ToLPCWSTR(tokens[1].c_str());
+	int texId = atoi(tokens[2].c_str());
+	int width_map = atoi(tokens[3].c_str());
+	int height_map = atoi(tokens[4].c_str());
+	int columns = atoi(tokens[5].c_str());
+	int rows = atoi(tokens[6].c_str());
+
+	map_pipe = new CMapPipe(mapFilePath, tilesetFilePath, texId, width_map, height_map, columns, rows);
+	map_pipe->LoadResourceMap();
+
+}
+
 
 void CPlayScene::LoadAssets(LPCWSTR assetFile)
 {
@@ -240,6 +260,7 @@ void CPlayScene::Load()
 		if (line == "[ASSETS]") { section = SCENE_SECTION_ASSETS; continue; };
 		if (line == "[OBJECTS]") { section = SCENE_SECTION_OBJECTS; continue; };
 		if (line == "[MAP]") { section = SCENE_SECTION_MAP; continue; };
+		if (line == "[MAPPIPE]") { section = SCENE_SECTION_MAPPIPE; continue; };
 		if (line[0] == '[') { section = SCENE_SECTION_UNKNOWN; continue; }	
 
 		//
@@ -250,6 +271,7 @@ void CPlayScene::Load()
 			case SCENE_SECTION_ASSETS: _ParseSection_ASSETS(line); break;
 			case SCENE_SECTION_OBJECTS: _ParseSection_OBJECTS(line); break;
 			case SCENE_SECTION_MAP: _ParseSection_MAP(line); break;
+			case SCENE_SECTION_MAPPIPE: _ParseSection_MAPPIPE(line); break;
 		}
 	}
 
@@ -298,6 +320,7 @@ void CPlayScene::Render()
 	map->Render();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	map_pipe->Render();
 }
 
 /*

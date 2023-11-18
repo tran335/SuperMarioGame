@@ -10,7 +10,7 @@
 #define QUESTIONBRICK_BBOX_WIDTH 48
 #define QUESTIONBRICK_BBOX_HEIGHT 48 
 
-#define QUESTIONBRICK_JUMP_Y		20.0f
+#define QUESTIONBRICK_JUMP_Y		10.0f
 
 
 class CQuestionbrick : public CGameObject

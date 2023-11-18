@@ -11,6 +11,8 @@
 #include "Collision.h"
 #include "Questionbrick.h"
 #include "Koopas.h"
+#include "CameraBound.h"
+#include "KoopasBound.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -60,6 +62,10 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CQuestionbrick*>(e->obj))
 		OnCollisionWithQuestionBrick(e);
+	else if (dynamic_cast<CCameraBound*>(e->obj))
+		OnCollisionWithCameraBound(e);
+	else if (dynamic_cast<CKoopasBound*>(e->obj))
+		OnCollisionWithKoopasBound(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -134,6 +140,18 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
 	coin++;
+}
+
+void CMario::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
+{
+	CCameraBound* camerabound = dynamic_cast<CCameraBound*>(e->obj);
+	if (e->ny < 0) {
+		SetState(MARIO_STATE_DIE);
+	}
+}
+void CMario::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)
+{
+	e->obj->IsDirectionColliable(e->nx, e->ny) == 0;
 }
 
 void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)

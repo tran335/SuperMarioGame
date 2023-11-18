@@ -45,6 +45,16 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
+	if (dynamic_cast<CCameraBound*>(e->obj))
+		OnCollisionWithCameraBound(e);
+}
+
+void CGoomba::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
+{
+	CCameraBound* camerabound = dynamic_cast<CCameraBound*>(e->obj);
+	if (e->ny < 0) {
+		isDeleted = true;
+	}
 }
 
 void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)

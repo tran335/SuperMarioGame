@@ -10,6 +10,8 @@
 #include "Coin.h"
 #include "Platform.h"
 #include "Questionbrick.h"
+#include "Koopas.h"
+#include "KoopasBound.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -157,6 +159,21 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS:
 	{
 		obj = new CKoopas(x, y);
+		break;
+	}
+
+	case OBJECT_TYPE_CAMMERABOUND:
+	{
+		float width = (float)atof(tokens[3].c_str());
+		float height = (float)atof(tokens[4].c_str());
+		obj = new CCameraBound(x, y, width, height);
+		break;
+	}
+	case OBJECT_TYPE_KOOPASBOUND:
+	{
+		float width = (float)atof(tokens[3].c_str());
+		float height = (float)atof(tokens[4].c_str());
+		obj = new CKoopasBound(x, y, width, height);
 		break;
 	}
 	/*case OBJECT_TYPE_PORTAL:

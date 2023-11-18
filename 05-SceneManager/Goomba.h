@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "CameraBound.h"
 
 #define GOOMBA_GRAVITY 0.002f
 #define GOOMBA_WALKING_SPEED 0.07f
@@ -34,6 +35,7 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
 
 public: 	
 	CGoomba(float x, float y);

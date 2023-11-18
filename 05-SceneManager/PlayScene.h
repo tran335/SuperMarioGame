@@ -11,6 +11,7 @@
 #include "MapPipe.h"
 #include "VenusFireTrap.h"
 #include "Koopas.h"
+#include "CameraBound.h"
 
 
 class CPlayScene: public CScene

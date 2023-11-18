@@ -9,6 +9,7 @@
 #include "Map.h"
 #include "Bigbox.h"
 #include "MapPipe.h"
+#include "VenusFireTrap.h"
 //#include "Koopas.h"
 
 

@@ -109,6 +109,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	switch (object_type)
 	{
 	case OBJECT_TYPE_MARIO:
+	{
 		if (player != NULL)
 		{
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
@@ -119,6 +120,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
+	}
 	case OBJECT_TYPE_GOOMBA: obj = new CGoomba(x, y); break;
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
@@ -142,9 +144,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_QUESTIONBRICK:
 	{
-
 		int item_type = (float)atof(tokens[3].c_str());
 		obj = new CQuestionbrick(x, y, item_type);
+		break;
+	}
+	case OBJECT_TYPE_VENUSFIRETRAP:
+	{
+		int type = (float)atof(tokens[3].c_str());
+		obj = new CVenusFireTrap(x, y, type);
 		break;
 	}
 

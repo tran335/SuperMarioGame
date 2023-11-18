@@ -154,7 +154,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CVenusFireTrap(x, y, type);
 		break;
 	}
-
+	case OBJECT_TYPE_KOOPAS:
+	{
+		obj = new CKoopas(x, y);
+		break;
+	}
 	/*case OBJECT_TYPE_PORTAL:
 	{
 		float r = (float)atof(tokens[3].c_str());

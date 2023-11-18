@@ -10,7 +10,7 @@
 #include "Bigbox.h"
 #include "MapPipe.h"
 #include "VenusFireTrap.h"
-//#include "Koopas.h"
+#include "Koopas.h"
 
 
 class CPlayScene: public CScene

@@ -44,6 +44,8 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
+	if (dynamic_cast<CKoopasBound*>(e->obj))
+		OnCollisionWithKoopasBound(e);
 }
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -61,6 +63,10 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
+void CKoopas::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)
+{
+	CKoopasBound* koopasbound = dynamic_cast<CKoopasBound*>(e->obj);
+}
 
 void CKoopas::Render()
 {

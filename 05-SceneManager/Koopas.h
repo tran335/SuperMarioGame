@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "KoopasBound.h"
 
 #define KOOPAS_GRAVITY 0.002f
 #define KOOPAS_WALKING_SPEED 0.07f
@@ -36,9 +37,11 @@ protected:
 	virtual void OnNoCollision(DWORD dt);
 
 	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnCollisionWithKoopasBound(LPCOLLISIONEVENT e);
 
 public:
 	CKoopas(float x, float y);
 	virtual void SetState(int state);
+	int IsDirectionColliable(float nx, float ny) { return 1; };
 };
 

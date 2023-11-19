@@ -12,6 +12,7 @@
 #include "Questionbrick.h"
 #include "Koopas.h"
 #include "KoopasBound.h"
+#include "BrickCoin.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -148,6 +149,15 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int item_type = (float)atof(tokens[3].c_str());
 		obj = new CQuestionbrick(x, y, item_type);
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
+		if (item_type == 1) {
+			obj = new CBrickCoin(x, y);
+			obj->SetPosition(x, y);
+			objects.push_back(obj);
+		}
+
+		
 		break;
 	}
 	case OBJECT_TYPE_VENUSFIRETRAP:
@@ -380,6 +390,8 @@ void CPlayScene::Unload()
 
 	DebugOut(L"[INFO] Scene %d unloaded! \n", id);
 }
+
+
 
 bool CPlayScene::IsGameObjectDeleted(const LPGAMEOBJECT& o) { return o == NULL; }
 

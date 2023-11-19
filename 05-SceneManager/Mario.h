@@ -5,6 +5,7 @@
 #include "Animations.h"
 
 #include "debug.h"
+#include "BrickCoin.h"
 
 #define MARIO_WALKING_SPEED		0.5f
 #define MARIO_RUNNING_SPEED		0.7f
@@ -113,6 +114,9 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	int coin; 
+	BOOLEAN isItem = false;
+
+	CBrickCoin* brickcoin = NULL;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
@@ -138,6 +142,7 @@ public:
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
+		
 	}
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
@@ -157,4 +162,5 @@ public:
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+
 };

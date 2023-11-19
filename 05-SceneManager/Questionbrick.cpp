@@ -13,6 +13,7 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 	if (GetState() == QUESTIONBRICK_STATE_DISABLE) {
+		isThrow = 1;
 		if (throwup_start == 0) {
 			StartThrowup();
 		}
@@ -23,6 +24,8 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				y = start_y;
 		}
 	}
+	else
+		isThrow = 0;
 	
 }
 

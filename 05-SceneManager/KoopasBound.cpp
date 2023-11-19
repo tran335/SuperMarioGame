@@ -3,6 +3,7 @@
 #include "Sprites.h"
 
 #include "Textures.h"
+#include "PlayScene.h"
 
 void CKoopasBound::RenderBoundingBox()
 {
@@ -28,12 +29,19 @@ void CKoopasBound::RenderBoundingBox()
 	CGame::GetInstance()->Draw(xx - cx, yy - cy, bbox, nullptr, BBOX_ALPHA, rect.right - 1, rect.bottom - 1);
 }
 
+int CKoopasBound::IsDirectionColliable(float nx, float ny)
+{
+	if (nx != 0 && ny == 0 && c==1) return 1;
+	else return 0;
+}
+
 CKoopasBound::CKoopasBound(float x, float y, float width, float height)
 {
 	this->x = x;
 	this->y = y;
 	this->width = width;
 	this->height = height;
+	c = 1;
 }
 
 void CKoopasBound::Render()

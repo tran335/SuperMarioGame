@@ -13,6 +13,7 @@
 #include "Koopas.h"
 #include "CameraBound.h"
 #include "KoopasBound.h"
+#include "BrickCoin.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -27,7 +28,7 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-
+	
 	isOnPlatform = false;
 
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -151,7 +152,7 @@ void CMario::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 }
 void CMario::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)
 {
-	e->obj->IsDirectionColliable(e->nx, e->ny) == 0;
+	CKoopasBound* koopasbound = dynamic_cast<CKoopasBound*>(e->obj);
 }
 
 void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
@@ -159,6 +160,7 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 	CQuestionbrick* questionbrick = dynamic_cast<CQuestionbrick*>(e->obj);
 	if (e->ny > 0 and questionbrick->GetState()!=QUESTIONBRICK_STATE_DISABLE) {
 		questionbrick->SetState(QUESTIONBRICK_STATE_DISABLE);
+		isItem = true;
 	}
 }
 
@@ -303,8 +305,8 @@ void CMario::Render()
 	else if (level == MARIO_LEVEL_SMALL)
 		aniId = GetAniIdSmall();
 
-	animations->Get(aniId)->Render(x, y);
 
+	animations->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
 	
 	DebugOutTitle(L"Coins: %d", coin);

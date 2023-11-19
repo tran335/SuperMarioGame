@@ -42,6 +42,7 @@ public:
 	virtual void Render();
 	virtual void Unload();
 
+
 	LPGAMEOBJECT GetPlayer() { return player; }
 
 	void Clear();

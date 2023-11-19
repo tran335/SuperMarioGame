@@ -1,5 +1,6 @@
 #pragma once
 #include "GameObject.h"
+#include "BrickCoin.h"
 
 #define QUESTIONBRICK_STATE_NORMAL 1100
 #define QUESTIONBRICK_STATE_DISABLE 1200
@@ -19,6 +20,7 @@ protected:
 	float x,y, start_y;
 	int item_type;
 	ULONGLONG throwup_start;
+	int isThrow = 0;
 public:
 	CQuestionbrick(float x, float y, int item_type);
 	void Render();
@@ -26,6 +28,7 @@ public:
 	void GetBoundingBox(float& l, float& t, float& r, float& b); 
 	virtual void SetState(int state);
 	void StartThrowup(){ throwup_start = GetTickCount64(); }
+	void GetIsThrow(int isThow) { isThrow = this->isThrow; };
 	
 };
 

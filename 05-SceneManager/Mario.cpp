@@ -14,7 +14,23 @@
 #include "CameraBound.h"
 #include "KoopasBound.h"
 #include "BrickCoin.h"
+#include "PlayScene.h"
 
+
+CMario::CMario(float x, float y)
+{
+	isSitting = false;
+	maxVx = 0.0f;
+	ax = 0.0f;
+	ay = MARIO_GRAVITY;
+
+	level = MARIO_LEVEL_SMALL;
+	untouchable = 0;
+	untouchable_start = -1;
+	isOnPlatform = false;
+	coin = 0;
+
+}
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
@@ -28,9 +44,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-	
-	isOnPlatform = false;
 
+	isOnPlatform = false;
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -63,6 +78,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPortal(e);
 	else if (dynamic_cast<CQuestionbrick*>(e->obj))
 		OnCollisionWithQuestionBrick(e);
+	/*else if (dynamic_cast<CBrickCoin*>(e->obj))
+		OnCollisionWithBrickCoin(e);*/
 	else if (dynamic_cast<CCameraBound*>(e->obj))
 		OnCollisionWithCameraBound(e);
 	else if (dynamic_cast<CKoopasBound*>(e->obj))
@@ -157,10 +174,12 @@ void CMario::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)
 
 void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 {
+	float question_x, question_y;
 	CQuestionbrick* questionbrick = dynamic_cast<CQuestionbrick*>(e->obj);
-	if (e->ny > 0 and questionbrick->GetState()!=QUESTIONBRICK_STATE_DISABLE) {
-		questionbrick->SetState(QUESTIONBRICK_STATE_DISABLE);
+
+	if (e->ny > 0 && questionbrick->GetState()!=QUESTIONBRICK_STATE_DISABLE) {
 		isItem = true;
+		questionbrick->SetState(QUESTIONBRICK_STATE_DISABLE);
 	}
 }
 
@@ -304,10 +323,9 @@ void CMario::Render()
 		aniId = GetAniIdBig();
 	else if (level == MARIO_LEVEL_SMALL)
 		aniId = GetAniIdSmall();
-
-
 	animations->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
+	
 	
 	DebugOutTitle(L"Coins: %d", coin);
 }

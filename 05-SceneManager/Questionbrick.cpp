@@ -1,4 +1,6 @@
 #include "Questionbrick.h"
+#include "PlayScene.h"
+
 
 CQuestionbrick::CQuestionbrick(float x, float y, int item_type)
 {
@@ -6,14 +8,12 @@ CQuestionbrick::CQuestionbrick(float x, float y, int item_type)
 	this->y = y;
 	start_y = y;
 	this->item_type = item_type;
-
 }
 
 void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
 	if (GetState() == QUESTIONBRICK_STATE_DISABLE) {
-		isThrow = 1;
 		if (throwup_start == 0) {
 			StartThrowup();
 		}
@@ -23,10 +23,9 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			else
 				y = start_y;
 		}
+		
 	}
-	else
-		isThrow = 0;
-	
+	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 

@@ -44,7 +44,11 @@ void CVenusFireTrap::Render()
 			else
 				aniId = IC_ANI_VENUS_DOWN_LEFT;
 	}
+	if (isShooting == true) {
+		fireball->Render();
+	}
 	animations->Get(aniId)->Render(x, y);
+
 }
 
 void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -88,7 +92,9 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else
 			vy = -VENUS_SPEED;
 	}
-
+	if (isShooting == true) {
+		fireball->Update(dt, coObjects);
+	}
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 

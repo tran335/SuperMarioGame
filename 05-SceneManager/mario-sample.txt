@@ -18,4 +18,3 @@ height	240
 10	textures\enemy.png
 20	textures\misc_new.png
 30	textures\enemy - 2.png
-40	textures\fireball.png

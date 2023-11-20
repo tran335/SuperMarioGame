@@ -1,7 +1,6 @@
 #pragma once
 #include "GameObject.h"
 #include "Mario.h"
-#include "Fireball.h"
 
 #define VENUS_BBOX_WIDTH 48
 #define VENUS_BBOX_HEIGHT 95
@@ -35,12 +34,11 @@ class CVenusFireTrap : public CGameObject
 	bool isStop = false;
 	ULONGLONG shootingTime;
 	CMario* mario = NULL;
-	CFireball* fireball = NULL;
 public:
 	CVenusFireTrap(float x, float y, int type);
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
-	void startShootingTime() { isShooting = true; shootingTime = GetTickCount64(); fireball = new CFireball(x, y);}
+	void startShootingTime() { isShooting = true, shootingTime = GetTickCount64(); }
 };
 

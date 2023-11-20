@@ -12,7 +12,6 @@
 #include "VenusFireTrap.h"
 #include "Koopas.h"
 #include "CameraBound.h"
-#include "Fireball.h"
 
 
 class CPlayScene: public CScene
@@ -22,7 +21,6 @@ protected:
 	LPGAMEOBJECT player;					
 
 	vector<LPGAMEOBJECT> objects;
-	CVenusFireTrap* venus;
 	CMap* map;
 	CMapPipe* map_pipe;
 
@@ -43,6 +41,7 @@ public:
 	virtual void Update(DWORD dt);
 	virtual void Render();
 	virtual void Unload();
+
 
 	LPGAMEOBJECT GetPlayer() { return player; }
 

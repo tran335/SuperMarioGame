@@ -147,7 +147,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_QUESTIONBRICK:
 	{
-		int item_type = atoi(tokens[3].c_str());
+		int item_type = (float)atof(tokens[3].c_str());
 		obj = new CQuestionbrick(x, y, item_type);
 		obj->SetPosition(x, y);
 		objects.push_back(obj);
@@ -156,13 +156,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			obj->SetPosition(x, y);
 			objects.push_back(obj);
 		}
-	
+
 		
 		break;
 	}
 	case OBJECT_TYPE_VENUSFIRETRAP:
 	{
-		int type = atoi(tokens[3].c_str());
+		int type = (float)atof(tokens[3].c_str());
 		obj = new CVenusFireTrap(x, y, type);
 		break;
 	}
@@ -345,6 +345,7 @@ void CPlayScene::Update(DWORD dt)
 	cx -= game->GetBackBufferWidth() / 2;
 	//cy -= game->GetBackBufferHeight() /2;
 	cy = game->GetBackBufferHeight();
+
 	if (cx < 0) cx = 0;
 
 	CGame::GetInstance()->SetCamPos(cx, /*0.0f*/ cy);

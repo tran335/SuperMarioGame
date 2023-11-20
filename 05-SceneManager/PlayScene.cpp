@@ -147,22 +147,22 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_QUESTIONBRICK:
 	{
-		int item_type = (float)atof(tokens[3].c_str());
-		obj = new CQuestionbrick(x, y, item_type);
-		obj->SetPosition(x, y);
-		objects.push_back(obj);
+		int item_type = atoi(tokens[3].c_str());
+		
 		if (item_type == 1) {
 			obj = new CBrickCoin(x, y);
 			obj->SetPosition(x, y);
 			objects.push_back(obj);
 		}
-
+		obj = new CQuestionbrick(x, y, item_type);
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
 		
 		break;
 	}
 	case OBJECT_TYPE_VENUSFIRETRAP:
 	{
-		int type = (float)atof(tokens[3].c_str());
+		int type = atoi(tokens[3].c_str());
 		obj = new CVenusFireTrap(x, y, type);
 		break;
 	}

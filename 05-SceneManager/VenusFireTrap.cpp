@@ -44,9 +44,6 @@ void CVenusFireTrap::Render()
 			else
 				aniId = IC_ANI_VENUS_DOWN_LEFT;
 	}
-	if (isShooting == true) {
-		fireball->Render();
-	}
 	animations->Get(aniId)->Render(x, y);
 }
 
@@ -106,4 +103,13 @@ void CVenusFireTrap::GetBoundingBox(float& l, float& t, float& r, float& b)
 	t = y - VENUS_BBOX_HEIGHT / 2;
 	r = l + VENUS_BBOX_WIDTH;
 	b = t + VENUS_BBOX_HEIGHT;
+}
+
+void CVenusFireTrap::startShootingTime()
+{
+	isShooting = true;
+	shootingTime = GetTickCount64(); 
+	fireball = new CFireBall(x, y); 
+	CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+	scene->objects.push_back(fireball);
 }

@@ -16,7 +16,8 @@
 
 class CPlayScene: public CScene
 {
-protected: 
+//protected: 
+public:
 	// A play scene has to have player, right? 
 	LPGAMEOBJECT player;					
 
@@ -34,7 +35,7 @@ protected:
 
 	void LoadAssets(LPCWSTR assetFile);
 	
-public: 
+//public: 
 	CPlayScene(int id, LPCWSTR filePath);
 
 	virtual void Load();

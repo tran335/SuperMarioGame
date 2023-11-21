@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "Mario.h"
 #include "FireBall.h"
+#include "PlayScene.h"
 
 #define VENUS_BBOX_WIDTH 48
 #define VENUS_BBOX_HEIGHT 95
@@ -41,6 +42,6 @@ public:
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
-	void startShootingTime() { isShooting = true, shootingTime = GetTickCount64(); fireball = new CFireBall(x, y); }
+	void startShootingTime();
 };
 

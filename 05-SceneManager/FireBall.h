@@ -7,11 +7,12 @@
 #define ID_ANI_FIREBALL 110
 #define FIREBALL_BBOX_WIDTH 25
 #define FIREBALL_BBOX_HEIGHT 25
-#define FIRE_BALL_SPEED 4.0f
+#define FIRE_BALL_SPEED 0.1f
+#define FIREBALL_Y 10
 
 #define UNFINDDIRECTION_TIME 500
 
-#define FIREBALL_GRAVITY 0.00005f
+#define FIREBALL_GRAVITY 0.00007f
 
 class CFireBall : public CGameObject
 {
@@ -25,7 +26,7 @@ class CFireBall : public CGameObject
 	ULONGLONG untouchable = 0;
 	ULONGLONG untouchable_start = -1;
 
-	virtual int IsCollidable() { return isCollision != false; };
+	//virtual int IsCollidable() { return isCollision != false; };
 	virtual int IsBlocking() { return 0; }
 
 	virtual void OnNoCollision(DWORD dt);

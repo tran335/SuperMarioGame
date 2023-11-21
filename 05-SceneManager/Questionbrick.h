@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "BrickCoin.h"
 
+
 #define QUESTIONBRICK_STATE_NORMAL 1100
 #define QUESTIONBRICK_STATE_DISABLE 1200
 
@@ -21,6 +22,7 @@ protected:
 	int item_type;
 	ULONGLONG throwup_start;
 	int isThrow = 0;
+	BOOLEAN hasItem;
 public:
 	CQuestionbrick(float x, float y, int item_type);
 	void Render();

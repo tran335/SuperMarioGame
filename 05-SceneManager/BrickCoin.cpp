@@ -14,8 +14,31 @@ void CBrickCoin::Render()
 
 void CBrickCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	y += vy;
+	y += vy*dt;
+	vy = -BRICKCOIN_JUMP_SPEED_Y;
+
+	if (jumpTime == 0) {
+		BrickStartToThrow();
+	}
+	else if (GetTickCount64() - jumpTime > JUMP_TIME && jumpTime > 0) {
+		if (GetTickCount64() - dropTime > DROP_TIME && dropTime > 0) {
+			Delete();
+			jumpTime = 0;
+			dropTime = 0;
+
+		}
+		else {
+			vy = BRICKCOIN_RETURN_START_POS_VY;
+			if (dropTime == 0) {
+				BrickStartToDrop();
+			}
+		}
+
+	}
+
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
+
+
 

@@ -73,6 +73,7 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			vy = 0.0f;
 			startShootingTime();
+		
 		}
 	}
 	else if (GetTickCount64() - shootingTime > VENUS_SHOOTING_TIME) {
@@ -88,10 +89,7 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		else
 			vy = -VENUS_SPEED;
 	}
-	if (isShooting == true) {
-		fireball->Update(dt, coObjects);
-	}
-
+	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
@@ -109,7 +107,7 @@ void CVenusFireTrap::startShootingTime()
 {
 	isShooting = true;
 	shootingTime = GetTickCount64(); 
-	fireball = new CFireBall(x, y); 
+	fireball = new CFireBall(x, y);
 	CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
 	scene->objects.push_back(fireball);
 }

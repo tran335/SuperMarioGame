@@ -1,18 +1,19 @@
 #include "Questionbrick.h"
-
+#include "PlayScene.h"
 CQuestionbrick::CQuestionbrick(float x, float y, int item_type)
 {
 	this->x = x;
 	this->y = y;
 	start_y = y;
 	this->item_type = item_type;
+	hasItem = true;
 
 }
 
 void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
-	if (GetState() == QUESTIONBRICK_STATE_DISABLE) {
+	if (GetState() == QUESTIONBRICK_STATE_DISABLE ) {
 		isThrow = 1;
 		if (throwup_start == 0) {
 			StartThrowup();
@@ -22,6 +23,12 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				y++;
 			else
 				y = start_y;
+		}
+		if (hasItem == true) {
+			CBrickCoin* brickcoin = new CBrickCoin(x, y);
+			CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+			scene->objects.push_back(brickcoin);
+			hasItem = false;
 		}
 	}
 	else

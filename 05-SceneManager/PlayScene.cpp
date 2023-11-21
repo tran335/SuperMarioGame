@@ -149,11 +149,11 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	{
 		int item_type = atoi(tokens[3].c_str());
 		
-		if (item_type == 1) {
+		/*if (item_type == 1) {
 			obj = new CBrickCoin(x, y);
 			obj->SetPosition(x, y);
 			objects.push_back(obj);
-		}
+		}*/
 		obj = new CQuestionbrick(x, y, item_type);
 		obj->SetPosition(x, y);
 		objects.push_back(obj);

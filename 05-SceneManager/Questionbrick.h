@@ -1,6 +1,7 @@
 #pragma once
 #include "GameObject.h"
 #include "BrickCoin.h"
+#include "Items.h"
 
 
 #define QUESTIONBRICK_STATE_NORMAL 1100

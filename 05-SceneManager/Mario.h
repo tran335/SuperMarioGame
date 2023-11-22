@@ -6,6 +6,7 @@
 
 #include "debug.h"
 #include "BrickCoin.h"
+#include "Items.h"
 
 #define MARIO_WALKING_SPEED		0.5f
 #define MARIO_RUNNING_SPEED		0.7f
@@ -160,9 +161,6 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	int coin; 
-	BOOLEAN isItem = false;
-
-	CBrickCoin* brickcoin = NULL;
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
@@ -172,6 +170,7 @@ class CMario : public CGameObject
 	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopasBound(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
+	void OnCollisionWithItems(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();

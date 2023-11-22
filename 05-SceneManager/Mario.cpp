@@ -70,6 +70,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithKoopasBound(e);
 	else if (dynamic_cast<CVenusFireTrap*>(e->obj))
 		OnCollisionWithVenus(e);
+	else if (dynamic_cast<CItems*>(e->obj))
+		OnCollisionWithItems(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -160,6 +162,14 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 		SetState(MARIO_STATE_DIE);
 	}
 }
+void CMario::OnCollisionWithItems(LPCOLLISIONEVENT e)
+{
+	CItems* items = dynamic_cast<CItems*>(e->obj);
+	DebugOut(L"Vo day roi ne");
+	y -= MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;
+	SetLevel(MARIO_LEVEL_BIG);
+		e->obj->Delete();
+}
 void CMario::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)
 {
 	CKoopasBound* koopasbound = dynamic_cast<CKoopasBound*>(e->obj);
@@ -170,7 +180,6 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 	CQuestionbrick* questionbrick = dynamic_cast<CQuestionbrick*>(e->obj);
 	if (e->ny > 0 and questionbrick->GetState()!=QUESTIONBRICK_STATE_DISABLE) {
 		questionbrick->SetState(QUESTIONBRICK_STATE_DISABLE);
-		isItem = true;
 	}
 }
 
@@ -492,10 +501,14 @@ void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom
 
 void CMario::SetLevel(int l)
 {
-	// Adjust position to avoid falling off platform
-	if (this->level == MARIO_LEVEL_SMALL)
+	switch (l)
 	{
-		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+	case MARIO_LEVEL_SMALL:
+		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;	
+		break;
+	case MARIO_LEVEL_BIG:
+		y -= MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;
+		break;
 	}
 	level = l;
 }

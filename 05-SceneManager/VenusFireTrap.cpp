@@ -9,6 +9,7 @@ CVenusFireTrap::CVenusFireTrap(float x, float y, int type)
 	start_y = y;
 	vy = -VENUS_SPEED;
 	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
+
 }
 
 void CVenusFireTrap::Render()
@@ -49,6 +50,7 @@ void CVenusFireTrap::Render()
 
 void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	CGameObject::Update(dt, coObjects);
 	y += vy;
 	float x_mario, y_mario;
 	mario->GetPosition(x_mario, y_mario);
@@ -73,6 +75,9 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		{
 			vy = 0.0f;
 			startShootingTime();
+			CFireBall* fireball = new CFireBall(x, y);
+			CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+			scene->objects.push_back(fireball);
 		
 		}
 	}
@@ -90,7 +95,6 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			vy = -VENUS_SPEED;
 	}
 	
-	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 
 }
@@ -107,7 +111,4 @@ void CVenusFireTrap::startShootingTime()
 {
 	isShooting = true;
 	shootingTime = GetTickCount64(); 
-	fireball = new CFireBall(x, y);
-	CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
-	scene->objects.push_back(fireball);
 }

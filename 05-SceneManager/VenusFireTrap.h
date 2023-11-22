@@ -36,7 +36,6 @@ class CVenusFireTrap : public CGameObject
 	bool isStop = false;
 	ULONGLONG shootingTime;
 	CMario* mario = NULL;
-	CFireBall* fireball;
 public:
 	CVenusFireTrap(float x, float y, int type);
 	void Render();

@@ -29,7 +29,7 @@ public:
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b); 
-	virtual void SetState(int state);
+	void SetState(int state);
 	void StartThrowup(){ throwup_start = GetTickCount64(); }
 	void GetIsThrow(int isThow) { isThrow = this->isThrow; };
 	

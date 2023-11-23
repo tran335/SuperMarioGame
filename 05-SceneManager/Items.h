@@ -25,8 +25,8 @@ public:
 	void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionbrick(LPCOLLISIONEVENT e);
+	void OnCollisionWithMario(LPCOLLISIONEVENT e);
 	int IsCollidable() { return (isCollidable != false && state == ITEMS_STATE_SUPERMUSHROOM); };
-	//int IsDirectionColliable(float nx, float ny);
 	void SetState(int state);
 };
 

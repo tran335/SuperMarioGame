@@ -16,6 +16,7 @@
 #include "BrickCoin.h"
 #include "VenusFireTrap.h"
 
+
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
@@ -29,9 +30,16 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-	
+	if (isSetLevel == true) {
+		if(GetLevel() == MARIO_LEVEL_BIG)
+		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
+		else if(GetLevel() == MARIO_LEVEL_SMALL)
+		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+		isSetLevel = false;
+	}
 	isOnPlatform = false;
 
+	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -72,6 +80,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithVenus(e);
 	else if (dynamic_cast<CItems*>(e->obj))
 		OnCollisionWithItems(e);
+	else if (dynamic_cast<CPlatform*>(e->obj))
+		OnCollisionWithPlatform(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -148,6 +158,13 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 	coin++;
 }
 
+void CMario::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
+{
+	if (e->ny < 0) {
+		isOnPlatform = true;
+	}
+}
+
 void CMario::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 {
 	CCameraBound* camerabound = dynamic_cast<CCameraBound*>(e->obj);
@@ -158,17 +175,27 @@ void CMario::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 {
 	CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(e->obj);
-	if (e->ny != 0 or e->nx!=0) {
-		SetState(MARIO_STATE_DIE);
-	}
+	
+		if (level > MARIO_LEVEL_SMALL)
+		{
+			level = MARIO_LEVEL_SMALL;
+			StartUntouchable();
+		}
+		else
+		{
+			DebugOut(L">>> Mario DIE >>> \n");
+			SetState(MARIO_STATE_DIE);
+		}
 }
 void CMario::OnCollisionWithItems(LPCOLLISIONEVENT e)
 {
 	CItems* items = dynamic_cast<CItems*>(e->obj);
-	DebugOut(L"Vo day roi ne");
-	y -= MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;
-	SetLevel(MARIO_LEVEL_BIG);
+	if (GetState() != MARIO_STATE_DIE && (e->ny != 0 or e->nx != 0)) {
+		
+		SetLevel(MARIO_LEVEL_BIG);
 		e->obj->Delete();
+	}
+	
 }
 void CMario::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)
 {
@@ -188,7 +215,33 @@ void CMario::OnCollisionWithPortal(LPCOLLISIONEVENT e)
 	CPortal* p = (CPortal*)e->obj;
 	CGame::GetInstance()->InitiateSwitchScene(p->GetSceneId());
 }
-
+void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom)
+{
+	if (level == MARIO_LEVEL_BIG)
+	{
+		if (isSitting)
+		{
+			left = x - MARIO_BIG_SITTING_BBOX_WIDTH / 2;
+			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
+			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
+			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
+		}
+		else
+		{
+			left = x - MARIO_BIG_BBOX_WIDTH / 2;
+			top = y - MARIO_BIG_BBOX_HEIGHT /2;
+			right = left + MARIO_BIG_BBOX_WIDTH;
+			bottom = top + MARIO_BIG_BBOX_HEIGHT;
+		}
+	}
+	else
+	{
+		left = x - MARIO_SMALL_BBOX_WIDTH / 2;
+		top = y - MARIO_SMALL_BBOX_HEIGHT / 2;
+		right = left + MARIO_SMALL_BBOX_WIDTH;
+		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
+	}
+}
 //
 // Get animation ID for small Mario
 //
@@ -370,27 +423,6 @@ int CMario::GetAniIdRaccoon()
 	return aniId;
 }
 
-void CMario::Render()
-{
-	CAnimations* animations = CAnimations::GetInstance();
-	int aniId = -1;
-
-	if (state == MARIO_STATE_DIE)
-		aniId = ID_ANI_MARIO_DIE;
-	else if (level == MARIO_LEVEL_BIG)
-		aniId = GetAniIdBig();
-	else if (level == MARIO_LEVEL_SMALL)
-		aniId = GetAniIdSmall();
-	else if (level == MARIO_LEVEL_RACCOON)
-		aniId = GetAniIdRaccoon();
-
-
-	animations->Get(aniId)->Render(x, y);
-	//RenderBoundingBox();
-	
-	DebugOutTitle(L"Coins: %d", coin);
-}
-
 void CMario::SetState(int state)
 {
 	// DIE is the end state, cannot be changed! 
@@ -471,45 +503,41 @@ void CMario::SetState(int state)
 	CGameObject::SetState(state);
 }
 
-void CMario::GetBoundingBox(float &left, float &top, float &right, float &bottom)
-{
-	if (level==MARIO_LEVEL_BIG)
-	{
-		if (isSitting)
-		{
-			left = x - MARIO_BIG_SITTING_BBOX_WIDTH / 2;
-			top = y - MARIO_BIG_SITTING_BBOX_HEIGHT / 2;
-			right = left + MARIO_BIG_SITTING_BBOX_WIDTH;
-			bottom = top + MARIO_BIG_SITTING_BBOX_HEIGHT;
-		}
-		else 
-		{
-			left = x - MARIO_BIG_BBOX_WIDTH/2;
-			top = y - MARIO_BIG_BBOX_HEIGHT/2;
-			right = left + MARIO_BIG_BBOX_WIDTH;
-			bottom = top + MARIO_BIG_BBOX_HEIGHT;
-		}
-	}
-	else
-	{
-		left = x - MARIO_SMALL_BBOX_WIDTH/2;
-		top = y - MARIO_SMALL_BBOX_HEIGHT/2;
-		right = left + MARIO_SMALL_BBOX_WIDTH;
-		bottom = top + MARIO_SMALL_BBOX_HEIGHT;
-	}
-}
-
 void CMario::SetLevel(int l)
 {
+	isSetLevel = true;
 	switch (l)
 	{
 	case MARIO_LEVEL_SMALL:
-		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;	
+		//y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;	
+			level = l;
 		break;
 	case MARIO_LEVEL_BIG:
-		y -= MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT;
+		//y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
+			level = l;
 		break;
 	}
-	level = l;
+	
 }
 
+
+void CMario::Render()
+{
+	CAnimations* animations = CAnimations::GetInstance();
+	int aniId = -1;
+
+	if (state == MARIO_STATE_DIE)
+		aniId = ID_ANI_MARIO_DIE;
+	else if (level == MARIO_LEVEL_SMALL)
+		aniId = GetAniIdSmall();
+	else if (level == MARIO_LEVEL_BIG)
+		aniId = GetAniIdBig();
+	else if (level == MARIO_LEVEL_RACCOON)
+		aniId = GetAniIdRaccoon();
+
+
+	animations->Get(aniId)->Render(x, y);
+	RenderBoundingBox();
+
+	DebugOutTitle(L"Coins: %d", coin);
+}

@@ -49,7 +49,7 @@ void CItems::OnNoCollision(DWORD dt)
 
 void CItems::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
+	//if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CItems*>(e->obj)) return;
 	if (e->ny != 0)
 	{

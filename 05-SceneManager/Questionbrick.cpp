@@ -28,7 +28,7 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			if(item_type == 2){
 
 				CItems* items = new CItems(x, y);
-				items->SetState(ITEMS_STATE_SUPERMUSHROOM);
+			    items->SetState(ITEMS_STATE_SUPERMUSHROOM);
 				CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
 				scene->objects.push_back(items);
 			}

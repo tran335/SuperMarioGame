@@ -7,6 +7,7 @@
 #include "debug.h"
 #include "BrickCoin.h"
 #include "Items.h"
+#include "Platform.h"
 
 #define MARIO_WALKING_SPEED		0.5f
 #define MARIO_RUNNING_SPEED		0.7f
@@ -160,7 +161,9 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
+	boolean isSetLevel;
 	int coin; 
+	
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithKoopas(LPCOLLISIONEVENT e);
@@ -171,26 +174,28 @@ class CMario : public CGameObject
 	void OnCollisionWithKoopasBound(LPCOLLISIONEVENT e);
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithItems(LPCOLLISIONEVENT e);
+	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRaccoon();
 
 public:
-	CMario(float x, float y) : CGameObject(x, y)
+	CMario(float x, float y) : CGameObject(x, y) 
 	{
 		isSitting = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
-		ay = MARIO_GRAVITY; 
+		ay = MARIO_GRAVITY;
+		isSetLevel = false;
 
 		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
 		coin = 0;
-		
 	}
+
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 	void SetState(int state);

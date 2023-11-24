@@ -26,7 +26,7 @@ class CFireBall : public CGameObject
 	ULONGLONG untouchable = 0;
 	ULONGLONG untouchable_start = -1;
 
-	//virtual int IsCollidable() { return isCollision != false; };
+	//virtual int IsCollidable() { return 1; }
 	virtual int IsBlocking() { return 0; }
 
 	virtual void OnNoCollision(DWORD dt);

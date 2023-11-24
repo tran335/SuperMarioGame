@@ -35,6 +35,8 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
 		else if(GetLevel() == MARIO_LEVEL_SMALL)
 		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
+		else if (GetLevel() == MARIO_LEVEL_RACCOON)
+		y -= MARIO_RACCOON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT;
 		isSetLevel = false;
 	}
 	isOnPlatform = false;
@@ -74,8 +76,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithQuestionBrick(e);
 	else if (dynamic_cast<CCameraBound*>(e->obj))
 		OnCollisionWithCameraBound(e);
-	else if (dynamic_cast<CKoopasBound*>(e->obj))
-		OnCollisionWithKoopasBound(e);
+	else if (dynamic_cast<CKoopasBound*>(e->obj)) return;
 	else if (dynamic_cast<CVenusFireTrap*>(e->obj))
 		OnCollisionWithVenus(e);
 	else if (dynamic_cast<CItems*>(e->obj))
@@ -148,6 +149,10 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 					SetState(MARIO_STATE_DIE);
 				}
 			}
+			else {
+				koopas->SetState(KOOPAS_STATE_SLIDE);
+				StartUntouchable();
+			}
 		}
 	}
 }
@@ -190,8 +195,15 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithItems(LPCOLLISIONEVENT e)
 {
 	CItems* items = dynamic_cast<CItems*>(e->obj);
+	//if (GetState() != MARIO_STATE_DIE && (e->ny != 0 or e->nx != 0)) {
+	//	
+	//	SetLevel(MARIO_LEVEL_BIG);
+	//	e->obj->Delete();
+	//}
 	if (GetState() != MARIO_STATE_DIE && (e->ny != 0 or e->nx != 0)) {
-		
+		if (level > MARIO_LEVEL_SMALL)
+			SetLevel(MARIO_LEVEL_RACCOON);
+		else
 		SetLevel(MARIO_LEVEL_BIG);
 		e->obj->Delete();
 	}
@@ -232,6 +244,23 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 			top = y - MARIO_BIG_BBOX_HEIGHT /2;
 			right = left + MARIO_BIG_BBOX_WIDTH;
 			bottom = top + MARIO_BIG_BBOX_HEIGHT;
+		}
+	}
+	else if (level == MARIO_LEVEL_RACCOON)
+	{
+		if (isSitting)
+		{
+			left = x - MARIO_BIG_BBOX_WIDTH / 2;
+			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
+			right = left + MARIO_BIG_BBOX_WIDTH;
+			bottom = top + MARIO_BIG_BBOX_HEIGHT;
+		}
+		else
+		{
+			left = x - MARIO_RACCOON_BBOX_WIDTH / 2;
+			top = y - MARIO_RACCOON_BBOX_HEIGHT / 2;
+			right = left + MARIO_RACCOON_BBOX_WIDTH;
+			bottom = top + MARIO_RACCOON_BBOX_HEIGHT;
 		}
 	}
 	else
@@ -516,6 +545,10 @@ void CMario::SetLevel(int l)
 		//y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
 			level = l;
 		break;
+	case MARIO_LEVEL_RACCOON:
+		//y -= MARIO_RACCOON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT;
+		level = l;
+		break;
 	}
 	
 }
@@ -537,7 +570,7 @@ void CMario::Render()
 
 
 	animations->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 	DebugOutTitle(L"Coins: %d", coin);
 }

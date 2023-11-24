@@ -1,15 +1,17 @@
 #include "Koopas.h"
+#include "PlayScene.h"
 CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
 	this->ay = KOOPAS_GRAVITY;
 	die_start = -1;
 	SetState(KOOPAS_STATE_WALKING);
+	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
 {
-	if (state == KOOPAS_STATE_DIE)
+	if (state == KOOPAS_STATE_DIE || state == KOOPAS_STATE_SLIDE)
 	{
 		left = x - KOOPAS_BBOX_WIDTH / 2;
 		top = y - KOOPAS_BBOX_HEIGHT_DIE / 2;
@@ -33,7 +35,7 @@ void CKoopas::OnNoCollision(DWORD dt)
 
 void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
+	//if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
 
 	if (e->ny != 0)
@@ -44,39 +46,61 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-	if (dynamic_cast<CKoopasBound*>(e->obj))
-		OnCollisionWithKoopasBound(e);
+	if (dynamic_cast<CQuestionbrick*>(e->obj))
+		OnCollisionWithQuestionBrick(e);
+	else if (dynamic_cast<CGoomba*>(e->obj))
+		OnCollisionWithGoomba(e);
+
 }
+void CKoopas::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
+{
+	CQuestionbrick* questionbrick = dynamic_cast<CQuestionbrick*>(e->obj);
+		if (questionbrick->GetState() != QUESTIONBRICK_STATE_DISABLE)
+		{
+			questionbrick->SetState(QUESTIONBRICK_STATE_DISABLE);
+			vx = -vx;
+		}
+
+}
+
+void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
+{
+	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
+	if (e->nx != 0) {
+		goomba->SetState(GOOMBA_STATE_KICK_BY_KOOPAS);
+	}
+}
+
+
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
 
-	if ((state == KOOPAS_STATE_DIE) && (GetTickCount64() - die_start > KOOPAS_DIE_TIMEOUT))
-	{
-		isDeleted = true;
-		return;
-	}
+	//if ((state == KOOPAS_STATE_DIE) && (GetTickCount64() - die_start > KOOPAS_DIE_TIMEOUT))
+	//{
+	//	isDeleted = true;
+	//	return;
+	//}
 
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
-void CKoopas::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)
-{
-	CKoopasBound* koopasbound = dynamic_cast<CKoopasBound*>(e->obj);
-}
-
 void CKoopas::Render()
 {
 	int aniId = 0;
-	if (vx > 0) {
-		aniId = ID_ANI_KOOPAS_WALKING_RIGHT;
+	if (state == KOOPAS_STATE_WALKING) {
+		if (vx > 0)
+			aniId = ID_ANI_KOOPAS_WALKING_RIGHT;
+		else
+			aniId = ID_ANI_KOOPAS_WALKING_LEFT;
 	}
-	else
-		aniId = ID_ANI_KOOPAS_WALKING_LEFT;
-	if (state == KOOPAS_STATE_DIE)
+	else if (state == KOOPAS_STATE_SLIDE) {
+		aniId = ID_ANI_KOOPA_SLIDE;
+	}
+	else if (state == KOOPAS_STATE_DIE)
 	{
 		aniId = ID_ANI_KOOPAS_DIE;
 	}
@@ -100,5 +124,19 @@ void CKoopas::SetState(int state)
 	case KOOPAS_STATE_WALKING:
 		vx = -KOOPAS_WALKING_SPEED;
 		break;
+	case KOOPAS_STATE_SLIDE:
+		ay = KOOPAS_GRAVITY;
+		setPositionSlide();
+		break;
+
 	}
+}
+void CKoopas::setPositionSlide()
+{
+	float x_mario, y_mario, vx_mario, vy_mario;
+	mario->GetPosition(x_mario, y_mario);
+	if (x < x_mario)
+		vx = -KOOPAS_SLIDE_SPEED;
+	else
+		vx = KOOPAS_SLIDE_SPEED;
 }

@@ -1,7 +1,9 @@
 #pragma once
 #include "GameObject.h"
-#include "BrickCoin.h"
-#include "Items.h"
+#include "Mario.h"
+
+
+
 
 
 #define QUESTIONBRICK_STATE_NORMAL 1100
@@ -19,6 +21,7 @@
 class CQuestionbrick : public CGameObject
 {
 protected:
+	
 	float x,y, start_y;
 	int item_type;
 	ULONGLONG throwup_start;

@@ -1,5 +1,10 @@
 #include "Questionbrick.h"
 #include "PlayScene.h"
+#include "BrickCoin.h"
+#include "Items.h"
+
+
+CMario* mario = NULL;
 CQuestionbrick::CQuestionbrick(float x, float y, int item_type)
 {
 	this->x = x;
@@ -7,7 +12,7 @@ CQuestionbrick::CQuestionbrick(float x, float y, int item_type)
 	start_y = y;
 	this->item_type = item_type;
 	hasItem = true;
-
+	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
 
 void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -25,12 +30,21 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				y = start_y;
 		}
 		if (hasItem == true) {
-			if(item_type == 2){
+			if (item_type == 2) {
+		
+				if (mario->GetLevel() > MARIO_LEVEL_SMALL) {
+					CItems* items = new CItems(x, y);
+					items->SetState(ITEMS_STATE_LEAF);
+					CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+					scene->objects.push_back(items);
+				}
+				else {
+					CItems* items = new CItems(x, y);
+					items->SetState(ITEMS_STATE_SUPERMUSHROOM);
+					CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+					scene->objects.push_back(items);
+				}
 
-				CItems* items = new CItems(x, y);
-			    items->SetState(ITEMS_STATE_SUPERMUSHROOM);
-				CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
-				scene->objects.push_back(items);
 			}
 			else {
 				CBrickCoin* brickcoin = new CBrickCoin(x, y);

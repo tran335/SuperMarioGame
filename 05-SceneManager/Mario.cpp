@@ -21,9 +21,13 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-
+	LPGAME game = CGame::GetInstance();
 	//if (abs(vx) > abs(maxVx)) vx = maxVx;
-
+	if (isPickup == true) {
+		if (!game->IsKeyDown(DIK_A)) {
+			isPickup = false;
+		}
+	}
 	// reset untouchable timer if untouchable time has passed
 	if ( GetTickCount64() - untouchable_start > MARIO_UNTOUCHABLE_TIME) 
 	{
@@ -122,6 +126,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
+	LPGAME game = CGame::GetInstance();
 
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
@@ -150,6 +155,11 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 				}
 			}
 			else {
+				if (game->IsKeyDown(DIK_A) && (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT))) {
+					koopas->HandledByMario();
+					isPickup = true;
+				}
+				else
 				koopas->SetState(KOOPAS_STATE_SLIDE);
 				StartUntouchable();
 			}
@@ -200,7 +210,7 @@ void CMario::OnCollisionWithItems(LPCOLLISIONEVENT e)
 	//	SetLevel(MARIO_LEVEL_BIG);
 	//	e->obj->Delete();
 	//}
-	if (GetState() != MARIO_STATE_DIE && (e->ny != 0 or e->nx != 0)) {
+	if (GetState() != MARIO_STATE_DIE /*&& (e->ny != 0 or e->nx != 0)*/) {
 		if (level > MARIO_LEVEL_SMALL)
 			SetLevel(MARIO_LEVEL_RACCOON);
 		else
@@ -302,6 +312,32 @@ int CMario::GetAniIdSmall()
 			else
 				aniId = ID_ANI_MARIO_SIT_LEFT;
 		}
+		else if(isPickup)
+		{
+			if (vx == 0)
+			{
+				if (nx > 0) aniId = ID_ANI_MARIO_SMALL_IDLE_PICK_UP_SHELL_RIGHT;
+				else aniId = ID_ANI_MARIO_SMALL_IDLE_PICK_UP_SHELL_LEFT;
+			}
+			else if (vx > 0)
+			{
+				if (ax < 0)
+					aniId = ID_ANI_MARIO_SMALL_FRONT_PICK_UP_SHELL;
+				else if (ax == MARIO_ACCEL_RUN_X)
+					aniId = ID_ANI_MARIO_SMALL_WALK_PICK_UP_SHELL_RIGHT;
+				else if (ax == MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_SMALL_WALK_PICK_UP_SHELL_RIGHT;
+			}
+			else // vx < 0
+			{
+				if (ax > 0)
+					aniId = ID_ANI_MARIO_SMALL_FRONT_PICK_UP_SHELL;
+				else if (ax == -MARIO_ACCEL_RUN_X)
+					aniId = ID_ANI_MARIO_SMALL_WALK_PICK_UP_SHELL_LEFT;
+				else if (ax == -MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_SMALL_WALK_PICK_UP_SHELL_LEFT;
+			}
+		}
 		else
 			if (vx == 0)
 			{
@@ -363,6 +399,32 @@ int CMario::GetAniIdBig()
 				aniId = ID_ANI_MARIO_SIT_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_SIT_LEFT;
+		}
+		else if (isPickup)
+		{
+			if (vx == 0)
+			{
+				if (nx > 0) aniId = ID_ANI_MARIO_IDLE_PICK_UP_SHELL_RIGHT;
+				else aniId = ID_ANI_MARIO_IDLE_PICK_UP_SHELL_LEFT;
+			}
+			else if (vx > 0)
+			{
+				if (ax < 0)
+					aniId = ID_ANI_MARIO_FRONT_PICK_UP_SHELL;
+				else if (ax == MARIO_ACCEL_RUN_X)
+					aniId = ID_ANI_MARIO_WALK_PICK_UP_SHELL_RIGHT;
+				else if (ax == MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_WALK_PICK_UP_SHELL_RIGHT;
+			}
+			else // vx < 0
+			{
+				if (ax > 0)
+					aniId = ID_ANI_MARIO_FRONT_PICK_UP_SHELL;
+				else if (ax == -MARIO_ACCEL_RUN_X)
+					aniId = ID_ANI_MARIO_WALK_PICK_UP_SHELL_LEFT;
+				else if (ax == -MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_WALK_PICK_UP_SHELL_LEFT;
+			}
 		}
 		else
 			if (vx == 0)

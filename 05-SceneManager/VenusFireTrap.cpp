@@ -54,7 +54,7 @@ void CVenusFireTrap::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += vy;
 	float x_mario, y_mario;
 	mario->GetPosition(x_mario, y_mario);
-	if (((x - x_mario < VENUS_WIDTH) && (((x + VENUS_WIDTH) - x_mario) > 0)) || ((y - y_mario > VENUS_WIDTH) && (((x + VENUS_WIDTH) - x_mario) > 0) && (x - x_mario < 0))) {
+	if (((x - x_mario < VENUS_WIDTH) && (((x + VENUS_WIDTH) - x_mario) > 0)) || ((y - y_mario > 0) && (((x + VENUS_WIDTH) - x_mario) > 0) && (x - x_mario < 0))) {
 		isStop = true;
 	}
 	else {

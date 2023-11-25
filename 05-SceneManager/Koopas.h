@@ -12,17 +12,29 @@
 #define KOOPAS_BBOX_HEIGHT 79
 #define KOOPAS_BBOX_HEIGHT_DIE 42
 
-#define KOOPAS_DIE_TIMEOUT 500
+#define KOOPAS_DIE_TIMEOUT 5000
+#define KOOPAS_WAKING_TIMEOUT 2000
 
 #define KOOPAS_STATE_WALKING 100
 #define KOOPAS_STATE_DIE 200
 #define KOOPAS_STATE_SLIDE 300
+#define KOOPAS_STATE_WAKING 400
 
 #define ID_ANI_KOOPAS_WALKING_LEFT 301
 #define ID_ANI_KOOPAS_WALKING_RIGHT 302 
 #define ID_ANI_KOOPAS_DIE 303
-#define ID_ANI_KOOPA_WAKING 305
-#define ID_ANI_KOOPA_SLIDE 304
+#define ID_ANI_KOOPAS_WAKING 305
+#define ID_ANI_KOOPAS_SLIDE 304
+
+//Pickup by mario
+#define MARIO_SMALL_HANDLED_WIDTH 23
+#define MARIO_SMALL_HANDLED_HEIGHT 2
+
+#define MARIO_BIG_HANDLED_WIDTH 20
+#define MARIO_BIG_HANDLED_HEIGHT 10
+
+#define MARIO_RACCOON_HANDLED_WIDTH 35
+#define MARIO_RACCOON_HANDLED_HEIGHT 10
 
 class CKoopas : public CGameObject
 {
@@ -33,6 +45,9 @@ protected:
 	CMario* mario = NULL;
 
 	ULONGLONG die_start;
+	ULONGLONG waking_start;
+
+	BOOLEAN isHandled = false;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -52,5 +67,9 @@ public:
 	virtual void SetState(int state);
 	int IsDirectionColliable(float nx, float ny) { return 1; };
 	void setPositionSlide();
+	void startWakingTime() { waking_start = GetTickCount64(); }
+	void HandledByMario();
+	void HandledByMarioRelease();
+	void setPositionByHandle();
 };
 

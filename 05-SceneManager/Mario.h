@@ -195,6 +195,7 @@ class CMario : public CGameObject
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
 	boolean isSetLevel;
+	BOOLEAN isPickup;
 	int coin; 
 	
 
@@ -226,6 +227,7 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		isOnPlatform = false;
+		isPickup = false;
 		coin = 0;
 	}
 

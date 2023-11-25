@@ -116,7 +116,7 @@ void CItems::OnCollisionWithQuestionbrick(LPCOLLISIONEVENT e)
 void CItems::OnCollisionWithMario(LPCOLLISIONEVENT e)
 {
 	CMario* mario = dynamic_cast<CMario*>(e->obj);
-	if(e->nx!=0 || e->ny!=0)
+	/*if(e->nx!=0 || e->ny!=0)*/
 		isCollidable = true;
 }
 

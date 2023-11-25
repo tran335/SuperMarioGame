@@ -6,7 +6,7 @@
 
 #define SUPERMUSHROOM_GRAVITY 0.001f
 
-#define LEAF_GRAVITY_AX 0.004f
+#define LEAF_GRAVITY_AX 0.003f
 #define LEAF_GRAVITY_AY 0.002f
 
 #define MAX_Y 150

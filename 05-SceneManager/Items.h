@@ -3,8 +3,11 @@
 #include "Questionbrick.h"
 #include "Mario.h"
 #include "Platform.h"
+#include "CameraBound.h"
+#include "Goomba.h"
 
-#define SUPERMUSHROOM_GRAVITY 0.001f
+#define SUPERMUSHROOM_GRAVITY_AX 0.003f
+#define SUPERMUSHROOM_GRAVITY_AY 0.003f
 
 #define LEAF_GRAVITY_AX 0.003f
 #define LEAF_GRAVITY_AY 0.002f
@@ -20,7 +23,7 @@
 #define ID_ANI_SUPERMUSHROOM 120
 #define ID_ANI_LEAF_LEFT 130
 #define ID_ANI_LEAF_RIGHT 131
-#define SUPERMUSHROOM_WALKING_SPEED 0.05f
+#define SUPERMUSHROOM_WALKING_SPEED 0.17f
 
 #define DIRECT_TIME 1000
 

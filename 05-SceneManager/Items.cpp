@@ -37,7 +37,8 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	if (state == ITEMS_STATE_SUPERMUSHROOM) {
 		if (y < start_y - ITEMS_BBOX_HEIGHT) {
 			vy = 0.0f;
-			ay = -ay;
+			ay = SUPERMUSHROOM_GRAVITY_AY;
+			//ay = -ay;
 			vx = -SUPERMUSHROOM_WALKING_SPEED;
 			y = start_y - ITEMS_BBOX_HEIGHT;
 		}
@@ -88,8 +89,9 @@ void CItems::OnNoCollision(DWORD dt)
 
 void CItems::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	//if (!e->obj->IsBlocking()) return;
+	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CItems*>(e->obj)) return;
+	if (dynamic_cast<CCameraBound*>(e->obj)) return;
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -128,8 +130,8 @@ void CItems::SetState(int state)
 	case ITEMS_STATE_SUPERMUSHROOM:
 		//vy = -ITEMS_BBOX_HEIGHT;
 		//vx = -SUPERMUSHROOM_WALKING_SPEED;
-		ax = -SUPERMUSHROOM_GRAVITY;
-		ay = -SUPERMUSHROOM_GRAVITY;
+		ax = -SUPERMUSHROOM_GRAVITY_AX;
+		ay = -SUPERMUSHROOM_GRAVITY_AY;
 		vx = 0;
 		break;
 

@@ -3,7 +3,7 @@
 #include "CameraBound.h"
 
 #define GOOMBA_GRAVITY 0.002f
-#define GOOMBA_WALKING_SPEED 0.07f
+#define GOOMBA_WALKING_SPEED 0.15f
 #define GOOMBA_KICK_BY_KOOPAS_SPEED 0.6f
 
 #define GOOMBA_BBOX_WIDTH 48

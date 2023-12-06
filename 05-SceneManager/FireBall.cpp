@@ -27,7 +27,7 @@ void CFireBall::OnNoCollision(DWORD dt)
 void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
-	if (dynamic_cast<CBigbox*>(e->obj)) return;
+
 
 	if (e->ny != 0)
 	{
@@ -37,27 +37,7 @@ void CFireBall::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-	if (dynamic_cast<CPlatform*>(e->obj))
-		OnCollisionWithPlatform(e);
-	//if (dynamic_cast<CFireball*>(e->obj)) return;
-	if (dynamic_cast<CMario*>(e->obj))
-		OnCollisionWithMario(e);
 
-}
-
-void CFireBall::OnCollisionWithMario(LPCOLLISIONEVENT e)
-{
-	CMario* mario = dynamic_cast<CMario*>(e->obj);
-	if (untouchable == 0) {
-		DebugOut(L">>> Mario DIE >>> \n");
-		SetState(MARIO_STATE_DIE);
-		isCollision = true;
-	}
-}
-
-void CFireBall::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
-{
-	isCollision = false;
 }
 
 CFireBall::CFireBall(float x, float y)
@@ -67,9 +47,10 @@ CFireBall::CFireBall(float x, float y)
 	//ax = 0;
 	unfindslidedirecttion_time = -1;
 	unfindslidedirecttion = 1;
-	ay = FIREBALL_GRAVITY;
-	ax = FIREBALL_GRAVITY;
-	vx = FIRE_BALL_SPEED;
+	//ay = FIREBALL_GRAVITY;
+	//ax = FIREBALL_GRAVITY;
+	vx = FIRE_BALL_SPEED_X;
+	vy = FIRE_BALL_SPEED_Y;
 	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
 
@@ -84,8 +65,6 @@ void CFireBall::Render()
 
 void CFireBall::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	vy += ay * dt;
-	vx += ax * dt;
 	if (unfindslidedirecttion) {
 		startfindslidedirecttion(dt);
 	}

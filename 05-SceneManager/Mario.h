@@ -9,6 +9,7 @@
 #include "Items.h"
 #include "Platform.h"
 
+
 #define MARIO_WALKING_SPEED		0.5f
 #define MARIO_RUNNING_SPEED		0.7f
 
@@ -209,7 +210,7 @@ class CMario : public CGameObject
 	void OnCollisionWithVenus(LPCOLLISIONEVENT e);
 	void OnCollisionWithItems(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
-
+	void OnCollisionWithFireBall(LPCOLLISIONEVENT e);
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRaccoon();

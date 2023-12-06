@@ -7,7 +7,8 @@
 #define ID_ANI_FIREBALL 110
 #define FIREBALL_BBOX_WIDTH 25
 #define FIREBALL_BBOX_HEIGHT 25
-#define FIRE_BALL_SPEED 0.1f
+#define FIRE_BALL_SPEED_X 0.3f
+#define FIRE_BALL_SPEED_Y 0.1f
 #define FIREBALL_Y 10
 
 #define UNFINDDIRECTION_TIME 500
@@ -31,8 +32,8 @@ class CFireBall : public CGameObject
 
 	virtual void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-	void OnCollisionWithMario(LPCOLLISIONEVENT e);
-	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
+	//void OnCollisionWithMario(LPCOLLISIONEVENT e);
+	//void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 
 public:
 	CFireBall(float x, float y);

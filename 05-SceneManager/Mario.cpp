@@ -16,6 +16,7 @@
 #include "BrickCoin.h"
 #include "VenusFireTrap.h"
 #include "FireBall.h"
+#include "ParaGoomba.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -89,6 +90,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPlatform(e);
 	else if (dynamic_cast<CFireBall*>(e->obj))
 		OnCollisionWithFireBall(e);
+	else if (dynamic_cast<CParaGoomba*>(e->obj))
+		OnCollisionWithParaGoomba(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -110,16 +113,39 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		{
 			if (goomba->GetState() != GOOMBA_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				CollisionEffect();
+			}
+			
+		}
+	}
+}
+
+void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
+{
+	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
+	if (e->ny < 0)
+	{
+		if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE) {
+			if (paragoomba->Getlevel() != PARAGOOMBA_LEVEL_NO_WING)
+			{
+				paragoomba->Setlevel(PARAGOOMBA_LEVEL_NO_WING);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				StartUntouchable();
+			}
+			else {
+				paragoomba->SetState(PARAGOOMBA_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+		}
+
+	}
+	else // hit by Goomba
+	{
+		if (untouchable == 0)
+		{
+			if (paragoomba->GetState() != PARAGOOMBA_STATE_DIE)
+			{
+				CollisionEffect();
 			}
 		}
 	}
@@ -145,16 +171,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		{
 			if (koopas->GetState() != KOOPAS_STATE_DIE)
 			{
-				if (level > MARIO_LEVEL_SMALL)
-				{
-					level = MARIO_LEVEL_SMALL;
-					StartUntouchable();
-				}
-				else
-				{
-					DebugOut(L">>> Mario DIE >>> \n");
-					SetState(MARIO_STATE_DIE);
-				}
+				CollisionEffect();
 			}
 			else {
 				if (game->IsKeyDown(DIK_A) && (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT))) {
@@ -194,46 +211,37 @@ void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
 	CFireBall* fireball = dynamic_cast<CFireBall*>(e->obj);
 	if ((nx!=0 || ny!=0) && untouchable ==0)
 	{
-			if (level > MARIO_LEVEL_BIG)
-			{
-				level = MARIO_LEVEL_BIG;
-				StartUntouchable();
-			}
-			else if ((level > MARIO_LEVEL_SMALL))
-			{
-				level = MARIO_LEVEL_SMALL;
-				StartUntouchable();
-			}
-			else
-			{
-				DebugOut(L">>> Mario DIE >>> \n");
-				SetState(MARIO_STATE_DIE);
-			}
+		CollisionEffect();
+	}
+}
+void CMario::CollisionEffect()
+{
+	if (level > MARIO_LEVEL_BIG)
+	{
+		level = MARIO_LEVEL_BIG;
+		StartUntouchable();
+	}
+	else if ((level > MARIO_LEVEL_SMALL))
+	{
+		level = MARIO_LEVEL_SMALL;
+		StartUntouchable();
+	}
+	else
+	{
+		DebugOut(L">>> Mario DIE >>> \n");
+		SetState(MARIO_STATE_DIE);
 	}
 }
 void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 {
 	CVenusFireTrap* venus = dynamic_cast<CVenusFireTrap*>(e->obj);
 	
-		if (level > MARIO_LEVEL_SMALL)
-		{
-			level = MARIO_LEVEL_SMALL;
-			StartUntouchable();
-		}
-		else
-		{
-			DebugOut(L">>> Mario DIE >>> \n");
-			SetState(MARIO_STATE_DIE);
-		}
+	CollisionEffect();
 }
 void CMario::OnCollisionWithItems(LPCOLLISIONEVENT e)
 {
 	CItems* items = dynamic_cast<CItems*>(e->obj);
-	//if (GetState() != MARIO_STATE_DIE && (e->ny != 0 or e->nx != 0)) {
-	//	
-	//	SetLevel(MARIO_LEVEL_BIG);
-	//	e->obj->Delete();
-	//}
+
 	if (GetState() != MARIO_STATE_DIE /*&& (e->ny != 0 or e->nx != 0)*/) {
 		if (level > MARIO_LEVEL_SMALL)
 			SetLevel(MARIO_LEVEL_RACCOON);

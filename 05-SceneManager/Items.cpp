@@ -7,7 +7,6 @@ CItems::CItems(float x, float y)
 	this->y = y;
 	start_y = y;
 	nx = 1;
-	//mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
 
 void CItems::Render()
@@ -38,8 +37,17 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		if (y < start_y - ITEMS_BBOX_HEIGHT) {
 			vy = 0.0f;
 			ay = SUPERMUSHROOM_GRAVITY_AY;
-			//ay = -ay;
-			vx = -SUPERMUSHROOM_WALKING_SPEED;
+			vx = ax * dt;
+			//vx = -SUPERMUSHROOM_WALKING_SPEED;
+			y = start_y - ITEMS_BBOX_HEIGHT;
+		}
+	}
+	else if (state == ITEMS_STATE_SUPERMUSHROOM_RIGHT) {
+		if (y < start_y - ITEMS_BBOX_HEIGHT) {
+			vy = 0.0f;
+			ay = SUPERMUSHROOM_GRAVITY_AY;
+			vx = ax * dt;
+			//vx = SUPERMUSHROOM_WALKING_SPEED;
 			y = start_y - ITEMS_BBOX_HEIGHT;
 		}
 	}
@@ -92,6 +100,7 @@ void CItems::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CItems*>(e->obj)) return;
 	if (dynamic_cast<CCameraBound*>(e->obj)) return;
+	if (dynamic_cast<CKoopas*>(e->obj)) return;
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -100,26 +109,7 @@ void CItems::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
-	if (dynamic_cast<CQuestionbrick*>(e->obj))
-		OnCollisionWithQuestionbrick(e);
-	else if(dynamic_cast<CMario*>(e->obj))
-		OnCollisionWithMario(e);
-}
 
-void CItems::OnCollisionWithQuestionbrick(LPCOLLISIONEVENT e)
-{
-	CQuestionbrick* questionbrick = dynamic_cast<CQuestionbrick*>(e->obj);
-	if (e->ny < 0 ) {
-		isCollidable = false;
-	}
-	else
-		isCollidable = true;
-}
-void CItems::OnCollisionWithMario(LPCOLLISIONEVENT e)
-{
-	CMario* mario = dynamic_cast<CMario*>(e->obj);
-	/*if(e->nx!=0 || e->ny!=0)*/
-		isCollidable = true;
 }
 
 void CItems::SetState(int state)
@@ -131,6 +121,14 @@ void CItems::SetState(int state)
 		//vy = -ITEMS_BBOX_HEIGHT;
 		//vx = -SUPERMUSHROOM_WALKING_SPEED;
 		ax = -SUPERMUSHROOM_GRAVITY_AX;
+		ay = -SUPERMUSHROOM_GRAVITY_AY;
+		vx = 0;
+		break;
+
+	case ITEMS_STATE_SUPERMUSHROOM_RIGHT:
+		//vy = -ITEMS_BBOX_HEIGHT;
+		//vx = -SUPERMUSHROOM_WALKING_SPEED;
+		ax = SUPERMUSHROOM_GRAVITY_AX;
 		ay = -SUPERMUSHROOM_GRAVITY_AY;
 		vx = 0;
 		break;

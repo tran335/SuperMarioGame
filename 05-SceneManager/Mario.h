@@ -211,6 +211,8 @@ class CMario : public CGameObject
 	void OnCollisionWithItems(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 	void OnCollisionWithFireBall(LPCOLLISIONEVENT e);
+	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
+	void CollisionEffect();
 	int GetAniIdBig();
 	int GetAniIdSmall();
 	int GetAniIdRaccoon();

@@ -166,8 +166,10 @@ objectscene1.txt
 
 #koopas
 10	1823	1056	24	23
-10	1512	1059	24	23		
+10	1512	1059	24	23	
 
+#paragoomba
+11	2851	1073	
 
 [MAP]
 Worldmap1-1\worldmap1-1.txt	Worldmap1-1\world-1-1.png	1110	176	41	29	30	

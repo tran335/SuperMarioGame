@@ -91,6 +91,9 @@
     <ClCompile Include="Textures.cpp">
       <Filter>Scene\Texture</Filter>
     </ClCompile>
+    <ClCompile Include="ParaGoomba.cpp">
+      <Filter>Enemy\Goomba</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -194,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="Textures.h">
       <Filter>Scene\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="ParaGoomba.h">
+      <Filter>Enemy\Goomba</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

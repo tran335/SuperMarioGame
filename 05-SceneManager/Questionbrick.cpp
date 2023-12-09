@@ -18,6 +18,8 @@ CQuestionbrick::CQuestionbrick(float x, float y, int item_type)
 void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	CGameObject::Update(dt, coObjects);
+	float mario_vx, mario_vy;
+	mario->GetSpeed(mario_vx, mario_vy);
 	if (GetState() == QUESTIONBRICK_STATE_DISABLE ) {
 		isThrow = 1;
 		if (throwup_start == 0) {
@@ -40,7 +42,12 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				}
 				else {
 					CItems* items = new CItems(x, y);
-					items->SetState(ITEMS_STATE_SUPERMUSHROOM);
+					if (mario_vx < 0) {
+						items->SetState(ITEMS_STATE_SUPERMUSHROOM);
+					}
+					else {
+						items->SetState(ITEMS_STATE_SUPERMUSHROOM_RIGHT);
+					}
 					CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
 					scene->objects.push_back(items);
 				}

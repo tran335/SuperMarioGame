@@ -7,8 +7,8 @@
 #define BRICKCOIN_JUMP_SPEED_Y		0.4f
 #define BRICKCOIN_RETURN_START_POS_VY 0.2f
 
-#define JUMP_TIME 300
-#define DROP_TIME 200
+#define JUMP_TIME 400
+#define DROP_TIME 300
 
 #define BRICKCOIN_BBOX_WIDTH 48
 #define BRICKCOIN_BBOX_HEIGHT 48
@@ -24,7 +24,7 @@ public:
 	void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
-	void BrickStartToThrow() { jumpTime = GetTickCount64(); };
+	void BrickStartToThrow() { jumpTime = GetTickCount64();};
 	void BrickStartToDrop() { dropTime = GetTickCount64(); };
 };
 

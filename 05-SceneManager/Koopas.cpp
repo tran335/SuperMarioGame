@@ -2,6 +2,7 @@
 #include "PlayScene.h"
 
 LPGAME game = CGame::GetInstance();
+CReverseObject* reverseobject = NULL;
 CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
 {
 	this->ax = 0;
@@ -53,6 +54,8 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithQuestionBrick(e);
 	else if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
+	else if (dynamic_cast<CCameraBound*>(e->obj))
+		OnCollisionWithCameraBound(e);
 
 }
 void CKoopas::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
@@ -74,7 +77,10 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	}
 }
 
-
+void CKoopas::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
+{
+	this->Delete();
+}
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
@@ -87,11 +93,13 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 		else {
 			HandledByMarioRelease();
-			SetState(KOOPAS_STATE_SLIDE);
+			if (state == KOOPAS_STATE_DIE) {
+				SetState(KOOPAS_STATE_SLIDE);
+			}
 		}
 	}
 
-	if ((state == KOOPAS_STATE_DIE) && (GetTickCount64() - die_start > KOOPAS_DIE_TIMEOUT) && isHandled != true)
+	if ((state == KOOPAS_STATE_DIE) && (GetTickCount64() - die_start > KOOPAS_DIE_TIMEOUT) /*&& isHandled != true*/)
 	{
 		SetState(KOOPAS_STATE_WAKING);
 		startWakingTime();
@@ -100,7 +108,21 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(KOOPAS_STATE_WALKING);
 		waking_start = 0;
 	}
-
+	//CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+	//if (reverseobject == NULL) {
+	//	reverseobject = new CReverseObject(x, y);
+	//	scene->objects.push_back(reverseobject);
+	//	if (vx > 0)
+	//	{
+	//		reverseobject->SetPosition(x + 48, y);
+	//	}
+	//	else
+	//	{
+	//		reverseobject->SetPosition(x - 48, y);
+	//	}
+	//}
+	
+	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
@@ -138,17 +160,26 @@ void CKoopas::SetState(int state)
 		y += (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
-		ay = 0;
+		if (isHandled == true) {
+			ay = KOOPAS_GRAVITY;
+		}
+		else {
+			ay = 0;
+		}
 		break;
 	case KOOPAS_STATE_WALKING:
 		if (waking_start > 0) {
 			y -= (KOOPAS_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE) / 2;
 		}
 		vx = -KOOPAS_WALKING_SPEED;
+		ay = KOOPAS_GRAVITY;
 		break;
 	case KOOPAS_STATE_SLIDE:
 		ay = KOOPAS_GRAVITY;
 		setPositionSlide();
+		break;
+	case KOOPAS_STATE_WAKING:
+		ay = KOOPAS_GRAVITY;
 		break;
 
 	}

@@ -3,6 +3,7 @@
 #include "debug.h"
 #include "CameraBound.h"
 #include "Mario.h"
+#include "Items.h"
 
 #define PARAGOOMBA_GRAVITY 0.002f
 #define PARAGOOMBA_WALKING_SPEED 0.1f

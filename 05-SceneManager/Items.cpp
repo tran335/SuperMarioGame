@@ -1,4 +1,5 @@
 #include "Items.h"
+#include "ParaGoomba.h"
 #include "PlayScene.h"
 
 CItems::CItems(float x, float y)
@@ -99,8 +100,8 @@ void CItems::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CItems*>(e->obj)) return;
-	if (dynamic_cast<CCameraBound*>(e->obj)) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
+	if (dynamic_cast<CParaGoomba*>(e->obj)) return;
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -109,7 +110,17 @@ void CItems::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = -vx;
 	}
+	if (dynamic_cast<CCameraBound*>(e->obj))
+	OnCollisionWithCameraBound(e);
 
+}
+
+void CItems::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
+{
+	CCameraBound* camerabound = dynamic_cast<CCameraBound*>(e->obj);
+	if (e->nx != 0 || e->ny != 0) {
+		this->Delete();
+	}
 }
 
 void CItems::SetState(int state)

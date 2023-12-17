@@ -4,6 +4,7 @@ CBrickCoin::CBrickCoin(float x, float y)
 {
 	this->x = x;
 	this->y = y;
+	vy = -BRICKCOIN_JUMP_SPEED_Y;
 }
 
 void CBrickCoin::Render()
@@ -15,7 +16,7 @@ void CBrickCoin::Render()
 void CBrickCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	y += vy*dt;
-	vy = -BRICKCOIN_JUMP_SPEED_Y;
+	//vy = -BRICKCOIN_JUMP_SPEED_Y;
 
 	if (jumpTime == 0) {
 		BrickStartToThrow();
@@ -37,7 +38,7 @@ void CBrickCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	}
 
 	CGameObject::Update(dt, coObjects);
-	CCollision::GetInstance()->Process(this, dt, coObjects);
+	//CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
 

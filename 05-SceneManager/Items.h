@@ -6,6 +6,7 @@
 #include "CameraBound.h"
 #include "Goomba.h"
 
+
 #define SUPERMUSHROOM_GRAVITY_AX 0.005f
 #define SUPERMUSHROOM_GRAVITY_AY 0.006f
 
@@ -34,6 +35,7 @@ class CItems : public CGameObject
 	BOOLEAN isCollidable = true;
 	BOOLEAN isDirect = false;
 	ULONGLONG direct_time;
+	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
 
 public:
 	CItems(float x, float y);

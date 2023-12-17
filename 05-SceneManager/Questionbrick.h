@@ -2,10 +2,6 @@
 #include "GameObject.h"
 #include "Mario.h"
 
-
-
-
-
 #define QUESTIONBRICK_STATE_NORMAL 1100
 #define QUESTIONBRICK_STATE_DISABLE 1200
 

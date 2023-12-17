@@ -4,6 +4,7 @@
 #include "Mario.h"
 #include "Questionbrick.h"
 #include "Items.h"
+#include "ReverseObject.h"
 
 #define KOOPAS_GRAVITY 0.002f
 #define KOOPAS_WALKING_SPEED 0.07f
@@ -61,6 +62,8 @@ protected:
     void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
+	void OnCollisionWithReverseObject(LPCOLLISIONEVENT e);
 	
 
 public:

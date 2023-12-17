@@ -94,6 +94,7 @@
     <ClCompile Include="ParaGoomba.cpp">
       <Filter>Enemy\Goomba</Filter>
     </ClCompile>
+    <ClCompile Include="ReverseObject.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -201,6 +202,7 @@
     <ClInclude Include="ParaGoomba.h">
       <Filter>Enemy\Goomba</Filter>
     </ClInclude>
+    <ClInclude Include="ReverseObject.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

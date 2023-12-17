@@ -42,6 +42,7 @@ void CParaGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CParaGoomba*>(e->obj)) return;
+	if (dynamic_cast<CItems*>(e->obj)) return;
 
 	if (e->ny != 0)
 	{

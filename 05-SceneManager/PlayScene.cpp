@@ -14,6 +14,7 @@
 #include "KoopasBound.h"
 #include "BrickCoin.h"
 #include "ParaGoomba.h"
+#include "ReverseObject.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -171,6 +172,8 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_KOOPAS:
 	{
 		obj = new CKoopas(x, y);
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
 		break;
 	}
 

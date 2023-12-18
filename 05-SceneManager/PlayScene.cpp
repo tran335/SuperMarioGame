@@ -15,6 +15,7 @@
 #include "BrickCoin.h"
 #include "ParaGoomba.h"
 #include "ReverseObject.h"
+#include "Parakoopa.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -176,7 +177,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		objects.push_back(obj);
 		break;
 	}
-
+	case OBJECT_TYPE_PARAKOOPAS:
+	{
+		obj = new CParaKoopa(x, y);
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
+		break;
+	}
 	case OBJECT_TYPE_CAMMERABOUND:
 	{
 		float width = (float)atof(tokens[3].c_str());

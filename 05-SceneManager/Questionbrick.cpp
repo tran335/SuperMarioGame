@@ -20,6 +20,7 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	float mario_vx, mario_vy;
 	mario->GetSpeed(mario_vx, mario_vy);
+
 	if (GetState() == QUESTIONBRICK_STATE_DISABLE ) {
 		isThrow = 1;
 		if (throwup_start == 0) {
@@ -51,7 +52,6 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 					CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
 					scene->objects.push_back(items);
 				}
-
 			}
 			else {
 				CBrickCoin* brickcoin = new CBrickCoin(x, y);

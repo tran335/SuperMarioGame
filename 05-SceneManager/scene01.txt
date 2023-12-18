@@ -8,7 +8,7 @@ objectscene1.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	120	1000
+0	4000	1000
 # BRICKS
 #1	0	148
 #1	0	164
@@ -170,6 +170,11 @@ objectscene1.txt
 
 #paragoomba
 11	2851	1073	
+
+#parakoopas
+12	4216	868
+12	4083	865
+12	3951	867	
 
 [MAP]
 Worldmap1-1\worldmap1-1.txt	Worldmap1-1\world-1-1.png	1110	176	41	29	30	

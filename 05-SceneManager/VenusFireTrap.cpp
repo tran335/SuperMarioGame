@@ -16,35 +16,69 @@ void CVenusFireTrap::Render()
 {
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = 0;
-	if (isRight == true) {
-		if (isShooting == true) {
-			if (isUp == true)
-				aniId = ID_ANI_VENUS_SHOOT_UP_RIGHT;
-			else
-				aniId = ID_ANI_VENUS_SHOOT_DOWN_RIGHT;
-		}
-		else
-			if (isUp == true) {
-				aniId = ID_ANI_VENUS_UP_RIGHT;
+	if (type == RED_VENUS) {
+		if (isRight == true) {
+			if (isShooting == true) {
+				if (isUp == true)
+					aniId = ID_ANI_VENUS_SHOOT_UP_RIGHT;
+				else
+					aniId = ID_ANI_VENUS_SHOOT_DOWN_RIGHT;
 			}
 			else
-				aniId = IC_ANI_VENUS_DOWN_RIGHT;
-	}
-	else
-	{
-		if (isShooting == true) {
-			if (isUp == true)
-				aniId = ID_ANI_VENUS_SHOOT_UP_LEFT;
-			else
-				aniId = ID_ANI_VENUS_SHOOT_DOWN_LEFT;
+				if (isUp == true) {
+					aniId = ID_ANI_VENUS_UP_RIGHT;
+				}
+				else
+					aniId = IC_ANI_VENUS_DOWN_RIGHT;
 		}
 		else
-			if (isUp == true) {
-				aniId = ID_ANI_VENUS_UP_LEFT;
+		{
+			if (isShooting == true) {
+				if (isUp == true)
+					aniId = ID_ANI_VENUS_SHOOT_UP_LEFT;
+				else
+					aniId = ID_ANI_VENUS_SHOOT_DOWN_LEFT;
 			}
 			else
-				aniId = IC_ANI_VENUS_DOWN_LEFT;
+				if (isUp == true) {
+					aniId = ID_ANI_VENUS_UP_LEFT;
+				}
+				else
+					aniId = IC_ANI_VENUS_DOWN_LEFT;
+		}
 	}
+	else {
+		if (isRight == true) {
+			if (isShooting == true) {
+				if (isUp == true)
+					aniId = ID_ANI_GREEN_VENUS_SHOOT_UP_RIGHT;
+				else
+					aniId = ID_ANI_GREEN_VENUS_SHOOT_DOWN_RIGHT;
+			}
+			else
+				if (isUp == true) {
+					aniId = ID_ANI_GREEN_VENUS_UP_RIGHT;
+				}
+				else
+					aniId = IC_ANI_GREEN_VENUS_DOWN_RIGHT;
+		}
+		else
+		{
+			if (isShooting == true) {
+				if (isUp == true)
+					aniId = ID_ANI_GREEN_VENUS_SHOOT_UP_LEFT;
+				else
+					aniId = ID_ANI_GREEN_VENUS_SHOOT_DOWN_LEFT;
+			}
+			else
+				if (isUp == true) {
+					aniId = ID_ANI_GREEN_VENUS_UP_LEFT;
+				}
+				else
+					aniId = IC_ANI_GREEN_VENUS_DOWN_LEFT;
+		}
+	}
+
 	animations->Get(aniId)->Render(x, y);
 }
 

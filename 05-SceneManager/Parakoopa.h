@@ -5,18 +5,21 @@
 
 
 
-#define PARAKOOPA_GRAVITY 0.002f
-#define PARAKOOPA_GRAVITY_X 0.2f
+#define PARAKOOPA_GRAVITY 0.001f
+#define PARAKOOPA_GRAVITY_X 0.00002f
 #define PARAKOOPA_WALKING_SPEED 0.1f
-#define PARAKOOPA_JUMP_Y 0.9f
+#define PARAKOOPA_WALKING_SPEED_MAX 1.0f
+#define PARAKOOPA_JUMP_Y 0.5f
 #define PARAKOOPA_SLIDE_SPEED 1.0f
+
 #define BACK_TIME 3000
+#define PARAKOOPA_UNTOUCHABLE_TIME 5000
 
 #define PARAKOOPA_BBOX_WIDTH 51
 #define PARAKOOPA_BBOX_HEIGHT 79
 #define PARAKOOPA_BBOX_HEIGHT_DIE 51
 
-#define PARAKOOPA_DIE_TIMEOUT 5000
+#define PARAKOOPA_DIE_TIMEOUT 100
 #define PARAKOOPA_WAKING_TIMEOUT 2000
 
 
@@ -55,15 +58,19 @@ protected:
 	int type;
 	float start_x;
 	float start_y;
+	float maxVx;
+	float maxVy;
 	ULONGLONG reset_time;
 	CMario* mario;
 	ULONGLONG die_start;
 	ULONGLONG waking_start;
 	BOOLEAN isHandled;
+	BOOLEAN isOnPlatform;
+	int untouchable;
+	ULONGLONG untouchable_start;
 
 	bool isBack = false;
 	bool isRight = true;
-	int untouchable = 0;
 
 	int level;
 
@@ -94,4 +101,5 @@ public:
 	void HandledByMario() { isHandled = true; }
 	void HandledByMarioRelease() { isHandled = false; }
 	void startBack() { isBack = true; 	reset_time = GetTickCount64(); }
+	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 };

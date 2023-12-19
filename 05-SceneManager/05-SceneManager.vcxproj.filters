@@ -95,7 +95,9 @@
       <Filter>Enemy\Goomba</Filter>
     </ClCompile>
     <ClCompile Include="ReverseObject.cpp" />
-    <ClCompile Include="Parakoopa.cpp" />
+    <ClCompile Include="Parakoopa.cpp">
+      <Filter>Enemy\Koopa</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -204,7 +206,9 @@
       <Filter>Enemy\Goomba</Filter>
     </ClInclude>
     <ClInclude Include="ReverseObject.h" />
-    <ClInclude Include="Parakoopa.h" />
+    <ClInclude Include="Parakoopa.h">
+      <Filter>Enemy\Koopa</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

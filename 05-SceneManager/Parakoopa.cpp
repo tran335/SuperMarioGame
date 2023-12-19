@@ -10,9 +10,14 @@ CParaKoopa::CParaKoopa(float x, float y) :CGameObject(x, y)
 	this->type = type;
 	start_y = y;
 	start_x = x;
+	maxVx = PARAKOOPA_WALKING_SPEED;
+	maxVy = PARAKOOPA_WALKING_SPEED_MAX;
 	die_start = -1;
 	waking_start = -1;
 	reset_time = -1;
+	untouchable = 0;
+	untouchable_start = -1;
+	isOnPlatform = false;
 	level = PARAKOOPA_LEVEL_WING;
 	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
@@ -49,6 +54,8 @@ void CParaKoopa::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny < 0)
 	{
 		vy = 0;
+		isOnPlatform = true;
+
 	}
 	else if (e->nx != 0)
 	{
@@ -79,16 +86,21 @@ void CParaKoopa::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 	CCameraBound* camerabound = dynamic_cast<CCameraBound*>(e->obj);
 	if ((e->ny < 0) && isBack == false)
 	{
+		this->IsBlocking();
 		startBack();
 	}
 }
 
 void CParaKoopa::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
 {
-	CPlatform* camerabound = dynamic_cast<CPlatform*>(e->obj);
+	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
 	if (e->ny < 0)
 	{
-		SetState(PARAKOOPA_STATE_WALKING);
+		if (level == PARAKOOPA_LEVEL_WING && isOnPlatform == true) {
+			if (untouchable == 0) {
+				vy = -PARAKOOPA_JUMP_Y;
+			}
+		}
 	}
 }
 
@@ -97,8 +109,11 @@ void CParaKoopa::OnCollisionWithBigBox(LPCOLLISIONEVENT e)
 	CBigbox* bigbox = dynamic_cast<CBigbox*>(e->obj);
 	if (e->ny < 0)
 	{
-		vy = -PARAKOOPA_JUMP_Y;
-		ay = PARAKOOPA_GRAVITY;
+		if (level == PARAKOOPA_LEVEL_WING && isOnPlatform == true) {
+			if (untouchable == 0) {
+				vy = -PARAKOOPA_JUMP_Y;
+			}
+		}
 	}
 }
 
@@ -106,6 +121,16 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
+	isOnPlatform = false;
+	if (abs(vx) > abs(maxVx)) {
+		if (vx > 0) vx = maxVx; 
+		else vx = -maxVx;
+	}
+	if (abs(vy) > abs(maxVy)) {
+		if (vy > 0) vy = maxVy;
+		else vy = -maxVy;
+	}
+
 
 	if (isHandled == true) {
 		if (game1->IsKeyDown(DIK_A)) {
@@ -194,7 +219,8 @@ void CParaKoopa::SetState(int state)
 	switch (state)
 	{
 	case PARAKOOPA_STATE_FLY:
-		vx = -PARAKOOPA_WALKING_SPEED;
+		//vx = -PARAKOOPA_WALKING_SPEED;
+		ax = -PARAKOOPA_GRAVITY_X;
 		ay = PARAKOOPA_GRAVITY;
 		break;
 	case PARAKOOPA_STATE_DIE:

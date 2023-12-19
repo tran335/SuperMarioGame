@@ -370,6 +370,7 @@ void CPlayScene::Render()
 	map->Render();
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
+	player->Render();
 	map_pipe->Render();
 }
 

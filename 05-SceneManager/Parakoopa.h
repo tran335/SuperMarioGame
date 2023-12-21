@@ -19,7 +19,7 @@
 #define PARAKOOPA_BBOX_HEIGHT 79
 #define PARAKOOPA_BBOX_HEIGHT_DIE 51
 
-#define PARAKOOPA_DIE_TIMEOUT 100
+#define PARAKOOPA_DIE_TIMEOUT 2000
 #define PARAKOOPA_WAKING_TIMEOUT 2000
 
 
@@ -102,4 +102,5 @@ public:
 	void HandledByMarioRelease() { isHandled = false; }
 	void startBack() { isBack = true; 	reset_time = GetTickCount64(); }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
+	void setPositionSlide();
 };

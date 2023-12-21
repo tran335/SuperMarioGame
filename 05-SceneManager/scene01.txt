@@ -8,7 +8,7 @@ objectscene1.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	4000	1000
+0	120	1000
 # BRICKS
 #1	0	148
 #1	0	164
@@ -164,7 +164,7 @@ objectscene1.txt
 9	8451	0	42	1376
 9	5629	1992	2047	24
 
-#koopas
+#koopasbound
 10	1823	1056	24	23
 10	1512	1059	24	23	
 

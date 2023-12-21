@@ -17,13 +17,14 @@
 #include "VenusFireTrap.h"
 #include "FireBall.h"
 #include "ParaGoomba.h"
+#include "Parakoopa.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
 	LPGAME game = CGame::GetInstance();
-	//if (abs(vx) > abs(maxVx)) vx = maxVx;
+	if (abs(vx) > abs(maxVx)) vx = maxVx;
 	if (isPickup == true) {
 		if (!game->IsKeyDown(DIK_A)) {
 			isPickup = false;
@@ -34,15 +35,6 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		untouchable_start = 0;
 		untouchable = 0;
-	}
-	if (isSetLevel == true) {
-		if(GetLevel() == MARIO_LEVEL_BIG)
-		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
-		else if(GetLevel() == MARIO_LEVEL_SMALL)
-		y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;
-		else if (GetLevel() == MARIO_LEVEL_RACCOON)
-		y -= MARIO_RACCOON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT;
-		isSetLevel = false;
 	}
 	isOnPlatform = false;
 
@@ -81,7 +73,7 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithQuestionBrick(e);
 	else if (dynamic_cast<CCameraBound*>(e->obj))
 		OnCollisionWithCameraBound(e);
-	else if (dynamic_cast<CKoopasBound*>(e->obj)) return;
+	//else if (dynamic_cast<CKoopasBound*>(e->obj)) return;
 	else if (dynamic_cast<CVenusFireTrap*>(e->obj))
 		OnCollisionWithVenus(e);
 	else if (dynamic_cast<CItems*>(e->obj))
@@ -92,6 +84,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithFireBall(e);
 	else if (dynamic_cast<CParaGoomba*>(e->obj))
 		OnCollisionWithParaGoomba(e);
+	else if (dynamic_cast<CParaKoopa*>(e->obj))
+		OnCollisionWithParaKoopa(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -118,6 +112,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 			
 		}
 	}
+
 }
 
 void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
@@ -151,6 +146,47 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 	}
 }
 
+void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
+{
+	CParaKoopa* parakoopa = dynamic_cast<CParaKoopa*>(e->obj);
+	LPGAME game = CGame::GetInstance();
+	if (e->ny < 0)
+	{
+		if (parakoopa->GetState() != PARAKOOPA_STATE_DIE) {
+			if (parakoopa->Getlevel() != PARAKOOPA_LEVEL_NO_WING)
+			{
+				parakoopa->Setlevel(PARAKOOPA_LEVEL_NO_WING);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				StartUntouchable();
+			}
+			else {
+				parakoopa->SetState(PARAKOOPA_STATE_DIE);
+				vy = -MARIO_JUMP_DEFLECT_SPEED;
+			}
+		}
+
+	}
+	else // hit by Goomba
+	{
+		if (untouchable == 0)
+		{
+			if (parakoopa->GetState() != PARAKOOPA_STATE_DIE)
+			{
+				CollisionEffect();
+			}
+			else {
+				if (game->IsKeyDown(DIK_A) && (game->IsKeyDown(DIK_RIGHT) || game->IsKeyDown(DIK_LEFT))) {
+					parakoopa->HandledByMario();
+					isPickup = true;
+				}
+				else
+					parakoopa->SetState(PARAKOOPA_STATE_SLIDE);
+				StartUntouchable();
+			}
+		}
+	}
+}
+
 void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 {
 	CKoopas* koopas = dynamic_cast<CKoopas*>(e->obj);
@@ -179,6 +215,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 					isPickup = true;
 				}
 				else
+				
 				koopas->SetState(KOOPAS_STATE_SLIDE);
 				StartUntouchable();
 			}
@@ -218,12 +255,12 @@ void CMario::CollisionEffect()
 {
 	if (level > MARIO_LEVEL_BIG)
 	{
-		level = MARIO_LEVEL_BIG;
+		SetLevel(MARIO_LEVEL_BIG);
 		StartUntouchable();
 	}
 	else if ((level > MARIO_LEVEL_SMALL))
 	{
-		level = MARIO_LEVEL_SMALL;
+		SetLevel(MARIO_LEVEL_SMALL);
 		StartUntouchable();
 	}
 	else
@@ -241,14 +278,13 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithItems(LPCOLLISIONEVENT e)
 {
 	CItems* items = dynamic_cast<CItems*>(e->obj);
-
-	if (GetState() != MARIO_STATE_DIE /*&& (e->ny != 0 or e->nx != 0)*/) {
-		if (level > MARIO_LEVEL_SMALL)
+		if (level > MARIO_LEVEL_SMALL) {
 			SetLevel(MARIO_LEVEL_RACCOON);
-		else
-		SetLevel(MARIO_LEVEL_BIG);
+		}
+		else {
+			SetLevel(MARIO_LEVEL_BIG);
+		}
 		e->obj->Delete();
-	}
 	
 }
 void CMario::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)
@@ -292,10 +328,10 @@ void CMario::GetBoundingBox(float& left, float& top, float& right, float& bottom
 	{
 		if (isSitting)
 		{
-			left = x - MARIO_BIG_BBOX_WIDTH / 2;
-			top = y - MARIO_BIG_BBOX_HEIGHT / 2;
-			right = left + MARIO_BIG_BBOX_WIDTH;
-			bottom = top + MARIO_BIG_BBOX_HEIGHT;
+			left = x - MARIO_RACCOON_SITTING_BBOX_WIDTH / 2;
+			top = y - MARIO_RACCOON_SITTING_BBOX_HEIGHT / 2;
+			right = left + MARIO_RACCOON_SITTING_BBOX_WIDTH;
+			bottom = top + MARIO_RACCOON_SITTING_BBOX_HEIGHT;
 		}
 		else
 		{
@@ -628,20 +664,17 @@ void CMario::SetState(int state)
 
 void CMario::SetLevel(int l)
 {
-	isSetLevel = true;
+	level = l;
 	switch (l)
 	{
 	case MARIO_LEVEL_SMALL:
-		//y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;	
-			level = l;
+		this->y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT) / 2;			
 		break;
 	case MARIO_LEVEL_BIG:
-		//y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
-			level = l;
+		this->y -= (MARIO_BIG_BBOX_HEIGHT - MARIO_SMALL_BBOX_HEIGHT);
 		break;
 	case MARIO_LEVEL_RACCOON:
-		//y -= MARIO_RACCOON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT;
-		level = l;
+		this->y -= MARIO_RACCOON_BBOX_HEIGHT - MARIO_BIG_BBOX_HEIGHT;
 		break;
 	}
 	
@@ -664,7 +697,7 @@ void CMario::Render()
 
 
 	animations->Get(aniId)->Render(x, y);
-	//RenderBoundingBox();
+	RenderBoundingBox();
 
 	DebugOutTitle(L"Coins: %d", coin);
 }

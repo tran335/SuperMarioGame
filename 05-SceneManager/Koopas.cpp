@@ -61,11 +61,13 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 void CKoopas::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 {
 	CQuestionbrick* questionbrick = dynamic_cast<CQuestionbrick*>(e->obj);
+	if (this->state == KOOPAS_STATE_SLIDE) {
 		if (questionbrick->GetState() != QUESTIONBRICK_STATE_DISABLE)
 		{
 			questionbrick->SetState(QUESTIONBRICK_STATE_DISABLE);
 			vx = -vx;
 		}
+	}
 
 }
 

@@ -49,7 +49,8 @@ protected:
 	float ay;
 
 	CMario* mario = NULL;
-	float die_start;
+
+	ULONGLONG die_start;
 	BOOLEAN isOnPlatform;
 	BOOLEAN isBack = false;
 	BOOLEAN isfinddropdirection;

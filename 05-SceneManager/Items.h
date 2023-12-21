@@ -6,7 +6,6 @@
 #include "CameraBound.h"
 #include "Goomba.h"
 
-
 #define SUPERMUSHROOM_GRAVITY_AX 0.005f
 #define SUPERMUSHROOM_GRAVITY_AY 0.006f
 
@@ -31,21 +30,23 @@
 
 class CItems : public CGameObject
 {
+protected:
 	float x, y, start_y, ax, ay, nx;
 	BOOLEAN isCollidable = true;
 	BOOLEAN isDirect = false;
 	ULONGLONG direct_time;
-	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
-
+	virtual void Render();
+	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	virtual int IsBlocking() { return 0; }
+	virtual void OnNoCollision(DWORD dt);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
+	virtual int IsCollidable() { return (isCollidable != false && state != ITEMS_STATE_LEAF); };
 public:
 	CItems(float x, float y);
-	void Render();
-	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	void OnNoCollision(DWORD dt);
-	void OnCollisionWith(LPCOLLISIONEVENT e);
-	int IsCollidable() { return (isCollidable != false && state != ITEMS_STATE_LEAF); };
-	void SetState(int state);
+	
+	virtual void SetState(int state);
 	void startDirect() { direct_time = GetTickCount64(); isDirect = true; };
 };
 

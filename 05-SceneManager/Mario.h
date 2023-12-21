@@ -169,12 +169,12 @@
 #define MARIO_BIG_BBOX_WIDTH  42
 #define MARIO_BIG_BBOX_HEIGHT 80
 #define MARIO_BIG_SITTING_BBOX_WIDTH  43
-#define MARIO_BIG_SITTING_BBOX_HEIGHT 55
+#define MARIO_BIG_SITTING_BBOX_HEIGHT 80
+
 #define MARIO_RACCOON_BBOX_WIDTH  65
 #define MARIO_RACCOON_BBOX_HEIGHT 82
-
 #define MARIO_RACCOON_SITTING_BBOX_WIDTH  63
-#define MARIO_RACCOON_SITTING_BBOX_HEIGHT 65
+#define MARIO_RACCOON_SITTING_BBOX_HEIGHT 82
 
 #define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
 
@@ -195,7 +195,6 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
-	boolean isSetLevel;
 	BOOLEAN isPickup;
 	int coin; 
 	
@@ -212,6 +211,7 @@ class CMario : public CGameObject
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 	void OnCollisionWithFireBall(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithParaKoopa(LPCOLLISIONEVENT e);
 	void CollisionEffect();
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -224,7 +224,6 @@ public:
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY;
-		isSetLevel = false;
 
 		level = MARIO_LEVEL_SMALL;
 		untouchable = 0;

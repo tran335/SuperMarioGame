@@ -176,6 +176,9 @@ objectscene1.txt
 12	4083	865
 12	3951	867	
 
+#piranha
+13	5353	1156
+
 [MAP]
 Worldmap1-1\worldmap1-1.txt	Worldmap1-1\world-1-1.png	1110	176	41	29	30	
 

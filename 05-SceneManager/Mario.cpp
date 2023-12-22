@@ -18,6 +18,7 @@
 #include "FireBall.h"
 #include "ParaGoomba.h"
 #include "Parakoopa.h"
+#include "Piranha.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -86,6 +87,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithParaGoomba(e);
 	else if (dynamic_cast<CParaKoopa*>(e->obj))
 		OnCollisionWithParaKoopa(e);
+	else if (dynamic_cast<CPiranha*>(e->obj))
+		OnCollisionWithPiranha(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -275,6 +278,12 @@ void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)
 	
 	CollisionEffect();
 }
+void CMario::OnCollisionWithPiranha(LPCOLLISIONEVENT e)
+{
+	CPiranha* piranha = dynamic_cast<CPiranha*>(e->obj);
+
+	CollisionEffect();
+}
 void CMario::OnCollisionWithItems(LPCOLLISIONEVENT e)
 {
 	CItems* items = dynamic_cast<CItems*>(e->obj);
@@ -285,6 +294,7 @@ void CMario::OnCollisionWithItems(LPCOLLISIONEVENT e)
 			SetLevel(MARIO_LEVEL_BIG);
 		}
 		e->obj->Delete();
+
 	
 }
 void CMario::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)

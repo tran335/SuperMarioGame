@@ -98,6 +98,7 @@
     <ClCompile Include="Parakoopa.cpp">
       <Filter>Enemy\Koopa</Filter>
     </ClCompile>
+    <ClCompile Include="Piranha.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -209,6 +210,7 @@
     <ClInclude Include="Parakoopa.h">
       <Filter>Enemy\Koopa</Filter>
     </ClInclude>
+    <ClInclude Include="Piranha.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

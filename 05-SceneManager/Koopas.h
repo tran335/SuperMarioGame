@@ -5,6 +5,7 @@
 #include "Questionbrick.h"
 #include "Items.h"
 #include "ReverseObject.h"
+#include "CameraBound.h"
 
 #define KOOPAS_GRAVITY 0.002f
 #define KOOPAS_WALKING_SPEED 0.07f
@@ -50,12 +51,13 @@ protected:
 	ULONGLONG waking_start;
 
 	BOOLEAN isHandled = false;
+	BOOLEAN isDrop;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
 
-	virtual int IsCollidable() { return 1; };
+	int IsCollidable() { return (isDrop != true); };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 

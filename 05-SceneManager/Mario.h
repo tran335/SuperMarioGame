@@ -37,6 +37,8 @@
 #define MARIO_STATE_SIT				600
 #define MARIO_STATE_SIT_RELEASE		601
 
+#define MARIO_STATE_KICK			700
+
 
 #pragma region ANIMATION_ID
 //BIG MARIO
@@ -169,12 +171,12 @@
 #define MARIO_BIG_BBOX_WIDTH  42
 #define MARIO_BIG_BBOX_HEIGHT 80
 #define MARIO_BIG_SITTING_BBOX_WIDTH  43
-#define MARIO_BIG_SITTING_BBOX_HEIGHT 80
+#define MARIO_BIG_SITTING_BBOX_HEIGHT 49
 
 #define MARIO_RACCOON_BBOX_WIDTH  65
 #define MARIO_RACCOON_BBOX_HEIGHT 82
 #define MARIO_RACCOON_SITTING_BBOX_WIDTH  63
-#define MARIO_RACCOON_SITTING_BBOX_HEIGHT 82
+#define MARIO_RACCOON_SITTING_BBOX_HEIGHT 52
 
 #define MARIO_SIT_HEIGHT_ADJUST ((MARIO_BIG_BBOX_HEIGHT-MARIO_BIG_SITTING_BBOX_HEIGHT)/2)
 
@@ -187,6 +189,7 @@
 class CMario : public CGameObject
 {
 	BOOLEAN isSitting;
+	BOOLEAN isKicking;
 	float maxVx;
 	float ax;				// acceleration on x 
 	float ay;				// acceleration on y 
@@ -222,6 +225,7 @@ public:
 	CMario(float x, float y) : CGameObject(x, y) 
 	{
 		isSitting = false;
+		isKicking = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY;

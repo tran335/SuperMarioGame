@@ -81,7 +81,7 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 
 void CKoopas::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 {
-	this->Delete();
+	isDrop = true;
 }
 
 void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
@@ -89,6 +89,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	vy += ay * dt;
 	vx += ax * dt;
 
+//	isDrop = false;
 	if (isHandled == true) {
 		if (game->IsKeyDown(DIK_A)) {
 			setPositionByHandle();

@@ -1,6 +1,7 @@
 #include "Items.h"
 #include "ParaGoomba.h"
 #include "PlayScene.h"
+#include "Mario.h"
 
 CItems::CItems(float x, float y)
 {
@@ -102,6 +103,7 @@ void CItems::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (dynamic_cast<CItems*>(e->obj)) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
 	if (dynamic_cast<CParaGoomba*>(e->obj)) return;
+	if (dynamic_cast<CMario*>(e->obj)) return;
 	if (e->ny != 0)
 	{
 		vy = 0;

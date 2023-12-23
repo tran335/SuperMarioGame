@@ -61,7 +61,6 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 	{
 		vx = 0;
 	}
-
 	if (dynamic_cast<CGoomba*>(e->obj))
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CKoopas*>(e->obj))
@@ -217,9 +216,11 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 					koopas->HandledByMario();
 					isPickup = true;
 				}
-				else
+				else {
+					SetState(MARIO_STATE_KICK);
+					koopas->SetState(KOOPAS_STATE_SLIDE);
 				
-				koopas->SetState(KOOPAS_STATE_SLIDE);
+				}
 				StartUntouchable();
 			}
 		}
@@ -416,6 +417,12 @@ int CMario::GetAniIdSmall()
 					aniId = ID_ANI_MARIO_SMALL_WALK_PICK_UP_SHELL_LEFT;
 			}
 		}
+		else if (isKicking) {
+				if (nx > 0)
+					aniId = ID_ANI_MARIO_SMALL_KICK_RIGHT;
+				else
+					aniId = ID_ANI_MARIO_SMALL_KICK_LEFT;
+		}
 		else
 			if (vx == 0)
 			{
@@ -504,6 +511,12 @@ int CMario::GetAniIdBig()
 					aniId = ID_ANI_MARIO_WALK_PICK_UP_SHELL_LEFT;
 			}
 		}
+		else if (isKicking) {
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_KICK_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_KICK_LEFT;
+		}
 		else
 			if (vx == 0)
 			{
@@ -561,6 +574,38 @@ int CMario::GetAniIdRaccoon()
 				aniId = ID_ANI_MARIO_RACCOON_SIT_RIGHT;
 			else
 				aniId = ID_ANI_MARIO_RACCOON_SIT_LEFT;
+		}
+		else if (isPickup)
+		{
+			if (vx == 0)
+			{
+				if (nx > 0) aniId = ID_ANI_MARIO_RACCOON_IDLE_PICK_UP_SHELL_RIGHT;
+				else aniId = ID_ANI_MARIO_RACCOON_IDLE_PICK_UP_SHELL_LEFT;
+			}
+			else if (vx > 0)
+			{
+				if (ax < 0)
+					aniId = ID_ANI_MARIO_RACCOON_FRONT_PICK_UP_SHELL;
+				else if (ax == MARIO_ACCEL_RUN_X)
+					aniId = ID_ANI_MARIO_RACCOON_WALK_PICK_UP_SHELL_RIGHT;
+				else if (ax == MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_RACCOON_WALK_PICK_UP_SHELL_RIGHT;
+			}
+			else // vx < 0
+			{
+				if (ax > 0)
+					aniId = ID_ANI_MARIO_RACCOON_FRONT_PICK_UP_SHELL;
+				else if (ax == -MARIO_ACCEL_RUN_X)
+					aniId = ID_ANI_MARIO_RACCOON_WALK_PICK_UP_SHELL_LEFT;
+				else if (ax == -MARIO_ACCEL_WALK_X)
+					aniId = ID_ANI_MARIO_RACCOON_WALK_PICK_UP_SHELL_LEFT;
+			}
+		}
+		else if (isKicking) {
+			if (nx > 0)
+				aniId = ID_ANI_MARIO_RACCOON_KICK_RIGHT;
+			else
+				aniId = ID_ANI_MARIO_RACCOON_KICK_LEFT;
 		}
 		else
 			if (vx == 0)
@@ -657,9 +702,19 @@ void CMario::SetState(int state)
 		}
 		break;
 
+	case MARIO_STATE_KICK:
+		isKicking = true; 
+		if (isKicking)
+		{
+			state = MARIO_STATE_IDLE;
+		}
+		break;
+
+
 	case MARIO_STATE_IDLE:
 		ax = 0.0f;
 		vx = 0.0f;
+		isKicking = false;
 		break;
 
 	case MARIO_STATE_DIE:
@@ -707,7 +762,7 @@ void CMario::Render()
 
 
 	animations->Get(aniId)->Render(x, y);
-	RenderBoundingBox();
+	//RenderBoundingBox();
 
 	DebugOutTitle(L"Coins: %d", coin);
 }

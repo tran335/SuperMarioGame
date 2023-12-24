@@ -13,6 +13,8 @@
 #define BRICKCOIN_BBOX_WIDTH 48
 #define BRICKCOIN_BBOX_HEIGHT 48
 
+#define BRICKCOIN_STATE_THROW_UP 710
+
 class CBrickCoin : public CGameObject
 {
 	float start_y;
@@ -26,5 +28,6 @@ public:
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 	void BrickStartToThrow() { jumpTime = GetTickCount64();};
 	void BrickStartToDrop() { dropTime = GetTickCount64(); };
+	void SetState(int state);
 };
 

@@ -198,7 +198,7 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	BOOLEAN isOnPlatform;
-	BOOLEAN isPickup;
+	bool isPickup;
 	int coin; 
 	
 
@@ -254,6 +254,7 @@ public:
 
 	void SetLevel(int l);
 	int GetLevel() { return level; }
+	bool IsPickup() { return isPickup; }
 	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);

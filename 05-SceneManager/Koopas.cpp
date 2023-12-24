@@ -8,6 +8,7 @@ CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
 	this->ax = 0;
 	this->ay = KOOPAS_GRAVITY;
 	die_start = -1;
+	isOnPlatform = false;
 	SetState(KOOPAS_STATE_WALKING);
 	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
@@ -20,6 +21,13 @@ void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& botto
 		top = y - KOOPAS_BBOX_HEIGHT_DIE / 2;
 		right = left + KOOPAS_BBOX_WIDTH;
 		bottom = top + KOOPAS_BBOX_HEIGHT_DIE;
+	}
+	else if (state == KOOPAS_STATE_WAKING)
+	{
+		left = x - KOOPAS_BBOX_WIDTH / 2;
+		top = y - KOOPAS_BBOX_HEIGHT_WAKE / 2;
+		right = left + KOOPAS_BBOX_WIDTH;
+		bottom = top + KOOPAS_BBOX_HEIGHT_WAKE;
 	}
 	else
 	{
@@ -45,6 +53,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (e->ny != 0)
 	{
 		vy = 0;
+		if (e->ny < 0) isOnPlatform = true;
 	}
 	else if (e->nx != 0)
 	{
@@ -88,7 +97,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	vy += ay * dt;
 	vx += ax * dt;
-
+	isOnPlatform = false;
 //	isDrop = false;
 	if (isHandled == true) {
 		if (game->IsKeyDown(DIK_A)) {
@@ -182,14 +191,17 @@ void CKoopas::SetState(int state)
 		setPositionSlide();
 		break;
 	case KOOPAS_STATE_WAKING:
-		ay = KOOPAS_GRAVITY;
+		if (isOnPlatform) {
+			y -= (KOOPAS_BBOX_HEIGHT_WAKE - KOOPAS_BBOX_HEIGHT_DIE) / 2;
+		}
+		//ay = KOOPAS_GRAVITY;
 		break;
 
 	}
 }
 void CKoopas::setPositionSlide()
 {
-	float x_mario, y_mario, vx_mario, vy_mario;
+	float x_mario, y_mario;
 	mario->GetPosition(x_mario, y_mario);
 	if (x < x_mario)
 		vx = -KOOPAS_SLIDE_SPEED;
@@ -209,26 +221,25 @@ void CKoopas::HandledByMarioRelease()
 
 void CKoopas::setPositionByHandle()
 {
-	float x_mario, y_mario, vx_mario, vy_mario;
+	float x_mario, y_mario, nx_mario, ny_mario;
 	mario->GetPosition(x_mario, y_mario);
-	mario->GetSpeed(vx_mario, vy_mario);
-
+	mario->GetDirection(nx_mario, ny_mario);
 	if (mario->GetLevel() == MARIO_LEVEL_SMALL) {
-		if (vx_mario < 0)
+		if (nx_mario < 0)
 			SetPosition(x_mario - MARIO_SMALL_HANDLED_WIDTH, y_mario - MARIO_SMALL_HANDLED_HEIGHT);
-		else if (vx_mario > 0)
+		else if (nx_mario > 0)
 			SetPosition(x_mario + MARIO_SMALL_HANDLED_WIDTH, y_mario - MARIO_SMALL_HANDLED_HEIGHT);
 	}
 	else if (mario->GetLevel() == MARIO_LEVEL_BIG) {
-		if (vx_mario < 0)
+		if (nx_mario < 0)
 			SetPosition(x_mario - MARIO_BIG_HANDLED_WIDTH, y_mario + MARIO_BIG_HANDLED_HEIGHT);
-		else if (vx_mario > 0)
+		else if (nx_mario > 0)
 			SetPosition(x_mario + MARIO_BIG_HANDLED_WIDTH, y_mario + MARIO_BIG_HANDLED_HEIGHT);
 	}
 	else {
-		if (vx_mario < 0)
+		if (nx_mario < 0)
 			SetPosition(x_mario - MARIO_RACCOON_HANDLED_WIDTH, y_mario + MARIO_RACCOON_HANDLED_HEIGHT);
-		else if (vx_mario > 0)
+		else if (nx_mario > 0)
 			SetPosition(x_mario + MARIO_RACCOON_HANDLED_WIDTH, y_mario + MARIO_RACCOON_HANDLED_HEIGHT);
 	}
 }

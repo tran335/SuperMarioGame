@@ -55,6 +55,7 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				CBrickCoin* brickcoin = new CBrickCoin(x, y);
 				CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
 				scene->objects.push_back(brickcoin);
+				brickcoin->SetState(BRICKCOIN_STATE_THROW_UP);
 			}
 			hasItem = false;
 		}

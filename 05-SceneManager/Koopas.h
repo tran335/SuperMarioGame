@@ -13,6 +13,7 @@
 
 #define KOOPAS_BBOX_WIDTH 51
 #define KOOPAS_BBOX_HEIGHT 79
+#define KOOPAS_BBOX_HEIGHT_WAKE 49
 #define KOOPAS_BBOX_HEIGHT_DIE 42
 
 #define KOOPAS_DIE_TIMEOUT 5000
@@ -52,6 +53,7 @@ protected:
 
 	BOOLEAN isHandled = false;
 	BOOLEAN isDrop;
+	BOOLEAN isOnPlatform;
 
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -65,7 +67,7 @@ protected:
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
-	void OnCollisionWithReverseObject(LPCOLLISIONEVENT e);
+	//void OnCollisionWithReverseObject(LPCOLLISIONEVENT e);
 	
 
 public:

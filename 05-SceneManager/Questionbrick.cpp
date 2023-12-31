@@ -20,7 +20,7 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	CGameObject::Update(dt, coObjects);
 	float mario_vx, mario_vy;
 	mario->GetSpeed(mario_vx, mario_vy);
-	CItems* items = new CItems(x, y);
+
 	if (GetState() == QUESTIONBRICK_STATE_DISABLE ) {
 		isThrow = 1;
 		if (throwup_start == 0) {
@@ -31,33 +31,6 @@ void CQuestionbrick::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 				y++;
 			else
 				y = start_y;
-		}
-		if (hasItem == true) {
-			if (item_type == 2) {
-		
-				if (mario->GetLevel() > MARIO_LEVEL_SMALL) {
-					items->SetState(ITEMS_STATE_LEAF);
-					CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
-					scene->objects.push_back(items);
-				}
-				else {
-					if (mario_vx < 0) {
-						items->SetState(ITEMS_STATE_SUPERMUSHROOM);
-					}
-					else {
-						items->SetState(ITEMS_STATE_SUPERMUSHROOM_RIGHT);
-					}
-					CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
-					scene->objects.push_back(items);
-				}
-			}
-			else {
-				CBrickCoin* brickcoin = new CBrickCoin(x, y);
-				CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
-				scene->objects.push_back(brickcoin);
-				brickcoin->SetState(BRICKCOIN_STATE_THROW_UP);
-			}
-			hasItem = false;
 		}
 	}
 	else
@@ -92,6 +65,34 @@ void CQuestionbrick::SetState(int state)
 		vx = 0;
 		vy = 0;
 		y = y - QUESTIONBRICK_JUMP_Y;
+		if (hasItem == true) {
+			CItems* items = new CItems(x, y);
+			if (item_type == 2) {
+
+				if (mario->GetLevel() > MARIO_LEVEL_SMALL) {
+					items->SetState(ITEMS_STATE_LEAF);
+					CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+					scene->objects.push_back(items);
+				}
+				else {
+					/*if (mario_vx < 0) {
+						items->SetState(ITEMS_STATE_SUPERMUSHROOM);
+					}
+					else {*/
+						items->SetState(ITEMS_STATE_SUPERMUSHROOM_RIGHT);
+					//}
+					CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+					scene->objects.push_back(items);
+				}
+			}
+			else {
+				CBrickCoin* brickcoin = new CBrickCoin(x, y);
+				CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+				scene->objects.push_back(brickcoin);
+				brickcoin->SetState(BRICKCOIN_STATE_THROW_UP);
+			}
+			hasItem = false;
+		}
 		break;
 	}
 }

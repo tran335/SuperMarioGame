@@ -15,10 +15,12 @@ CParaKoopa::CParaKoopa(float x, float y) :CGameObject(x, y)
 	die_start = -1;
 	waking_start = -1;
 	reset_time = -1;
-	untouchable = 0;
-	untouchable_start = -1;
+	/*untouchable = 0;
+	untouchable_start = -1;*/
 	isOnPlatform = false;
+	nx = -1;
 	level = PARAKOOPA_LEVEL_WING;
+	SetState(PARAKOOPA_STATE_FLY);
 	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
 LPGAME game1 = CGame::GetInstance();
@@ -95,7 +97,7 @@ void CParaKoopa::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 void CParaKoopa::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
 {
 	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
-	if (e->ny < 0)
+	/*if (e->ny < 0)
 	{
 		if (level == PARAKOOPA_LEVEL_WING && isOnPlatform == true) {
 			if (untouchable == 0) {
@@ -105,7 +107,7 @@ void CParaKoopa::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
 		else if (state == PARAKOOPA_STATE_DIE) {
 			SetState(PARAKOOPA_STATE_DIE);
 		}
-	}
+	}*/
 }
 
 void CParaKoopa::OnCollisionWithBigBox(LPCOLLISIONEVENT e)
@@ -114,9 +116,7 @@ void CParaKoopa::OnCollisionWithBigBox(LPCOLLISIONEVENT e)
 	if (e->ny < 0)
 	{
 		if (level == PARAKOOPA_LEVEL_WING && isOnPlatform == true) {
-			if (untouchable == 0) {
 				vy = -PARAKOOPA_JUMP_Y;
-			}
 		}
 	}
 }
@@ -137,7 +137,6 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		}
 	}
 
-
 	if (isHandled == true) {
 		if (game1->IsKeyDown(DIK_A)) {
 			setPositionHandled();
@@ -147,12 +146,9 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			SetState(PARAKOOPA_STATE_SLIDE);
 		}
 	}
-
-	float x_mario, y_mario;
-	mario->GetPosition(x_mario, y_mario);
-	if (level == PARAKOOPA_LEVEL_WING) {
-		SetState(PARAKOOPA_STATE_FLY);
-	}
+	//if (level == PARAKOOPA_LEVEL_WING) {
+	//	SetState(PARAKOOPA_STATE_FLY);
+	//}
 
 	if ((state == PARAKOOPA_STATE_DIE) && (GetTickCount64() - die_start > PARAKOOPA_DIE_TIMEOUT))
 	{
@@ -160,22 +156,9 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		startWakingTime();
 	}
 	else if (state == PARAKOOPA_STATE_WAKING && (GetTickCount64() - waking_start > PARAKOOPA_WAKING_TIMEOUT)) {
-		SetState(PARAKOOPA_STATE_WALKING);
+		SetState(PARAKOOPA_STATE_FLY);
 		waking_start = 0;
 	}
-	//else if (state == PARAKOOPA_STATE_SLIDE) {
-	//	if (x_mario > x) {
-	//		isRight = false;
-	//	}
-	//	else
-	//		isRight = true;
-	//	FindSlideDirection();
-	//	if (vx == 0 && (GetTickCount64() - die_start > PARAKOOPA_DIE_TIMEOUT)) {
-
-	//		SetState(PARAKOOPA_STATE_WAKING);
-	//		startWakingTime();
-	//	}
-	//}
 	if (isBack == true && (GetTickCount64() - reset_time > BACK_TIME) && state != PARAKOOPA_STATE_SLIDE) {
 		SetPosition(start_x, start_y);
 		isBack = false;
@@ -200,11 +183,13 @@ void CParaKoopa::Render()
 		else
 			aniId = ID_ANI_PARAKOOPA_FLY_LEFT;
 	}
-	else if (level == PARAKOOPA_LEVEL_NO_WING) {
+	else {
 		if (state == PARAKOOPA_STATE_DIE)
 			aniId = ID_ANI_PARAKOOPA_DIE;
 		else if (state == PARAKOOPA_STATE_SLIDE)
 			aniId = ID_ANI_PARAKOOPA_SLIDE;
+		else if (state == PARAKOOPA_STATE_WAKING)
+			aniId = ID_ANI_PARAKOOPA_WAKING;
 		else {
 			if (vx > 0)
 				aniId = ID_ANI_PARAKOOPA_WALKING_RIGHT;
@@ -225,35 +210,44 @@ void CParaKoopa::SetState(int state)
 	switch (state)
 	{
 	case PARAKOOPA_STATE_FLY:
+		DebugOut(L"FLY");
 		//vx = -PARAKOOPA_WALKING_SPEED;
 		ax = -PARAKOOPA_GRAVITY_X;
 		ay = PARAKOOPA_GRAVITY;
 		break;
 	case PARAKOOPA_STATE_DIE:
+		DebugOut(L"DIE");
 		die_start = GetTickCount64();
 		y += (PARAKOOPA_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
 		vy = 0;
+		ax = 0;
 		ay = PARAKOOPA_GRAVITY;
 		break;
-	case PARAKOOPA_STATE_WALKING:
-		if (waking_start > 0) {
-			y -= (PARAKOOPA_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT_DIE) / 2;
-		}
-		vx = -PARAKOOPA_WALKING_SPEED;
-		vy = 0;
-		ay = PARAKOOPA_GRAVITY;
-		break;
+	//case PARAKOOPA_STATE_WALKING:
+	//	DebugOut(L"WALKING");
+	//	if (waking_start > 0) {
+	//		y -= (PARAKOOPA_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT_DIE) / 2;
+	//	}
+	//	vx = -PARAKOOPA_WALKING_SPEED;
+	//	ay = PARAKOOPA_GRAVITY;
+	//	break;
 	case PARAKOOPA_STATE_SLIDE:
+		DebugOut(L"SLIDE");
 		ay = PARAKOOPA_GRAVITY;
-		//vx = PARAKOOPA_SLIDE_SPEED;
 		setPositionSlide();
+		break;
+	case PARAKOOPA_STATE_WAKING:
+		DebugOut(L"WAKING");
+		if (isOnPlatform) {
+			y -= (PARAKOOPA_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE) / 2;
+		}
 		break;
 	}
 }
 void CParaKoopa::setPositionSlide()
 {
-	float x_mario, y_mario, vx_mario, vy_mario;
+	float x_mario, y_mario;
 	mario->GetPosition(x_mario, y_mario);
 	if (x < x_mario)
 		vx = -PARAKOOPA_SLIDE_SPEED;
@@ -262,26 +256,26 @@ void CParaKoopa::setPositionSlide()
 }
 void CParaKoopa::setPositionHandled()
 {
-	float x_mario, y_mario, vx_mario, vy_mario;
+	float x_mario, y_mario, nx_mario, ny_mario;
 	mario->GetPosition(x_mario, y_mario);
-	mario->GetSpeed(vx_mario, vy_mario);
+	mario->GetDirection(nx_mario, ny_mario);
 
 	if (mario->GetLevel() == MARIO_LEVEL_SMALL) {
-		if (vx_mario < 0)
+		if (nx_mario < 0)
 			SetPosition(x_mario - MARIO_SMALL_HANDLED_WIDTH, y_mario - MARIO_SMALL_HANDLED_HEIGHT);
-		else if (vx_mario > 0)
+		else if (nx_mario > 0)
 			SetPosition(x_mario + MARIO_SMALL_HANDLED_WIDTH, y_mario - MARIO_SMALL_HANDLED_HEIGHT);
 	}
 	else if (mario->GetLevel() == MARIO_LEVEL_BIG) {
-		if (vx_mario < 0)
+		if (nx_mario < 0)
 			SetPosition(x_mario - MARIO_BIG_HANDLED_WIDTH, y_mario + MARIO_BIG_HANDLED_HEIGHT);
-		else if (vx_mario > 0)
+		else if (nx_mario > 0)
 			SetPosition(x_mario + MARIO_BIG_HANDLED_WIDTH, y_mario + MARIO_BIG_HANDLED_HEIGHT);
 	}
 	else {
-		if (vx_mario < 0)
+		if (nx_mario < 0)
 			SetPosition(x_mario - MARIO_RACCOON_HANDLED_WIDTH, y_mario + MARIO_RACCOON_HANDLED_HEIGHT);
-		else if (vx_mario > 0)
+		else if (nx_mario > 0)
 			SetPosition(x_mario + MARIO_RACCOON_HANDLED_WIDTH, y_mario + MARIO_RACCOON_HANDLED_HEIGHT);
 	}
 }

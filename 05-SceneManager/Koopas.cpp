@@ -49,6 +49,7 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
 	if (dynamic_cast<CItems*>(e->obj)) return;
+	if (dynamic_cast<CReverseObject*>(e->obj)) return;
 
 	if (e->ny != 0)
 	{
@@ -120,19 +121,22 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(KOOPAS_STATE_WALKING);
 		waking_start = 0;
 	}
-	//CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
-	//if (reverseobject == NULL) {
-	//	reverseobject = new CReverseObject(x, y);
-	//	scene->objects.push_back(reverseobject);
-	//	if (vx > 0)
-	//	{
-	//		reverseobject->SetPosition(x + 48, y);
-	//	}
-	//	else
-	//	{
-	//		reverseobject->SetPosition(x - 48, y);
-	//	}
-	//}
+	CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
+	if (reverseobject == NULL) {
+		reverseobject = new CReverseObject(x, y);
+		scene->objects.push_back(reverseobject);
+	}
+	else {
+		if (vx > 0)
+		{
+			reverseobject->SetPosition(x + 58, y);
+		}
+		else
+		{
+			reverseobject->SetPosition(x - 58, y);
+		}
+	}
+	
 	
 	
 	CGameObject::Update(dt, coObjects);

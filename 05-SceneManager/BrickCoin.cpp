@@ -4,6 +4,7 @@ CBrickCoin::CBrickCoin(float x, float y)
 {
 	this->x = x;
 	this->y = y;
+	this->start_y = y;
 }
 
 void CBrickCoin::Render()
@@ -15,26 +16,34 @@ void CBrickCoin::Render()
 void CBrickCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
 	y += vy*dt;
-	//vy = -BRICKCOIN_JUMP_SPEED_Y;
 
-	if (jumpTime == 0) {
-		BrickStartToThrow();
+	if (state == BRICKCOIN_STATE_THROW_UP && y < start_y - BRICKCOIN_MAX_Y) {
+		vy = -vy;
 	}
-	else if (GetTickCount64() - jumpTime > JUMP_TIME && jumpTime > 0) {
-		if (GetTickCount64() - dropTime > DROP_TIME && dropTime > 0) {
-			this->Delete();
-			jumpTime = 0;
-			dropTime = 0;
-
-		}
-		else {
-			vy = BRICKCOIN_RETURN_START_POS_VY;
-			if (dropTime == 0) {
-				BrickStartToDrop();
-			}
-		}
-
+	else if (y >= start_y) {
+		vy = 0;
+		this->Delete();
 	}
+
+
+	//if (jumpTime == 0) {
+	//	BrickStartToThrow();
+	//}
+	//else if (GetTickCount64() - jumpTime > JUMP_TIME && jumpTime > 0) {
+	//	if (GetTickCount64() - dropTime > DROP_TIME && dropTime > 0) {
+	//		this->Delete();
+	//		jumpTime = 0;
+	//		dropTime = 0;
+
+	//	}
+	//	else {
+	//		vy = BRICKCOIN_RETURN_START_POS_VY;
+	//		if (dropTime == 0) {
+	//			BrickStartToDrop();
+	//		}
+	//	}
+
+	//}
 
 	CGameObject::Update(dt, coObjects);
 	//CCollision::GetInstance()->Process(this, dt, coObjects);

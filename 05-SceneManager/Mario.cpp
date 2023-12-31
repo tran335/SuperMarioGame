@@ -157,16 +157,17 @@ void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 		if (parakoopa->GetState() != PARAKOOPA_STATE_DIE) {
 			if (parakoopa->Getlevel() != PARAKOOPA_LEVEL_NO_WING)
 			{
+				DebugOut(L"VO WALK ROI NE");
 				parakoopa->Setlevel(PARAKOOPA_LEVEL_NO_WING);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 				StartUntouchable();
 			}
 			else {
+				DebugOut(L"DIE LUN");
 				parakoopa->SetState(PARAKOOPA_STATE_DIE);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
 		}
-
 	}
 	else // hit by Goomba
 	{
@@ -182,7 +183,10 @@ void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 					isPickup = true;
 				}
 				else
-					parakoopa->SetState(PARAKOOPA_STATE_SLIDE);
+				{
+					SetState(MARIO_STATE_KICK);
+					parakoopa->SetState(KOOPAS_STATE_SLIDE);
+				}
 				StartUntouchable();
 			}
 		}

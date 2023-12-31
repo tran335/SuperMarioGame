@@ -10,7 +10,7 @@
 #define PARAKOOPA_WALKING_SPEED 0.1f
 #define PARAKOOPA_WALKING_SPEED_MAX 1.0f
 #define PARAKOOPA_JUMP_Y 0.5f
-#define PARAKOOPA_SLIDE_SPEED 1.0f
+#define PARAKOOPA_SLIDE_SPEED 0.5f
 
 #define BACK_TIME 3000
 #define PARAKOOPA_UNTOUCHABLE_TIME 5000
@@ -19,7 +19,7 @@
 #define PARAKOOPA_BBOX_HEIGHT 79
 #define PARAKOOPA_BBOX_HEIGHT_DIE 51
 
-#define PARAKOOPA_DIE_TIMEOUT 2000
+#define PARAKOOPA_DIE_TIMEOUT 5000
 #define PARAKOOPA_WAKING_TIMEOUT 2000
 
 
@@ -66,23 +66,23 @@ protected:
 	ULONGLONG waking_start;
 	BOOLEAN isHandled;
 	BOOLEAN isOnPlatform;
-	int untouchable;
-	ULONGLONG untouchable_start;
+	//int untouchable;
+	//ULONGLONG untouchable_start;
 
 	bool isBack = false;
 	bool isRight = true;
 
 	int level;
 
-	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
-	virtual void Render();
+	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
+	void Render();
 
-	virtual int IsCollidable() { return 1; };
+	int IsCollidable() { return 1; };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnCollisionWith(LPCOLLISIONEVENT e);
 
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
@@ -93,7 +93,6 @@ protected:
 public:
 	CParaKoopa(float x, float y);
 	virtual void SetState(int state);
-	void FindSlideDirection();
 	void startWakingTime() { waking_start = GetTickCount64(); }
 	int Getlevel() { return this->level; }
 	void Setlevel(int level) { this->level = level; }
@@ -101,6 +100,6 @@ public:
 	void HandledByMario() { isHandled = true; }
 	void HandledByMarioRelease() { isHandled = false; }
 	void startBack() { isBack = true; 	reset_time = GetTickCount64(); }
-	void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
+	//void StartUntouchable() { untouchable = 1; untouchable_start = GetTickCount64(); }
 	void setPositionSlide();
 };

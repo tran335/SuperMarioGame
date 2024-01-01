@@ -18,32 +18,12 @@ void CBrickCoin::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	y += vy*dt;
 
 	if (state == BRICKCOIN_STATE_THROW_UP && y < start_y - BRICKCOIN_MAX_Y) {
-		vy = -vy;
+		SetState(BRICKCOIN_STATE_DROP);
 	}
-	else if (y >= start_y) {
+	if (state == BRICKCOIN_STATE_DROP && y > start_y - BRICKCOIN_MIN_Y) {
 		vy = 0;
 		this->Delete();
 	}
-
-
-	//if (jumpTime == 0) {
-	//	BrickStartToThrow();
-	//}
-	//else if (GetTickCount64() - jumpTime > JUMP_TIME && jumpTime > 0) {
-	//	if (GetTickCount64() - dropTime > DROP_TIME && dropTime > 0) {
-	//		this->Delete();
-	//		jumpTime = 0;
-	//		dropTime = 0;
-
-	//	}
-	//	else {
-	//		vy = BRICKCOIN_RETURN_START_POS_VY;
-	//		if (dropTime == 0) {
-	//			BrickStartToDrop();
-	//		}
-	//	}
-
-	//}
 
 	CGameObject::Update(dt, coObjects);
 	//CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -56,6 +36,9 @@ void CBrickCoin::SetState(int state)
 	{
 	case BRICKCOIN_STATE_THROW_UP:
 		vy = -BRICKCOIN_JUMP_SPEED_Y;
+		break;
+	case BRICKCOIN_STATE_DROP:
+		vy = BRICKCOIN_JUMP_SPEED_Y;
 		break;
 	}
 }

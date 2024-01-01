@@ -6,6 +6,7 @@
 #include "Items.h"
 #include "ReverseObject.h"
 #include "CameraBound.h"
+#include "Goomba.h"
 
 #define KOOPAS_GRAVITY 0.002f
 #define KOOPAS_WALKING_SPEED 0.07f

@@ -183,4 +183,7 @@ objectscene1.txt
 Worldmap1-1\worldmap1-1.txt	Worldmap1-1\world-1-1.png	1110	176	41	29	30	
 
 [MAPPIPE]
-Worldmap1-1\map-pipe.txt	Worldmap1-1\world-1-1.png	1110	176	41	29	30		
+Worldmap1-1\map-pipe.txt	Worldmap1-1\world-1-1.png	1110	176	41	29	30	
+
+[HUD]
+368	1310	

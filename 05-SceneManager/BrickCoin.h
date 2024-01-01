@@ -18,12 +18,11 @@
 #define BRICKCOIN_BBOX_HEIGHT 48
 
 #define BRICKCOIN_STATE_THROW_UP 710
+#define BRICKCOIN_STATE_DROP 720
 
 class CBrickCoin : public CGameObject
 {
 	float start_y;
-	float jumpTime = 0;
-	float dropTime = 0;
 	float x, y;
 	bool isDrop = false;
 public:
@@ -32,8 +31,6 @@ public:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom) {};
 	virtual int IsBlocking() { return 0; };
-	void BrickStartToThrow() { jumpTime = GetTickCount64();};
-	void BrickStartToDrop() { dropTime = GetTickCount64(); };
 	void SetState(int state);
 };
 

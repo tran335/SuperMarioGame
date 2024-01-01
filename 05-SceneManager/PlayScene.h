@@ -12,7 +12,9 @@
 #include "VenusFireTrap.h"
 #include "Koopas.h"
 #include "CameraBound.h"
+#include "Hud.h"
 
+#define ADD_CY 50
 
 class CPlayScene: public CScene
 {
@@ -24,6 +26,7 @@ public:
 	vector<LPGAMEOBJECT> objects;
 	CMap* map;
 	CMapPipe* map_pipe;
+	Hud* hud;
 
 	void _ParseSection_SPRITES(string line);
 	void _ParseSection_ANIMATIONS(string line);
@@ -32,7 +35,7 @@ public:
 	void _ParseSection_OBJECTS(string line);
 	void _ParseSection_MAP(string line);
 	void _ParseSection_MAPPIPE(string line);
-
+	void _ParseSection_HUD(string line);
 	void LoadAssets(LPCWSTR assetFile);
 	
 //public: 

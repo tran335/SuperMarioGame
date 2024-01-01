@@ -99,6 +99,7 @@
       <Filter>Enemy\Koopa</Filter>
     </ClCompile>
     <ClCompile Include="Piranha.cpp" />
+    <ClCompile Include="Hud.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -211,6 +212,7 @@
       <Filter>Enemy\Koopa</Filter>
     </ClInclude>
     <ClInclude Include="Piranha.h" />
+    <ClInclude Include="Hud.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -22,3 +22,4 @@ height	240
 50	textures\enemy - 3.png
 60	textures\misc_new_right.png
 70	textures\hud.png
+80	textures\power.png

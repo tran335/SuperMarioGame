@@ -2,7 +2,7 @@
 #include "GameObject.h"
 #include "Mario.h"
 #include "Sprite.h"
-
+#include "Power.h"
 
 #define ID_HUD 111112
 
@@ -14,7 +14,7 @@ class Hud : public CGameObject
 protected:
 	float x;
 	float y;
-	CMario* mario = NULL;
+	Power* power = new Power(x, y);
 public:
 	Hud(float x, float y);
 	void Update();

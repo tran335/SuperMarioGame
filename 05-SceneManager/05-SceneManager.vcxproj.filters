@@ -100,6 +100,7 @@
     </ClCompile>
     <ClCompile Include="Piranha.cpp" />
     <ClCompile Include="Hud.cpp" />
+    <ClCompile Include="Power.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -213,6 +214,7 @@
     </ClInclude>
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="Hud.h" />
+    <ClInclude Include="Power.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

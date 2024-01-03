@@ -11,15 +11,15 @@
 #define ID_ANI_POWER_5 1805
 #define ID_ANI_POWER_6 1806
 
-#define VX_1 0.4f
-#define VX_2 0.45f
-#define VX_3 0.5f
-#define VX_4 0.55f
-#define VX_5 0.6f
-#define VX_6 0.65f
+#define VX_1 0.45f
+#define VX_2 0.5f
+#define VX_3 0.55f
+#define VX_4 0.6f
+#define VX_5 0.65f
+#define VX_6 0.7f
 
 #define POWER_CX 270
-#define POWER_CY 600
+#define POWER_CY 605
 
 
 class Power : public CGameObject

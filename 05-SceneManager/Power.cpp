@@ -22,12 +22,12 @@ void Power::Render()
     
 	int aniId = -1;
 
-	if (vx_mario >= VX_6) aniId = ID_ANI_POWER_6;
-	else if (vx_mario >= VX_5) aniId = ID_ANI_POWER_5;
-	else if (vx_mario >= VX_4) aniId = ID_ANI_POWER_4;
-	else if (vx_mario >= VX_3) aniId = ID_ANI_POWER_3;
-	else if (vx_mario >= VX_2) aniId = ID_ANI_POWER_2;
-	else if (vx_mario >= VX_1) aniId = ID_ANI_POWER_1;
+	if (abs(vx_mario) >= VX_6) aniId = ID_ANI_POWER_6;
+	else if (abs(vx_mario) >= VX_5) aniId = ID_ANI_POWER_5;
+	else if (abs(vx_mario) >= VX_4) aniId = ID_ANI_POWER_4;
+	else if (abs(vx_mario) >= VX_3) aniId = ID_ANI_POWER_3;
+	else if (abs(vx_mario) >= VX_2) aniId = ID_ANI_POWER_2;
+	else if (abs(vx_mario) >= VX_1) aniId = ID_ANI_POWER_1;
 	else aniId = ID_ANI_POWER_0;
 
 	CAnimations* animations = CAnimations::GetInstance();

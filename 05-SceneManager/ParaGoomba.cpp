@@ -134,7 +134,27 @@ void CParaGoomba::Render()
 	CAnimations* animations = CAnimations::GetInstance();
 	int aniId = -1;
 
-	if (level == PARAGOOMBA_LEVEL_WING) {
+	//if (level == PARAGOOMBA_LEVEL_WING) {
+	//	if (isOnPlatform == true) {
+	//		aniId = ID_ANI_PARAGOOMBA_WING;
+	//	}
+	//	else
+	//		aniId = ID_ANI_PARAGOOMBA_FLY;
+	//}
+	//else if (level == PARAGOOMBA_LEVEL_NO_WING) {
+	//	if (state == PARAGOOMBA_STATE_DIE)
+	//		aniId = ID_ANI_PARAGOOMBA_DIE;
+	//	else if (state == PARAGOOMBA_STATE_KICK_BY_KOOPA || state == PARAGOOMBA_STATE_KICK_BY_RACCOON)
+	//		aniId = ID_ANI_PARAGOOMBA_DROP;
+	//	else
+	//		aniId = ID_ANI_PARAGOOMBA_NORMAL;
+	//}
+	//else if (state == PARAGOOMBA_STATE_KICK_BY_KOOPA || state == PARAGOOMBA_STATE_KICK_BY_RACCOON)
+	//	aniId = ID_ANI_PARAGOOMBA_DROP;
+
+	if (state == PARAGOOMBA_STATE_KICK_BY_KOOPA || state == PARAGOOMBA_STATE_KICK_BY_RACCOON)
+			aniId = ID_ANI_PARAGOOMBA_DROP;
+	else if (level == PARAGOOMBA_LEVEL_WING) {
 		if (isOnPlatform == true) {
 			aniId = ID_ANI_PARAGOOMBA_WING;
 		}
@@ -144,13 +164,9 @@ void CParaGoomba::Render()
 	else if (level == PARAGOOMBA_LEVEL_NO_WING) {
 		if (state == PARAGOOMBA_STATE_DIE)
 			aniId = ID_ANI_PARAGOOMBA_DIE;
-		else if (state == PARAGOOMBA_STATE_KICK_BY_KOOPA || state == PARAGOOMBA_STATE_KICK_BY_RACCOON)
-			aniId = ID_ANI_PARAGOOMBA_DROP;
 		else
 			aniId = ID_ANI_PARAGOOMBA_NORMAL;
 	}
-	else if (state == PARAGOOMBA_STATE_KICK_BY_KOOPA || state == PARAGOOMBA_STATE_KICK_BY_RACCOON)
-		aniId = ID_ANI_PARAGOOMBA_DROP;
 
 
 	animations->Get(aniId)->Render(x, y);

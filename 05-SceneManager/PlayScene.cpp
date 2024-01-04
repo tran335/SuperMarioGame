@@ -399,7 +399,7 @@ void CPlayScene::Update(DWORD dt)
 	else
 	{
 		cx = -game->GetBackBufferWidth();
-		cy = 0;
+		cy = ADD_CY_INTROSCENE;
 	}
 
 	if (cx < 0) cx = 0;
@@ -416,9 +416,11 @@ void CPlayScene::Render()
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 	player->Render();
-	if (id == WORLD_MAP_1_1_SCENE) {
+	if (id != OVERWORLD_SCENE) {
+		if (id == WORLD_MAP_1_1_SCENE) {
+			hud->Render();
+		}
 		map_pipe->Render();
-		hud->Render();
 	}
 }
 

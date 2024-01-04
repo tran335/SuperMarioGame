@@ -1,5 +1,5 @@
 [SETTINGS]
-start	2
+start	1
 width	320
 height	240
 
@@ -9,7 +9,7 @@ height	240
 0	intro.txt
 1	scene\worldmap1-1.txt
 2	scene\overworld.txt
-3	scene\scene0005.txt
+3	scene\intro.txt
 
 # id	file 
 [TEXTURES]

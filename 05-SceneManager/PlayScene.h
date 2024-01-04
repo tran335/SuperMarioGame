@@ -15,6 +15,7 @@
 #include "Hud.h"
 
 #define ADD_CY 50
+#define ADD_CY_INTROSCENE 24
 #define INTRO_SCENE 3
 #define OVERWORLD_SCENE 2
 #define WORLD_MAP_1_1_SCENE 1

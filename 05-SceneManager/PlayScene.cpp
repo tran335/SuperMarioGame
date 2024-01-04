@@ -17,6 +17,7 @@
 #include "ReverseObject.h"
 #include "Parakoopa.h"
 #include "Piranha.h"
+#include "Tree.h"
 
 #include "SampleKeyEventHandler.h"
 
@@ -194,6 +195,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		obj = new CCameraBound(x, y, width, height);
 		break;
 	}
+	case OBJECT_TYPE_TREE:
+	{
+		obj = new CTree(x, y);
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
+		break;
+	}
 	case OBJECT_TYPE_KOOPASBOUND:
 	{
 		float width = (float)atof(tokens[3].c_str());
@@ -369,13 +377,33 @@ void CPlayScene::Update(DWORD dt)
 	// Update camera to follow mario
 	float cx, cy;
 	player->GetPosition(cx, cy);
+	int start_cy = cy;
+	CGame* game = CGame::GetInstance();
 
-	CGame *game = CGame::GetInstance();
-	cx -= game->GetBackBufferWidth() / 2;
-	//cy -= game->GetBackBufferHeight() /2;
-	cy = game->GetBackBufferHeight() + ADD_CY;
+	if (id == WORLD_MAP_1_1_SCENE) {
+		cx -= game->GetBackBufferWidth() / 2;
+
+
+		if (cy <= game->GetBackBufferHeight() * 2 - start_cy) {
+			cy -= game->GetBackBufferHeight() / 2;
+
+		}
+		else {
+			if (cy > game->GetBackBufferHeight() * 4 - start_cy) {
+				cy += game->GetBackBufferHeight() - start_cy / 1.5;
+			}
+			else
+				cy = game->GetBackBufferHeight() + ADD_CY;
+		}
+	}
+	else
+	{
+		cx = -game->GetBackBufferWidth();
+		cy = 0;
+	}
 
 	if (cx < 0) cx = 0;
+	if (cy < 0) cy = 0;
 
 	CGame::GetInstance()->SetCamPos(cx, /*0.0f*/ cy);
 
@@ -388,8 +416,10 @@ void CPlayScene::Render()
 	for (int i = 0; i < objects.size(); i++)
 		objects[i]->Render();
 	player->Render();
-	map_pipe->Render();
-	hud->Render();
+	if (id == WORLD_MAP_1_1_SCENE) {
+		map_pipe->Render();
+		hud->Render();
+	}
 }
 
 /*

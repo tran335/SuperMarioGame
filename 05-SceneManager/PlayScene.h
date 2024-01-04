@@ -15,6 +15,9 @@
 #include "Hud.h"
 
 #define ADD_CY 50
+#define INTRO_SCENE 3
+#define OVERWORLD_SCENE 2
+#define WORLD_MAP_1_1_SCENE 1
 
 class CPlayScene: public CScene
 {

@@ -1,5 +1,5 @@
 [SETTINGS]
-start	1
+start	2
 width	320
 height	240
 
@@ -7,9 +7,9 @@ height	240
 # type: 0: intro, 1: play scene 
 [SCENES]
 0	intro.txt
-1	scene01.txt
-2	scene02.txt
-5	scene0005.txt
+1	scene\worldmap1-1.txt
+2	scene\overworld.txt
+3	scene\scene0005.txt
 
 # id	file 
 [TEXTURES]
@@ -23,3 +23,4 @@ height	240
 60	textures\misc_new_right.png
 70	textures\hud.png
 80	textures\power.png
+90	textures\overworld.png

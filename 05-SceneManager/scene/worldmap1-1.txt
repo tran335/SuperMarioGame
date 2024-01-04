@@ -1,6 +1,6 @@
 # list of object assets to load in this scene
 [ASSETS]
-objectscene1.txt
+scene\objectscene1.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type
@@ -180,10 +180,10 @@ objectscene1.txt
 13	5353	1156
 
 [MAP]
-Worldmap1-1\worldmap1-1.txt	Worldmap1-1\world-1-1.png	1110	176	41	29	30	
+map\Worldmap1-1\worldmap1-1.txt	map\Worldmap1-1\world-1-1.png	1110	176	41	29	30	
 
 [MAPPIPE]
-Worldmap1-1\map-pipe.txt	Worldmap1-1\world-1-1.png	1110	176	41	29	30	
+map\Worldmap1-1\map-pipe.txt	map\Worldmap1-1\world-1-1.png	1110	176	41	29	30	
 
 [HUD]
 368	1310	

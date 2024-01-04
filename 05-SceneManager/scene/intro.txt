@@ -1,6 +1,6 @@
 # list of object assets to load in this scene
 [ASSETS]
-scene\objectscene1.txt
+scene\objectscene.txt
 #
 [OBJECTS]
 # type	x	y	extra_settings per object type

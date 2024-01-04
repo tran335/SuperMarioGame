@@ -158,6 +158,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Hud.cpp" />
+    <ClCompile Include="IntroKeyHandler.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="KoopasBound.cpp" />
     <ClCompile Include="Koopas.cpp" />
@@ -165,6 +166,8 @@
     <ClCompile Include="Map.cpp" />
     <ClCompile Include="MapPipe.cpp" />
     <ClCompile Include="Mario.cpp" />
+    <ClCompile Include="MarioOverworld.cpp" />
+    <ClCompile Include="OverworldKeyHandler.cpp" />
     <ClCompile Include="ParaGoomba.cpp" />
     <ClCompile Include="Parakoopa.cpp" />
     <ClCompile Include="Piranha.cpp" />
@@ -199,6 +202,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Hud.h" />
+    <ClInclude Include="IntroKeyHandler.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="KeyEventHandler.h" />
     <ClInclude Include="KoopasBound.h" />
@@ -206,6 +210,8 @@
     <ClInclude Include="Map.h" />
     <ClInclude Include="MapPipe.h" />
     <ClInclude Include="Mario.h" />
+    <ClInclude Include="MarioOverworld.h" />
+    <ClInclude Include="OverworldKeyHandler.h" />
     <ClInclude Include="ParaGoomba.h" />
     <ClInclude Include="Parakoopa.h" />
     <ClInclude Include="Piranha.h" />

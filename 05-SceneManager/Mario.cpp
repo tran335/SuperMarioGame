@@ -139,6 +139,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 				{
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
+					CGame::GetInstance()->InitiateSwitchScene(OVERWORLD_SCENE);
 				}
 			}
 			
@@ -197,6 +198,7 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 				{
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
+					CGame::GetInstance()->InitiateSwitchScene(OVERWORLD_SCENE);
 				}
 			}
 		}
@@ -327,6 +329,7 @@ void CMario::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 	CCameraBound* camerabound = dynamic_cast<CCameraBound*>(e->obj);
 	if (e->ny < 0) {
 		SetState(MARIO_STATE_DIE);
+		CGame::GetInstance()->InitiateSwitchScene(OVERWORLD_SCENE);
 	}
 }
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
@@ -353,6 +356,7 @@ void CMario::CollisionEffect()
 	{
 		DebugOut(L">>> Mario DIE >>> \n");
 		SetState(MARIO_STATE_DIE);
+		CGame::GetInstance()->InitiateSwitchScene(OVERWORLD_SCENE);
 	}
 }
 void CMario::OnCollisionWithVenus(LPCOLLISIONEVENT e)

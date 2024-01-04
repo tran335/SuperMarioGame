@@ -98,10 +98,25 @@
     <ClCompile Include="Parakoopa.cpp">
       <Filter>Enemy\Koopa</Filter>
     </ClCompile>
-    <ClCompile Include="Piranha.cpp" />
-    <ClCompile Include="Hud.cpp" />
-    <ClCompile Include="Power.cpp" />
     <ClCompile Include="Tree.cpp" />
+    <ClCompile Include="IntroKeyHandler.cpp">
+      <Filter>Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="OverworldKeyHandler.cpp">
+      <Filter>Keyboard</Filter>
+    </ClCompile>
+    <ClCompile Include="MarioOverworld.cpp">
+      <Filter>Mario</Filter>
+    </ClCompile>
+    <ClCompile Include="Piranha.cpp">
+      <Filter>Enemy</Filter>
+    </ClCompile>
+    <ClCompile Include="Power.cpp">
+      <Filter>Hud</Filter>
+    </ClCompile>
+    <ClCompile Include="Hud.cpp">
+      <Filter>Hud</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -213,10 +228,25 @@
     <ClInclude Include="Parakoopa.h">
       <Filter>Enemy\Koopa</Filter>
     </ClInclude>
-    <ClInclude Include="Piranha.h" />
-    <ClInclude Include="Hud.h" />
-    <ClInclude Include="Power.h" />
     <ClInclude Include="Tree.h" />
+    <ClInclude Include="IntroKeyHandler.h">
+      <Filter>Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="OverworldKeyHandler.h">
+      <Filter>Keyboard</Filter>
+    </ClInclude>
+    <ClInclude Include="MarioOverworld.h">
+      <Filter>Mario</Filter>
+    </ClInclude>
+    <ClInclude Include="Piranha.h">
+      <Filter>Enemy</Filter>
+    </ClInclude>
+    <ClInclude Include="Power.h">
+      <Filter>Hud</Filter>
+    </ClInclude>
+    <ClInclude Include="Hud.h">
+      <Filter>Hud</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -260,6 +290,9 @@
     </Filter>
     <Filter Include="Scene\Texture">
       <UniqueIdentifier>{30f175de-a6c3-4c4d-8cdd-b8807f97a87a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Hud">
+      <UniqueIdentifier>{e34a397c-4e18-45b4-ab77-c36a18b4a7ad}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

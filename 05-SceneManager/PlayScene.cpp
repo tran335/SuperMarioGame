@@ -18,8 +18,11 @@
 #include "Parakoopa.h"
 #include "Piranha.h"
 #include "Tree.h"
+#include "MarioOverworld.h"
 
 #include "SampleKeyEventHandler.h"
+#include "IntroKeyHandler.h"
+#include "OverworldKeyHandler.h"
 
 using namespace std;
 
@@ -27,7 +30,18 @@ CPlayScene::CPlayScene(int id, LPCWSTR filePath):
 	CScene(id, filePath)
 {
 	player = NULL;
-	key_handler = new CSampleKeyHandler(this);
+	switch (id)
+	{
+	case INTRO_SCENE:
+		key_handler = new CIntroKeyHandler(this);
+		break;
+	case OVERWORLD_SCENE:
+		key_handler = new COverworldKeyHandler(this);
+		break;
+	case WORLD_MAP_1_1_SCENE:
+		key_handler = new CSampleKeyHandler(this);
+		break;
+	}
 }
 
 
@@ -124,8 +138,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 			DebugOut(L"[ERROR] MARIO object was created before!\n");
 			return;
 		}
-		obj = new CMario(x, y);
-		player = (CMario*)obj;
+		if (id == OVERWORLD_SCENE) {
+			obj = new CMarioOverworld(x, y);
+			player = (CMarioOverworld*)obj;
+		}
+		else {
+			obj = new CMario(x, y);
+			player = (CMario*)obj;
+		}
 
 		DebugOut(L"[INFO] Player object has been created!\n");
 		break;
@@ -445,8 +465,8 @@ void CPlayScene::Clear()
 */
 void CPlayScene::Unload()
 {
-	for (int i = 0; i < objects.size(); i++)
-		delete objects[i];
+	/*for (int i = 0; i < objects.size(); i++)
+		delete objects[i];*/
 
 	objects.clear();
 	player = NULL;

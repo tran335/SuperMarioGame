@@ -37,19 +37,15 @@ void CItems::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	x += vx * dt;
 	if (state == ITEMS_STATE_SUPERMUSHROOM) {
 		if (y < start_y - ITEMS_BBOX_HEIGHT) {
-			vy = 0.0f;
 			ay = SUPERMUSHROOM_GRAVITY_AY;
 			vx = ax * dt;
-			//vx = -SUPERMUSHROOM_WALKING_SPEED;
 			y = start_y - ITEMS_BBOX_HEIGHT;
 		}
 	}
 	else if (state == ITEMS_STATE_SUPERMUSHROOM_RIGHT) {
 		if (y < start_y - ITEMS_BBOX_HEIGHT) {
-			vy = 0.0f;
 			ay = SUPERMUSHROOM_GRAVITY_AY;
 			vx = ax * dt;
-			//vx = SUPERMUSHROOM_WALKING_SPEED;
 			y = start_y - ITEMS_BBOX_HEIGHT;
 		}
 	}
@@ -103,7 +99,6 @@ void CItems::OnCollisionWith(LPCOLLISIONEVENT e)
 	if (dynamic_cast<CItems*>(e->obj)) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
 	if (dynamic_cast<CParaGoomba*>(e->obj)) return;
-	if (dynamic_cast<CMario*>(e->obj)) return;
 	if (e->ny != 0)
 	{
 		vy = 0;
@@ -135,7 +130,6 @@ void CItems::SetState(int state)
 		//vx = -SUPERMUSHROOM_WALKING_SPEED;
 		ax = -SUPERMUSHROOM_GRAVITY_AX;
 		ay = -SUPERMUSHROOM_GRAVITY_AY;
-		vx = 0;
 		break;
 
 	case ITEMS_STATE_SUPERMUSHROOM_RIGHT:
@@ -143,7 +137,6 @@ void CItems::SetState(int state)
 		//vx = -SUPERMUSHROOM_WALKING_SPEED;
 		ax = SUPERMUSHROOM_GRAVITY_AX;
 		ay = -SUPERMUSHROOM_GRAVITY_AY;
-		vx = 0;
 		break;
 
 	case ITEMS_STATE_LEAF:

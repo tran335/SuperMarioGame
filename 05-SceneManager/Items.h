@@ -6,8 +6,8 @@
 #include "CameraBound.h"
 #include "Goomba.h"
 
-#define SUPERMUSHROOM_GRAVITY_AX 0.005f
-#define SUPERMUSHROOM_GRAVITY_AY 0.006f
+#define SUPERMUSHROOM_GRAVITY_AX 0.003f
+#define SUPERMUSHROOM_GRAVITY_AY 0.004f
 
 #define LEAF_GRAVITY_AX 0.003f
 #define LEAF_GRAVITY_AY 0.002f

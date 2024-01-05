@@ -141,7 +141,8 @@ void CMarioOverworld::startCheckNode()
 		|| (x >= NODE_5_X && x <= (NODE_5_X + NODE_WIDTH)) && (y >= NODE_5_Y && y <= (NODE_5_Y + NODE_HEIGHT))
 		|| (x >= NODE_6_X && x <= (NODE_6_X + NODE_WIDTH)) && (y >= NODE_6_Y && y <= (NODE_6_Y + NODE_HEIGHT))) 
 	{
-		isWitchscene = true; DebugOut(L"vo duoc day roi");
+		isWitchscene = true; 
+		//DebugOut(L"vo duoc day roi");
 	}
 	else isWitchscene = false;
 }

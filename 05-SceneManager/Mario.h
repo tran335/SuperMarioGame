@@ -10,7 +10,7 @@
 #include "Platform.h"
 
 
-#define MARIO_WALKING_SPEED		0.5f
+#define MARIO_WALKING_SPEED		0.3f
 #define MARIO_RUNNING_SPEED		0.7f
 
 #define MARIO_MAX_VX 0.7f
@@ -20,6 +20,7 @@
 
 #define MARIO_JUMP_SPEED_Y		1.0f
 #define MARIO_JUMP_RUN_SPEED_Y	0.3f
+#define MARIO_JUMP_DIE_SPEED 1.0f
 
 #define MARIO_GRAVITY			0.002f
 
@@ -83,6 +84,9 @@
 
 #define ID_ANI_MARIO_FRONT_PICK_UP_SHELL 15000
 
+#define ID_ANI_MARIO_MAX_RUN_RIGHT 16000
+#define ID_ANI_MARIO_MAX_RUN_LEFT 16010
+
 // SMALL MARIO
 #define ID_ANI_MARIO_SMALL_IDLE_RIGHT 1100
 #define ID_ANI_MARIO_SMALL_IDLE_LEFT 1102
@@ -116,6 +120,9 @@
 
 #define ID_ANI_MARIO_SMALL_FRONT_PICK_UP_SHELL 21000
 
+#define ID_ANI_MARIO_SMALL_MAX_RUN_RIGHT 22000
+#define ID_ANI_MARIO_SMALL_MAX_RUN_LEFT 22010
+
 //RACCOON MARIO
 #define ID_ANI_MARIO_RACCOON_IDLE_RIGHT 1160
 #define ID_ANI_MARIO_RACCOON_IDLE_LEFT 160
@@ -135,8 +142,8 @@
 #define ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT 1167
 #define ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT 167
 
-#define ID_ANI_MARIO_RACCOON_FLY_RIGHT 1166
-#define ID_ANI_MARIO_RACCOON_FLY_LEFT 166
+#define  ID_ANI_MARIO_RACCOON_MAX_RUN_RIGHT 1166
+#define ID_ANI_MARIO_RACCOON_MAX_RUN_LEFT 166
 
 #define ID_ANI_MARIO_RACCOON_KICK_RIGHT 1170
 #define ID_ANI_MARIO_RACCOON_KICK_LEFT 170
@@ -160,6 +167,7 @@
 #define ID_ANI_MARIO_RACCOON_JUMP_PICK_UP_SHELL_RIGHT 11730
 
 #define ID_ANI_MARIO_RACCOON_FRONT_PICK_UP_SHELL 1740
+
 
 
 #pragma endregion
@@ -190,6 +198,7 @@
 
 #define MARIO_SPIN_TIME 1000
 #define MARIO_UNTOUCHABLE_TIME 2500
+#define  MARIO_DIE_TIMEOUT 1000
 
 class CMario : public CGameObject
 {
@@ -204,7 +213,9 @@ class CMario : public CGameObject
 	int untouchable; 
 	ULONGLONG untouchable_start;
 	ULONGLONG spin_time;
+	ULONGLONG die_start;
 	BOOLEAN isOnPlatform;
+	BOOLEAN isDie;
 	bool isPickup;
 	int coin; 
 	
@@ -234,6 +245,7 @@ public:
 		isSitting = false;
 		isKicking = false;
 		isSpining = false;
+		isDie = false;
 		maxVx = 0.0f;
 		ax = 0.0f;
 		ay = MARIO_GRAVITY;
@@ -242,6 +254,7 @@ public:
 		untouchable = 0;
 		untouchable_start = -1;
 		spin_time = -1;
+		die_start = -1;
 		isOnPlatform = false;
 		isPickup = false;
 		coin = 0;
@@ -268,5 +281,6 @@ public:
 
 	void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	void startSpin() { spin_time = GetTickCount64(); }
+	void startDie() { isDie = true; die_start = GetTickCount64(); }
 
 };

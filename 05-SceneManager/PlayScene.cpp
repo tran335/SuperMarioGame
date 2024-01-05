@@ -18,11 +18,13 @@
 #include "Parakoopa.h"
 #include "Piranha.h"
 #include "Tree.h"
-#include "MarioOverworld.h"
+#include "Node.h"
 
+#include "MarioOverworld.h"
 #include "SampleKeyEventHandler.h"
 #include "IntroKeyHandler.h"
 #include "OverworldKeyHandler.h"
+
 
 using namespace std;
 
@@ -218,6 +220,14 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_TREE:
 	{
 		obj = new CTree(x, y);
+		obj->SetPosition(x, y);
+		objects.push_back(obj);
+		break;
+	}
+	case OBJECT_TYPE_NODE:
+	{
+		obj = new CNode(x, y);
+		node = (CNode*)obj;
 		obj->SetPosition(x, y);
 		objects.push_back(obj);
 		break;

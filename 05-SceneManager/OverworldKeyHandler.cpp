@@ -22,9 +22,9 @@ void COverworldKeyHandler::OnKeyDown(int KeyCode)
 	case DIK_3:
 		CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_1_1_SCENE);
 		break;
-	case DIK_S:
+	/*case DIK_S:
 		CGame::GetInstance()->InitiateSwitchScene(WORLD_MAP_1_1_SCENE);
-		break;
+		break;*/
 	case DIK_RIGHT:
 		mario->SetState(MARIO_STATE_WALKING_RIGHT);
 		break;

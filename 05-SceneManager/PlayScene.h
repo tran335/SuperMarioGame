@@ -25,7 +25,8 @@ class CPlayScene: public CScene
 //protected: 
 public:
 	// A play scene has to have player, right? 
-	LPGAMEOBJECT player;					
+	LPGAMEOBJECT player;	
+	LPGAMEOBJECT node;
 
 	vector<LPGAMEOBJECT> objects;
 	CMap* map;
@@ -52,6 +53,7 @@ public:
 
 
 	LPGAMEOBJECT GetPlayer() { return player; }
+	LPGAMEOBJECT GetNode() { return node; }
 
 	void Clear();
 	void PurgeDeletedObjects();

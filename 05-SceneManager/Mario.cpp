@@ -470,10 +470,19 @@ int CMario::GetAniIdSmall()
 		{
 			if (abs(ax) == MARIO_ACCEL_RUN_X)
 			{
-				if (nx >= 0)
-					aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT;
+				if (abs(vx) == MARIO_RUNNING_SPEED) {
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT;
+				}
 				else
-					aniId = ID_ANI_MARIO_SMALL_JUMP_RUN_LEFT;
+				{
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_SMALL_JUMP_WALK_LEFT;
+				}
 			}
 			else
 			{
@@ -574,10 +583,19 @@ int CMario::GetAniIdBig()
 		{
 			if (abs(ax) == MARIO_ACCEL_RUN_X)
 			{
-				if (nx >= 0)
-					aniId = ID_ANI_MARIO_JUMP_RUN_RIGHT;
+				if (abs(vx) == MARIO_RUNNING_SPEED) {
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_JUMP_RUN_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_JUMP_RUN_LEFT;
+				}
 				else
-					aniId = ID_ANI_MARIO_JUMP_RUN_LEFT;
+				{
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_JUMP_WALK_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_JUMP_WALK_LEFT;
+				}
 			}
 			else
 			{
@@ -674,10 +692,18 @@ int CMario::GetAniIdRaccoon()
 		{
 			if (abs(ax) == MARIO_ACCEL_RUN_X)
 			{
-				if (nx >= 0)
-					aniId = ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT;
-				else
-					aniId = ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT;
+				if (abs(vx) != MARIO_RUNNING_SPEED) {
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_RACCOON_DROP_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_RACCOON_DROP_LEFT;
+				}
+				else {
+					if (nx >= 0)
+						aniId = ID_ANI_MARIO_RACCOON_JUMP_RUN_RIGHT;
+					else
+						aniId = ID_ANI_MARIO_RACCOON_JUMP_RUN_LEFT;
+				}
 			}
 			else
 			{
@@ -802,15 +828,23 @@ void CMario::SetState(int state)
 		if (isSitting) break;
 		if (isOnPlatform)
 		{
-			if (abs(this->vx) == MARIO_RUNNING_SPEED)
+			if (abs(this->vx) == MARIO_RUNNING_SPEED && level > MARIO_LEVEL_BIG)
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
-			else
+			else 
+				vy = -MARIO_JUMP_SPEED_Y;
+		}
+		else {
+			if (abs(this->vx) == MARIO_RUNNING_SPEED && level > MARIO_LEVEL_BIG)
 				vy = -MARIO_JUMP_SPEED_Y;
 		}
 		break;
 
 	case MARIO_STATE_RELEASE_JUMP:
-		if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
+		if (abs(this->vx) == MARIO_RUNNING_SPEED && level > MARIO_LEVEL_BIG)
+			vy += MARIO_JUMP_SPEED_Y / 2;
+		else {
+			if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
+		}
 		break;
 
 	case MARIO_STATE_SIT:

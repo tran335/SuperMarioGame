@@ -828,8 +828,9 @@ void CMario::SetState(int state)
 		if (isSitting) break;
 		if (isOnPlatform)
 		{
-			if (abs(this->vx) == MARIO_RUNNING_SPEED && level > MARIO_LEVEL_BIG)
+			if (abs(this->vx) == MARIO_RUNNING_SPEED && level > MARIO_LEVEL_BIG) {
 				vy = -MARIO_JUMP_RUN_SPEED_Y;
+			}
 			else 
 				vy = -MARIO_JUMP_SPEED_Y;
 		}
@@ -841,7 +842,7 @@ void CMario::SetState(int state)
 
 	case MARIO_STATE_RELEASE_JUMP:
 		if (abs(this->vx) == MARIO_RUNNING_SPEED && level > MARIO_LEVEL_BIG)
-			vy += MARIO_JUMP_SPEED_Y / 2;
+			vy += MARIO_JUMP_SPEED_Y / 4;
 		else {
 			if (vy < 0) vy += MARIO_JUMP_SPEED_Y / 2;
 		}

@@ -105,7 +105,7 @@ scene\objectscene.txt
 5	5520	1104	96	144
 5	6768	1248	1680	48			
 5	6720	1152	96	96
-5	6720	624	96	384
+5	6720	480	96	384
 5	4464	1004	96	48
 5	5856	1392	384	590
 5	7010	1392	381	611
@@ -117,7 +117,8 @@ scene\objectscene.txt
 5	6816	1632	202	58
 5	6864	1581	153	55
 5	6336	1392	575	48
-5	6720	1104	96	48	
+5	6720	1104	96	48
+5	6917	1154	96	96	
 
 
 #Bigbox
@@ -183,7 +184,7 @@ scene\objectscene.txt
 map\Worldmap1-1\worldmap1-1.txt	map\Worldmap1-1\world-1-1.png	1110	176	41	29	30	
 
 [MAPPIPE]
-map\Worldmap1-1\map-pipe.txt	map\Worldmap1-1\world-1-1.png	1110	176	41	29	30	
+map\Worldmap1-1\map-pipe-new.txt	map\Worldmap1-1\world-1-1.png	1110	176	41	29	30	
 
 [HUD]
 368	1310	

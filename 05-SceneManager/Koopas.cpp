@@ -87,7 +87,7 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 	if (this->state == KOOPAS_STATE_SLIDE) {
 		goomba->SetState(GOOMBA_STATE_KICK_BY_KOOPAS);
 	}
-	DebugOut(L"Vo day roi ne");
+	//DebugOut(L"Vo day roi ne");
 }
 
 void CKoopas::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)

@@ -20,7 +20,7 @@ CParaKoopa::CParaKoopa(float x, float y) :CGameObject(x, y)
 	isOnPlatform = false;
 	nx = -1;
 	level = PARAKOOPA_LEVEL_WING;
-	SetState(PARAKOOPA_STATE_FLY);
+	SetState(PARAKOOPA_STATE_WALKING);
 	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
 LPGAME game1 = CGame::GetInstance();
@@ -156,7 +156,7 @@ void CParaKoopa::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		startWakingTime();
 	}
 	else if (state == PARAKOOPA_STATE_WAKING && (GetTickCount64() - waking_start > PARAKOOPA_WAKING_TIMEOUT)) {
-		SetState(PARAKOOPA_STATE_FLY);
+		SetState(PARAKOOPA_STATE_WALKING);
 		waking_start = 0;
 	}
 	if (isBack == true && (GetTickCount64() - reset_time > BACK_TIME) && state != PARAKOOPA_STATE_SLIDE) {
@@ -209,14 +209,14 @@ void CParaKoopa::SetState(int state)
 	CGameObject::SetState(state);
 	switch (state)
 	{
-	case PARAKOOPA_STATE_FLY:
-		DebugOut(L"FLY");
-		//vx = -PARAKOOPA_WALKING_SPEED;
-		ax = -PARAKOOPA_GRAVITY_X;
-		ay = PARAKOOPA_GRAVITY;
-		break;
+	//case PARAKOOPA_STATE_FLY:
+	//	DebugOut(L"FLY");
+	//	//vx = -PARAKOOPA_WALKING_SPEED;
+	//	ax = -PARAKOOPA_GRAVITY_X;
+	//	ay = PARAKOOPA_GRAVITY;
+	//	break;
 	case PARAKOOPA_STATE_DIE:
-		DebugOut(L"DIE");
+		//DebugOut(L"DIE");
 		die_start = GetTickCount64();
 		y += (PARAKOOPA_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT_DIE) / 2;
 		vx = 0;
@@ -224,21 +224,21 @@ void CParaKoopa::SetState(int state)
 		ax = 0;
 		ay = PARAKOOPA_GRAVITY;
 		break;
-	//case PARAKOOPA_STATE_WALKING:
-	//	DebugOut(L"WALKING");
-	//	if (waking_start > 0) {
-	//		y -= (PARAKOOPA_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT_DIE) / 2;
-	//	}
-	//	vx = -PARAKOOPA_WALKING_SPEED;
-	//	ay = PARAKOOPA_GRAVITY;
-	//	break;
+	case PARAKOOPA_STATE_WALKING:
+		//DebugOut(L"WALKING");
+		if (waking_start > 0) {
+			y -= (PARAKOOPA_BBOX_HEIGHT - PARAKOOPA_BBOX_HEIGHT_DIE) / 2;
+		}
+		vx = -PARAKOOPA_WALKING_SPEED;
+		ay = PARAKOOPA_GRAVITY;
+		break;
 	case PARAKOOPA_STATE_SLIDE:
 		DebugOut(L"SLIDE");
 		ay = PARAKOOPA_GRAVITY;
 		setPositionSlide();
 		break;
 	case PARAKOOPA_STATE_WAKING:
-		DebugOut(L"WAKING");
+		//DebugOut(L"WAKING");
 		if (isOnPlatform) {
 			y -= (PARAKOOPA_BBOX_HEIGHT - KOOPAS_BBOX_HEIGHT_DIE) / 2;
 		}

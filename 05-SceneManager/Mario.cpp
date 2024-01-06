@@ -219,13 +219,13 @@ void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 		if (parakoopa->GetState() != PARAKOOPA_STATE_DIE) {
 			if (parakoopa->Getlevel() != PARAKOOPA_LEVEL_NO_WING)
 			{
-				DebugOut(L"VO WALK ROI NE");
+				//DebugOut(L"VO WALK ROI NE");
 				parakoopa->Setlevel(PARAKOOPA_LEVEL_NO_WING);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
-				StartUntouchable();
+			//	StartUntouchable();
 			}
 			else {
-				DebugOut(L"DIE LUN");
+				//DebugOut(L"DIE LUN");
 				parakoopa->SetState(PARAKOOPA_STATE_DIE);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
@@ -247,7 +247,7 @@ void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 				else
 				{
 					SetState(MARIO_STATE_KICK);
-					parakoopa->SetState(KOOPAS_STATE_SLIDE);
+					parakoopa->SetState(PARAKOOPA_STATE_SLIDE);
 				}
 				StartUntouchable();
 			}

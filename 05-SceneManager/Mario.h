@@ -217,6 +217,8 @@ class CMario : public CGameObject
 	ULONGLONG die_start;
 	BOOLEAN isOnPlatform;
 	BOOLEAN isDie;
+	BOOLEAN isIn;
+	BOOLEAN isOut;
 	bool isPickup;
 	int coin; 
 	
@@ -235,6 +237,7 @@ class CMario : public CGameObject
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaKoopa(LPCOLLISIONEVENT e);
 	void OnCollisionWithPiranha(LPCOLLISIONEVENT e);
+	void OnCollisionWithInOut(LPCOLLISIONEVENT e);
 	void CollisionEffect();
 	int GetAniIdBig();
 	int GetAniIdSmall();
@@ -246,6 +249,8 @@ public:
 		isSitting = false;
 		isKicking = false;
 		isSpining = false;
+		isIn = false;
+		isOut = false;
 		isDie = false;
 		maxVx = 0.0f;
 		ax = 0.0f;

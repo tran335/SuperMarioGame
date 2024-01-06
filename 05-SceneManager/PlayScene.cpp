@@ -19,6 +19,7 @@
 #include "Piranha.h"
 #include "Tree.h"
 #include "Node.h"
+#include "InOut.h"
 
 #include "MarioOverworld.h"
 #include "SampleKeyEventHandler.h"
@@ -168,11 +169,16 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	}
 	case OBJECT_TYPE_BIGBOX:
 	{
-
 		float width = (float)atof(tokens[3].c_str());
 		float height = (float)atof(tokens[4].c_str());
 		obj = new CBigbox(x, y, width, height);
-
+		break;
+	}
+	case OBJECT_TYPE_INOUT:
+	{
+		float width = (float)atof(tokens[3].c_str());
+		float height = (float)atof(tokens[4].c_str());
+		obj = new CInOut(x, y, width, height);
 		break;
 	}
 	case OBJECT_TYPE_QUESTIONBRICK:
@@ -420,7 +426,7 @@ void CPlayScene::Update(DWORD dt)
 		}
 		else {
 			if (cy > game->GetBackBufferHeight() * 4 - start_cy) {
-				cy += game->GetBackBufferHeight() - start_cy / 1.5;
+				cy += game->GetBackBufferHeight() - start_cy / 1.65;
 			}
 			else
 				cy = game->GetBackBufferHeight() + ADD_CY;
@@ -447,10 +453,11 @@ void CPlayScene::Render()
 		objects[i]->Render();
 	player->Render();
 	if (id != OVERWORLD_SCENE) {
+		map_pipe->Render();
 		if (id == WORLD_MAP_1_1_SCENE) {
 			hud->Render();
 		}
-		map_pipe->Render();
+		
 	}
 }
 

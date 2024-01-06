@@ -122,6 +122,9 @@
     <ClCompile Include="Node.cpp">
       <Filter>Overworld</Filter>
     </ClCompile>
+    <ClCompile Include="InOut.cpp">
+      <Filter>Misc</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -256,6 +259,9 @@
     </ClInclude>
     <ClInclude Include="Node.h">
       <Filter>Overworld</Filter>
+    </ClInclude>
+    <ClInclude Include="InOut.h">
+      <Filter>Misc</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

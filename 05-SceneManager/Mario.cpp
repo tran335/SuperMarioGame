@@ -19,6 +19,7 @@
 #include "ParaGoomba.h"
 #include "Parakoopa.h"
 #include "Piranha.h"
+#include "InOut.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -46,6 +47,14 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 	{
 		spin_time = 0;
 		isSpining = false;
+	}
+	if (isIn) {
+		SetPosition(6242, 1394);
+		isIn = false;
+	}
+	else if (isOut) {
+		SetPosition(6917, 1054);
+		isOut = false;
 	}
 	isOnPlatform = false;
 
@@ -98,6 +107,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithParaKoopa(e);
 	else if (dynamic_cast<CPiranha*>(e->obj))
 		OnCollisionWithPiranha(e);
+	else if (dynamic_cast<CInOut*>(e->obj))
+		OnCollisionWithInOut(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -151,6 +162,20 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		}
 	}
 
+}
+
+void CMario::OnCollisionWithInOut(LPCOLLISIONEVENT e)
+{
+	CInOut* inout = dynamic_cast<CInOut*>(e->obj);
+	DebugOut(L"Vo roi ne");
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		isIn = true;
+	}
+	else if (e->ny > 0) {
+		isOut = true;
+	}
 }
 
 void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
@@ -254,6 +279,7 @@ void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 		}
 	}
 }
+
 
 void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 {

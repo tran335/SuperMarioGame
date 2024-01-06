@@ -180,6 +180,10 @@ scene\objectscene.txt
 #piranha
 13	5353	1156
 
+#inout
+16	6723	477	96	96
+16	6911	1391	96	96
+
 [MAP]
 map\Worldmap1-1\worldmap1-1.txt	map\Worldmap1-1\world-1-1.png	1110	176	41	29	30	
 

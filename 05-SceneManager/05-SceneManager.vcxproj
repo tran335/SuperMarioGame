@@ -158,6 +158,7 @@
     <ClCompile Include="GameObject.cpp" />
     <ClCompile Include="Goomba.cpp" />
     <ClCompile Include="Hud.cpp" />
+    <ClCompile Include="InOut.cpp" />
     <ClCompile Include="IntroKeyHandler.cpp" />
     <ClCompile Include="Items.cpp" />
     <ClCompile Include="KoopasBound.cpp" />
@@ -203,6 +204,7 @@
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Goomba.h" />
     <ClInclude Include="Hud.h" />
+    <ClInclude Include="InOut.h" />
     <ClInclude Include="IntroKeyHandler.h" />
     <ClInclude Include="Items.h" />
     <ClInclude Include="KeyEventHandler.h" />

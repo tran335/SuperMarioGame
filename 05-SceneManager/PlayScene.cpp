@@ -20,6 +20,7 @@
 #include "Tree.h"
 #include "Node.h"
 #include "InOut.h"
+#include "Pipe.h"
 
 #include "MarioOverworld.h"
 #include "SampleKeyEventHandler.h"
@@ -179,6 +180,13 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 		float width = (float)atof(tokens[3].c_str());
 		float height = (float)atof(tokens[4].c_str());
 		obj = new CInOut(x, y, width, height);
+		break;
+	}
+	case OBJECT_TYPE_PIPE:
+	{
+		float width = (float)atof(tokens[3].c_str());
+		float height = (float)atof(tokens[4].c_str());
+		obj = new CPipe(x, y, width, height);
 		break;
 	}
 	case OBJECT_TYPE_QUESTIONBRICK:

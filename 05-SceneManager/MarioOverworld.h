@@ -10,9 +10,9 @@
 #include "Node.h"
 #include "PlayScene.h"
 
-#define MARIO_WALKING_SPEED		0.5f
+#define MARIO_WALKING_SPEED		0.3f
 
-#define MARIO_GRAVITY			0.002f
+#define MARIO_GRAVITY			0.0015f
 
 #define MARIO_DISTANCE_X 93
 #define MARIO_DISTANCE_Y 96

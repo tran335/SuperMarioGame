@@ -20,6 +20,7 @@
 #include "Parakoopa.h"
 #include "Piranha.h"
 #include "InOut.h"
+#include "Pipe.h"
 
 void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 {
@@ -43,19 +44,46 @@ void CMario::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		untouchable_start = 0;
 		untouchable = 0;
 	}
-	if (GetTickCount64() - spin_time > MARIO_SPIN_TIME and spin_time > 0)
+	if (GetTickCount64() - spin_time > MARIO_SPIN_TIME && spin_time > 0)
 	{
 		spin_time = 0;
 		isSpining = false;
 	}
 	if (isIn) {
-		SetPosition(6242, 1394);
-		isIn = false;
+		if (y >= startFront_y + 96)
+		{
+			if (isChangePosition) {
+				vy = 0;
+				SetPosition(6242, 1394);
+				isChangePosition = false;
+			}
+			else {
+				isFront = false;
+				//vy = 0;
+			}
+			isIn = true;
+		}
+		else {
+				vy = MARIO_FRONT_SPEED;
+				isFront = true;
+				y += vy * dt;
+				vx = 0;
+			}
 	}
 	else if (isOut) {
-		SetPosition(6917, 1054);
-		isOut = false;
+		if (y < startFront_y - 96)
+		{
+			front_start = 0;
+			isFront = false;
+			vy = 0;
+			SetPosition(6917, 1054);
+			isOut = false;
+		}
+		else
+			vy = -MARIO_FRONT_SPEED;
+			y += vy * dt;
 	}
+	else { isFront = false; }
 	isOnPlatform = false;
 
 	CGameObject::Update(dt, coObjects);
@@ -109,6 +137,8 @@ void CMario::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithPiranha(e);
 	else if (dynamic_cast<CInOut*>(e->obj))
 		OnCollisionWithInOut(e);
+	else if (dynamic_cast<CPipe*>(e->obj))
+		OnCollisionWithPipe(e);
 }
 
 void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
@@ -155,7 +185,6 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 				{
 					DebugOut(L">>> Mario DIE >>> \n");
 					SetState(MARIO_STATE_DIE);
-					//CGame::GetInstance()->InitiateSwitchScene(OVERWORLD_SCENE);
 				}
 			}
 			
@@ -167,15 +196,32 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 void CMario::OnCollisionWithInOut(LPCOLLISIONEVENT e)
 {
 	CInOut* inout = dynamic_cast<CInOut*>(e->obj);
-	DebugOut(L"Vo roi ne");
+	//DebugOut(L"Vo roi ne");
 	// jump on top >> kill Goomba and deflect a bit 
 	if (e->ny < 0)
 	{
 		isIn = true;
+		isOut = false;
+		if (!isFront) startFront();
 	}
 	else if (e->ny > 0) {
 		isOut = true;
+		isIn = false;
+		if (!isFront) startFront();
 	}
+
+}
+
+void CMario::OnCollisionWithPipe(LPCOLLISIONEVENT e)
+{
+	CPipe* pipe = dynamic_cast<CPipe*>(e->obj);
+	//DebugOut(L"Vo roi ne");
+	// jump on top >> kill Goomba and deflect a bit 
+	if (e->ny < 0)
+	{
+		isChangePosition = true;
+	}
+
 }
 
 void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
@@ -360,7 +406,6 @@ void CMario::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 	CCameraBound* camerabound = dynamic_cast<CCameraBound*>(e->obj);
 	if (e->ny < 0) {
 		SetState(MARIO_STATE_DIE);
-		//CGame::GetInstance()->InitiateSwitchScene(OVERWORLD_SCENE);
 	}
 }
 void CMario::OnCollisionWithFireBall(LPCOLLISIONEVENT e)
@@ -714,6 +759,9 @@ int CMario::GetAniIdRaccoon()
 			else
 				aniId = ID_ANI_MARIO_RACCOON_JUMP_PICK_UP_SHELL_LEFT;
 		}
+		else if (isFront) {
+			aniId = ID_ANI_MARIO_RACCOON_FRONT_PICK_UP_SHELL;
+		}
 		else 
 		{
 			if (abs(ax) == MARIO_ACCEL_RUN_X)
@@ -775,6 +823,9 @@ int CMario::GetAniIdRaccoon()
 				else if (ax == -MARIO_ACCEL_WALK_X)
 					aniId = ID_ANI_MARIO_RACCOON_WALK_PICK_UP_SHELL_LEFT;
 			}
+		}
+		else if (isFront) {
+			aniId = ID_ANI_MARIO_RACCOON_FRONT_PICK_UP_SHELL;
 		}
 		else if (vx == 0){
 			if (isSpining) {

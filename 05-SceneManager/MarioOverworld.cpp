@@ -26,7 +26,7 @@ void CMarioOverworld::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		start_y = y;
 		//DebugOut(L"vy =0");
 	}
-	if (isWalkingX && abs(x - start_x) >= MARIO_DISTANCE_X) {
+	if (isWalkingX && (abs(x - start_x) >= MARIO_DISTANCE_X)) {
 		//DebugOut(L"vx =0");
 		SetState(MARIO_STATE_IDLE);
 		start_x = x;

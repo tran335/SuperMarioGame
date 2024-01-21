@@ -172,6 +172,7 @@
     <ClCompile Include="OverworldKeyHandler.cpp" />
     <ClCompile Include="ParaGoomba.cpp" />
     <ClCompile Include="Parakoopa.cpp" />
+    <ClCompile Include="Pipe.cpp" />
     <ClCompile Include="Piranha.cpp" />
     <ClCompile Include="Platform.cpp" />
     <ClCompile Include="PlayScene.cpp" />
@@ -218,6 +219,7 @@
     <ClInclude Include="OverworldKeyHandler.h" />
     <ClInclude Include="ParaGoomba.h" />
     <ClInclude Include="Parakoopa.h" />
+    <ClInclude Include="Pipe.h" />
     <ClInclude Include="Piranha.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="PlayScene.h" />

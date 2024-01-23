@@ -24,3 +24,4 @@ height	240
 70	textures\hud.png
 80	textures\power.png
 90	textures\overworld.png
+100	textures\intro.png	

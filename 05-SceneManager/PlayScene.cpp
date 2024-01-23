@@ -21,6 +21,7 @@
 #include "Node.h"
 #include "InOut.h"
 #include "Pipe.h"
+#include "Three.h"
 
 #include "MarioOverworld.h"
 #include "SampleKeyEventHandler.h"
@@ -159,6 +160,7 @@ void CPlayScene::_ParseSection_OBJECTS(string line)
 	case OBJECT_TYPE_BRICK: obj = new CBrick(x, y); break;
 	case OBJECT_TYPE_COIN: obj = new CCoin(x, y); break;
 	case OBJECT_TYPE_PIRANHA: obj = new CPiranha(x, y); break;
+	case OBJECT_TYPE_THREE: obj = new CThree(x, y); break;
 	case OBJECT_TYPE_PLATFORM:
 	{
 

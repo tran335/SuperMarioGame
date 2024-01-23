@@ -13,6 +13,9 @@ scene\objectscene.txt
 #PLATFORM
 5	0	600	768	144
 
+#Three
+18	396	373
+
 [MAP]
 map\intro\intro-map.txt	map\intro\intro.png	1112	16	15	12	15
 

@@ -126,6 +126,7 @@
       <Filter>Misc</Filter>
     </ClCompile>
     <ClCompile Include="Pipe.cpp" />
+    <ClCompile Include="Three.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -265,6 +266,7 @@
       <Filter>Misc</Filter>
     </ClInclude>
     <ClInclude Include="Pipe.h" />
+    <ClInclude Include="Three.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

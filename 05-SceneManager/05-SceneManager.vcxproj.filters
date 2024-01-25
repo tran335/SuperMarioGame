@@ -136,6 +136,7 @@
     <ClCompile Include="NumberCoin.cpp">
       <Filter>Hud</Filter>
     </ClCompile>
+    <ClCompile Include="TimeLimit.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -285,6 +286,7 @@
     <ClInclude Include="NumberCoin.h">
       <Filter>Hud</Filter>
     </ClInclude>
+    <ClInclude Include="TimeLimit.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

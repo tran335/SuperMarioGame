@@ -21,4 +21,5 @@ void Hud::Render()
 	animations->Get(ID_HUD)->Render(x + HUD_CX, y + HUD_CY);
 	power->Render();
 	numbercoin->Render();
+	timelimit->Render();
 }

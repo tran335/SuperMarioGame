@@ -16,8 +16,7 @@ void NumberCoin::Update()
 void NumberCoin::Render()
 {
 	CGame::GetInstance()->GetCamPos(x, y);
-	//coin = mario->GetCoin();
-	coin = 25;
+	coin = mario->GetCoin();
 	int aniId = -1;
 	CAnimations* animations = CAnimations::GetInstance();
 	

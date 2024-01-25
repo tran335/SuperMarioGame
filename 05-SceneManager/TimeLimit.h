@@ -13,20 +13,26 @@
 #define ID_NUMBER_EIGHT	1818
 #define ID_NUMBER_NINE	1819
 
-#define COIN_CX 470
-#define COIN_CY 604
+#define TIME_CX 470
+#define TIME_CY 628
 
-class NumberCoin : public CGameObject
+#define TIME_LIMIT 3
+
+class TimeLimit : public CGameObject
 {
 protected:
 	float x;
 	float y;
+	BOOLEAN isTimeOut;
+	ULONGLONG start_time;
+	ULONGLONG time;
+	ULONGLONG remaining_time;
 	CMario* mario;
-	int coin;
 public:
-	NumberCoin(float x, float y);
-	void Update();
+	TimeLimit(float x, float y);
+	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
+	void RemainTime(); // fix loi remaintime < 0 lai nhay giay nua
 	void GetBoundingBox(float& l, float& t, float& r, float& b) { l = 0; t = 0; r = 0; b = 0; };
 };
 

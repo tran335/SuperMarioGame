@@ -94,7 +94,6 @@
     <ClCompile Include="ParaGoomba.cpp">
       <Filter>Enemy\Goomba</Filter>
     </ClCompile>
-    <ClCompile Include="ReverseObject.cpp" />
     <ClCompile Include="Parakoopa.cpp">
       <Filter>Enemy\Koopa</Filter>
     </ClCompile>
@@ -125,8 +124,18 @@
     <ClCompile Include="InOut.cpp">
       <Filter>Misc</Filter>
     </ClCompile>
-    <ClCompile Include="Pipe.cpp" />
-    <ClCompile Include="Three.cpp" />
+    <ClCompile Include="Pipe.cpp">
+      <Filter>Map</Filter>
+    </ClCompile>
+    <ClCompile Include="Three.cpp">
+      <Filter>Enemy\Koopa\Intro</Filter>
+    </ClCompile>
+    <ClCompile Include="ReverseObject.cpp">
+      <Filter>Enemy\Koopa</Filter>
+    </ClCompile>
+    <ClCompile Include="NumberCoin.cpp">
+      <Filter>Hud</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bigbox.h">
@@ -234,7 +243,6 @@
     <ClInclude Include="ParaGoomba.h">
       <Filter>Enemy\Goomba</Filter>
     </ClInclude>
-    <ClInclude Include="ReverseObject.h" />
     <ClInclude Include="Parakoopa.h">
       <Filter>Enemy\Koopa</Filter>
     </ClInclude>
@@ -265,8 +273,18 @@
     <ClInclude Include="InOut.h">
       <Filter>Misc</Filter>
     </ClInclude>
-    <ClInclude Include="Pipe.h" />
-    <ClInclude Include="Three.h" />
+    <ClInclude Include="Pipe.h">
+      <Filter>Map</Filter>
+    </ClInclude>
+    <ClInclude Include="Three.h">
+      <Filter>Enemy\Koopa\Intro</Filter>
+    </ClInclude>
+    <ClInclude Include="ReverseObject.h">
+      <Filter>Enemy\Koopa</Filter>
+    </ClInclude>
+    <ClInclude Include="NumberCoin.h">
+      <Filter>Hud</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -316,6 +334,9 @@
     </Filter>
     <Filter Include="Overworld">
       <UniqueIdentifier>{e19040f6-67c0-405e-85ee-ff66bd475fa8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Enemy\Koopa\Intro">
+      <UniqueIdentifier>{d81bafc8-80e8-41ea-b6e3-2a28ba056f84}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

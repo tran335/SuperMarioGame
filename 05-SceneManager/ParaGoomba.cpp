@@ -1,4 +1,5 @@
 #include "ParaGoomba.h"
+#include "Goomba.h"
 
 CParaGoomba::CParaGoomba(float x, float y) :CGameObject(x, y)
 {
@@ -42,6 +43,7 @@ void CParaGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CParaGoomba*>(e->obj)) return;
+	if (dynamic_cast<CGoomba*>(e->obj)) return;
 	if (dynamic_cast<CItems*>(e->obj)) return;
 
 	if (e->ny != 0)

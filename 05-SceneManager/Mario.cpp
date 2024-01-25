@@ -470,6 +470,9 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 	CQuestionbrick* questionbrick = dynamic_cast<CQuestionbrick*>(e->obj);
 	if (e->ny > 0 && questionbrick->GetState()!=QUESTIONBRICK_STATE_DISABLE) {
 		questionbrick->SetState(QUESTIONBRICK_STATE_DISABLE);
+		if (questionbrick->GetItemType() == 1) {
+			coin++;
+		}
 	}
 }
 

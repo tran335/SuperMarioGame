@@ -1,6 +1,7 @@
 #include "Goomba.h"
 #include "PlayScene.h"
-
+#include "Koopas.h"
+#include "ParaGoomba.h"
 
 //CMario* mario = NULL;
 CGoomba::CGoomba(float x, float y):CGameObject(x, y)
@@ -10,6 +11,9 @@ CGoomba::CGoomba(float x, float y):CGameObject(x, y)
 	die_start = -1;
 	isfinddropdirection = 0;
 	SetState(GOOMBA_STATE_WALKING);
+	isBack = false;
+	start_y = y;
+	start_x = x;
 	//mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
 
@@ -41,6 +45,7 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return; 
 	if (dynamic_cast<CGoomba*>(e->obj)) return; 
+	if (dynamic_cast<CParaGoomba*>(e->obj)) return;
 
 	if (e->ny != 0 )
 	{
@@ -58,9 +63,13 @@ void CGoomba::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 {
 	CCameraBound* camerabound = dynamic_cast<CCameraBound*>(e->obj);
 	if (e->ny < 0 || e->nx >0) {
-		isDeleted = true;
+		if (!isBack) {
+			isBack = true;
+			reset_time = GetTickCount64();
+		}
 	}
 }
+
 
 //void CGoomba::startfinddropdirecttion()
 //{
@@ -99,7 +108,14 @@ void CGoomba::Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects)
 		isDeleted = true;
 		return;
 	}
-
+	if (isBack) {
+		if ((GetTickCount64() - reset_time) > BACK_TIME) {
+			SetState(GOOMBA_STATE_WALKING);
+			SetPosition(start_x, start_y);
+			isBack = false;
+			reset_time = 0;
+		}
+	}
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }

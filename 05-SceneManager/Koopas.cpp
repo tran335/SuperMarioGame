@@ -84,10 +84,11 @@ void CKoopas::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	if (this->state == KOOPAS_STATE_SLIDE) {
+	if (e->nx != 0) {
+		DebugOut(L"Vo ham cua koopas");
 		goomba->SetState(GOOMBA_STATE_KICK_BY_KOOPAS);
+
 	}
-	//DebugOut(L"Vo day roi ne");
 }
 
 void CKoopas::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)

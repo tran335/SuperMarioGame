@@ -33,5 +33,6 @@ public:
 	void SetState(int state);
 	void StartThrowup(){ throwup_start = GetTickCount64(); }
 	void GetIsThrow(int isThow) { isThrow = this->isThrow; };
+	int GetItemType() { return this->item_type; }
 };
 

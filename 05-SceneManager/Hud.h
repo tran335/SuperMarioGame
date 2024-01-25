@@ -3,6 +3,7 @@
 #include "Mario.h"
 #include "Sprite.h"
 #include "Power.h"
+#include "NumberCoin.h"
 
 #define ID_HUD 111112
 
@@ -14,7 +15,9 @@ class Hud : public CGameObject
 protected:
 	float x;
 	float y;
+	int coin;
 	Power* power = new Power(x, y);
+	NumberCoin* numbercoin = new NumberCoin(x, y);
 public:
 	Hud(float x, float y);
 	void Update();

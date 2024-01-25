@@ -3,6 +3,7 @@
 #include "CameraBound.h"
 #include "Mario.h"
 
+
 #define GOOMBA_GRAVITY 0.002f
 #define GOOMBA_WALKING_SPEED 0.1f
 #define GOOMBA_KICK_BY_KOOPAS_SPEED 0.6f
@@ -28,20 +29,24 @@ class CGoomba : public CGameObject
 protected:
 	float ax;				
 	float ay; 
+	float start_x;
+	float start_y;
 	
 	ULONGLONG die_start;
+	ULONGLONG reset_time;
 	BOOLEAN isfinddropdirection;
+	BOOLEAN isBack;
 
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
-	virtual void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
-	virtual void Render();
+	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
+	void Render();
 
-	virtual int IsCollidable() { return (state!=GOOMBA_STATE_KICK_BY_KOOPAS && state != GOOMBA_STATE_KICK_BY_RACCOON); };
-	virtual int IsBlocking() { return 0; }
+	int IsCollidable() { return (state!=GOOMBA_STATE_KICK_BY_KOOPAS && state != GOOMBA_STATE_KICK_BY_RACCOON && state != GOOMBA_STATE_DIE && !isBack); };
+	int IsBlocking() { return (state != GOOMBA_STATE_KICK_BY_KOOPAS && state != GOOMBA_STATE_KICK_BY_RACCOON && state != GOOMBA_STATE_DIE); }
 	virtual void OnNoCollision(DWORD dt);
 
-	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
-	virtual void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
+	void OnCollisionWith(LPCOLLISIONEVENT e);
+	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
 
 	//void startfinddropdirecttion();
 

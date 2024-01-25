@@ -169,6 +169,7 @@
     <ClCompile Include="Mario.cpp" />
     <ClCompile Include="MarioOverworld.cpp" />
     <ClCompile Include="Node.cpp" />
+    <ClCompile Include="NumberCoin.cpp" />
     <ClCompile Include="OverworldKeyHandler.cpp" />
     <ClCompile Include="ParaGoomba.cpp" />
     <ClCompile Include="Parakoopa.cpp" />
@@ -217,6 +218,7 @@
     <ClInclude Include="Mario.h" />
     <ClInclude Include="MarioOverworld.h" />
     <ClInclude Include="Node.h" />
+    <ClInclude Include="NumberCoin.h" />
     <ClInclude Include="OverworldKeyHandler.h" />
     <ClInclude Include="ParaGoomba.h" />
     <ClInclude Include="Parakoopa.h" />

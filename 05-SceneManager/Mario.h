@@ -300,5 +300,6 @@ public:
 	void startSpin() { spin_time = GetTickCount64(); }
 	void startDie() { isDie = true; die_start = GetTickCount64(); }
 	void startFront() { startFront_y = y; isFront = true; }
+	int GetCoin() { return coin; }
 
 };

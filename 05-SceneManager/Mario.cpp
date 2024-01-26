@@ -399,6 +399,7 @@ void CMario::OnCollisionWithCoin(LPCOLLISIONEVENT e)
 {
 	e->obj->Delete();
 	coin++;
+	score += 50;
 }
 
 void CMario::OnCollisionWithPlatform(LPCOLLISIONEVENT e)

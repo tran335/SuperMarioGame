@@ -13,6 +13,7 @@
 #include "Koopas.h"
 #include "CameraBound.h"
 #include "Hud.h"
+#include "CoinBrick.h"
 
 #define ADD_CY 50
 #define ADD_CY_INTROSCENE 24

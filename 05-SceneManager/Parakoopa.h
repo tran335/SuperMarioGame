@@ -15,9 +15,9 @@
 #define BACK_TIME 3000
 #define PARAKOOPA_UNTOUCHABLE_TIME 5000
 
-#define PARAKOOPA_BBOX_WIDTH 48
+#define PARAKOOPA_BBOX_WIDTH 51
 #define PARAKOOPA_BBOX_HEIGHT 79
-#define PARAKOOPA_BBOX_HEIGHT_DIE 51
+#define PARAKOOPA_BBOX_HEIGHT_DIE 42
 
 #define PARAKOOPA_DIE_TIMEOUT 5000
 #define PARAKOOPA_WAKING_TIMEOUT 2000
@@ -78,7 +78,7 @@ protected:
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void Render();
 
-	int IsCollidable() { return 1; };
+	int IsCollidable() { return (!isBack); };
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 

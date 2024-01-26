@@ -4,6 +4,7 @@
 #include "Mario.h"
 
 
+
 #define GOOMBA_GRAVITY 0.002f
 #define GOOMBA_WALKING_SPEED 0.1f
 #define GOOMBA_KICK_BY_KOOPAS_SPEED 0.6f
@@ -36,16 +37,15 @@ protected:
 	ULONGLONG reset_time;
 	BOOLEAN isfinddropdirection;
 	BOOLEAN isBack;
-
 	virtual void GetBoundingBox(float &left, float &top, float &right, float &bottom);
 	void Update(DWORD dt, vector<LPGAMEOBJECT> *coObjects);
 	void Render();
 
 	int IsCollidable() { return (state!=GOOMBA_STATE_KICK_BY_KOOPAS && state != GOOMBA_STATE_KICK_BY_RACCOON && state != GOOMBA_STATE_DIE && !isBack); };
-	int IsBlocking() { return (state != GOOMBA_STATE_KICK_BY_KOOPAS && state != GOOMBA_STATE_KICK_BY_RACCOON && state != GOOMBA_STATE_DIE); }
+	int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
-	void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
 
 	//void startfinddropdirecttion();

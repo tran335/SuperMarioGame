@@ -85,3 +85,4 @@ scene\objectscene.txt
 
 [MAP]
 map\Overworld\overworld.txt	map\Overworld\overworld-1.png	1111	16	15	9	7
+

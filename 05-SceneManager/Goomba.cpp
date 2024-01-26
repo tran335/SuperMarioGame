@@ -44,10 +44,10 @@ void CGoomba::OnNoCollision(DWORD dt)
 void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return; 
-	if (dynamic_cast<CGoomba*>(e->obj)) return; 
-	if (dynamic_cast<CParaGoomba*>(e->obj)) return;
+	if (dynamic_cast<CGoomba*>(e->obj)) return;
+	//if (dynamic_cast<CParaGoomba*>(e->obj)) return;
 
-	if (e->ny != 0 )
+	if (e->ny != 0)
 	{
 		vy = 0;
 	}
@@ -62,11 +62,14 @@ void CGoomba::OnCollisionWith(LPCOLLISIONEVENT e)
 void CGoomba::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)
 {
 	CCameraBound* camerabound = dynamic_cast<CCameraBound*>(e->obj);
-	if (e->ny < 0 || e->nx >0) {
+	if (e->ny < 0) {
 		if (!isBack) {
 			isBack = true;
 			reset_time = GetTickCount64();
 		}
+	}
+	else if (e->nx != 0) {
+		this->Delete();
 	}
 }
 

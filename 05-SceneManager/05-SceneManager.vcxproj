@@ -151,6 +151,7 @@
     <ClCompile Include="BrickCoin.cpp" />
     <ClCompile Include="CameraBound.cpp" />
     <ClCompile Include="Coin.cpp" />
+    <ClCompile Include="CoinBrick.cpp" />
     <ClCompile Include="Collision.cpp" />
     <ClCompile Include="debug.cpp" />
     <ClCompile Include="FireBall.cpp" />
@@ -202,6 +203,7 @@
     <ClInclude Include="BrickCoin.h" />
     <ClInclude Include="CameraBound.h" />
     <ClInclude Include="Coin.h" />
+    <ClInclude Include="CoinBrick.h" />
     <ClInclude Include="Collision.h" />
     <ClInclude Include="debug.h" />
     <ClInclude Include="FireBall.h" />

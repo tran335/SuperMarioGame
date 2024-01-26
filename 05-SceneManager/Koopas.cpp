@@ -1,5 +1,6 @@
 #include "Koopas.h"
 #include "PlayScene.h"
+#include "ParaGoomba.h"
 
 LPGAME game = CGame::GetInstance();
 CReverseObject* reverseobject = NULL;
@@ -46,17 +47,18 @@ void CKoopas::OnNoCollision(DWORD dt)
 
 void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 {
-	if (!e->obj->IsBlocking()) return;
+	//if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
 	if (dynamic_cast<CItems*>(e->obj)) return;
 	if (dynamic_cast<CReverseObject*>(e->obj)) return;
+	
 
-	if (e->ny != 0)
+	if (e->ny != 0 && e->obj->IsBlocking())
 	{
 		vy = 0;
 		if (e->ny < 0) isOnPlatform = true;
 	}
-	else if (e->nx != 0)
+	else if (e->nx != 0 && e->obj->IsBlocking())
 	{
 		vx = -vx;
 	}
@@ -66,6 +68,8 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithGoomba(e);
 	else if (dynamic_cast<CCameraBound*>(e->obj))
 		OnCollisionWithCameraBound(e);
+	else if (dynamic_cast<CParaGoomba*>(e->obj))
+		OnCollisionWithParaGoomba(e);
 
 }
 void CKoopas::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
@@ -85,10 +89,20 @@ void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
 	if (e->nx != 0) {
-		DebugOut(L"Vo ham cua koopas");
+		//DebugOut(L"Vo ham cua koopas");
 		goomba->SetState(GOOMBA_STATE_KICK_BY_KOOPAS);
 
 	}
+}
+
+void CKoopas::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
+{
+	CParaGoomba* paragoomba = dynamic_cast<CParaGoomba*>(e->obj);
+	if (e->nx != 0) {
+		paragoomba->Setlevel(PARAGOOMBA_LEVEL_NO_WING);
+		paragoomba->SetState(PARAGOOMBA_STATE_KICK_BY_KOOPA);
+	}
+
 }
 
 void CKoopas::OnCollisionWithCameraBound(LPCOLLISIONEVENT e)

@@ -22,4 +22,5 @@ void Hud::Render()
 	power->Render();
 	numbercoin->Render();
 	timelimit->Render();
+	score->Render();
 }

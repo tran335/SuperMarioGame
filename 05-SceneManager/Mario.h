@@ -229,6 +229,7 @@ class CMario : public CGameObject
 	BOOLEAN isOut;
 	bool isPickup;
 	int coin; 
+	int score;
 	
 
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
@@ -275,6 +276,7 @@ public:
 		isFront = false;
 		isPickup = false;
 		coin = 0;
+		score = 0;
 	}
 
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
@@ -301,5 +303,6 @@ public:
 	void startDie() { isDie = true; die_start = GetTickCount64(); }
 	void startFront() { startFront_y = y; isFront = true; }
 	int GetCoin() { return coin; }
+	int GetScore() { return score; }
 
 };

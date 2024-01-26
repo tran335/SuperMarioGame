@@ -5,6 +5,7 @@
 #include "Power.h"
 #include "NumberCoin.h"
 #include "TimeLimit.h"
+#include "Score.h"
 
 #define ID_HUD 111112
 
@@ -20,6 +21,7 @@ protected:
 	Power* power = new Power(x, y);
 	NumberCoin* numbercoin = new NumberCoin(x, y);
 	TimeLimit* timelimit = new TimeLimit(x, y);
+	Score* score = new Score(x, y);
 public:
 	Hud(float x, float y);
 	void Update();

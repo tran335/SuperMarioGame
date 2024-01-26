@@ -152,6 +152,7 @@ void CMario::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 		if (goomba->GetState() != GOOMBA_STATE_DIE)
 		{
 			goomba->SetState(GOOMBA_STATE_DIE);
+			score += 100;
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 	}
@@ -235,11 +236,13 @@ void CMario::OnCollisionWithParaGoomba(LPCOLLISIONEVENT e)
 			{
 				paragoomba->Setlevel(PARAGOOMBA_LEVEL_NO_WING);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				score += 100;
 				StartUntouchable();
 			}
 			else {
 				paragoomba->SetState(PARAGOOMBA_STATE_DIE);
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
+				score += 100;
 			}
 		}
 
@@ -293,12 +296,14 @@ void CMario::OnCollisionWithParaKoopa(LPCOLLISIONEVENT e)
 			{
 				//DebugOut(L"VO WALK ROI NE");
 				parakoopa->Setlevel(PARAKOOPA_LEVEL_NO_WING);
+				score += 100;
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 			//	StartUntouchable();
 			}
 			else {
 				//DebugOut(L"DIE LUN");
 				parakoopa->SetState(PARAKOOPA_STATE_DIE);
+				score += 100;
 				vy = -MARIO_JUMP_DEFLECT_SPEED;
 			}
 		}
@@ -339,6 +344,7 @@ void CMario::OnCollisionWithKoopas(LPCOLLISIONEVENT e)
 		if (koopas->GetState() != KOOPAS_STATE_DIE)
 		{
 			koopas->SetState(KOOPAS_STATE_DIE);
+			score += 100;
 			vy = -MARIO_JUMP_DEFLECT_SPEED;
 		}
 	}
@@ -458,7 +464,7 @@ void CMario::OnCollisionWithItems(LPCOLLISIONEVENT e)
 			SetLevel(MARIO_LEVEL_BIG);
 		}
 		e->obj->Delete();
-
+		score += 1000;
 	
 }
 void CMario::OnCollisionWithKoopasBound(LPCOLLISIONEVENT e)
@@ -473,6 +479,7 @@ void CMario::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 		questionbrick->SetState(QUESTIONBRICK_STATE_DISABLE);
 		if (questionbrick->GetItemType() == 1) {
 			coin++;
+			score += 100;
 		}
 	}
 }
@@ -1017,5 +1024,6 @@ void CMario::Render()
 	animations->Get(aniId)->Render(x, y);
 	//RenderBoundingBox();
 
-	DebugOutTitle(L"Coins: %d", coin);
+	//DebugOutTitle(L"Coins: %d", coin);
+	DebugOutTitle(L"SCORE: %d", score);
 }

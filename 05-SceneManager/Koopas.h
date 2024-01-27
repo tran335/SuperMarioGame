@@ -8,6 +8,7 @@
 #include "CameraBound.h"
 #include "Goomba.h"
 #include "Platform.h"
+#include "CoinBrick.h"
 
 #define KOOPAS_GRAVITY 0.002f
 #define KOOPAS_WALKING_SPEED 0.07f
@@ -43,7 +44,7 @@
 #define MARIO_RACCOON_HANDLED_HEIGHT 10
 
 
-#define REVERSE_OBJECT_X 58 
+#define REVERSE_OBJECT_X 58
 
 class CKoopas : public CGameObject
 {
@@ -68,12 +69,13 @@ protected:
 	virtual int IsBlocking() { return 0; }
 	virtual void OnNoCollision(DWORD dt);
 
-	virtual  void OnCollisionWith(LPCOLLISIONEVENT e);
+	virtual void OnCollisionWith(LPCOLLISIONEVENT e);
 	void OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e);
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
+	void OnCollisionWithCoinBrick(LPCOLLISIONEVENT e);
 	//void OnCollisionWithReverseObject(LPCOLLISIONEVENT e);
 	
 

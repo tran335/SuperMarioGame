@@ -12,6 +12,7 @@ CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
 	die_start = -1;
 	isOnPlatform = false;
 	isPlatform = false;
+	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 	SetState(KOOPAS_STATE_WALKING);
 		reverseobject = new CReverseObject(x, y);
 		if (vx > 0) {
@@ -20,7 +21,6 @@ CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
 		else {
 			reverseobject->SetPosition(x - REVERSE_OBJECT_X, y);
 		}
-	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
 
 void CKoopas::GetBoundingBox(float& left, float& top, float& right, float& bottom)
@@ -81,6 +81,8 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithParaGoomba(e);
 	else if (dynamic_cast<CPlatform*>(e->obj))
 		OnCollisionWithPlatform(e);
+	else if (dynamic_cast<CCoinBrick*>(e->obj))
+		OnCollisionWithCoinBrick(e);
 
 }
 void CKoopas::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
@@ -101,6 +103,14 @@ void CKoopas::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
 	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
 	if (e->ny < 0) {
 		isPlatform=true;
+	}
+}
+
+void CKoopas::OnCollisionWithCoinBrick(LPCOLLISIONEVENT e)
+{
+	CCoinBrick* coinbrick = dynamic_cast<CCoinBrick*>(e->obj);
+	if (state == KOOPAS_STATE_SLIDE && e->nx!=0) {
+		e->obj->Delete();
 	}
 }
 
@@ -159,7 +169,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	
 	float x_reverseobject, y_reverseobject;
 	reverseobject->GetPosition(x_reverseobject, y_reverseobject);
-	if (/*reverseobject->getIsFall() == 1*/ y_reverseobject - this->y >=20  && !isPlatform && !isHandled) {
+	if (/*reverseobject->getIsFall() == 1*/ y_reverseobject - this->y >=18  && !isPlatform && !isHandled) {
 		vx = -vx;
 		if (vx > 0) {
 			reverseobject->SetPosition(x + REVERSE_OBJECT_X, y);
@@ -170,11 +180,17 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 			reverseobject->SetSpeed(vx, vy);
 		}
 	}
+	// fix tam truong hop koopa luc quay dau luc rot dat
+	float cx, cy;
+	game->GetCamPos(cx, cy);
+	if (x <= (cx + game->GetBackBufferWidth()/2)) {
+		//DebugOut(L"AAAA");
+
+		CGameObject::Update(dt, coObjects);
+	}
+
 	reverseobject->Update(dt, coObjects);
 	reverseobject->SetSpeed(vx, vy);
-
-	
-	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
 
@@ -198,7 +214,12 @@ void CKoopas::Render()
 	if (state == KOOPAS_STATE_WAKING) {
 		aniId = ID_ANI_KOOPAS_WAKING;
 	}
-	CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	float cx, cy;
+	game->GetCamPos(cx, cy);
+	if (x <= (cx + game->GetBackBufferWidth())) {
+		//DebugOut(L"AAAA");
+		CAnimations::GetInstance()->Get(aniId)->Render(x, y);
+	}
 	//RenderBoundingBox();
 }
 

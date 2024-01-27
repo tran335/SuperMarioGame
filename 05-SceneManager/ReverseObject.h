@@ -5,10 +5,10 @@
 #include "Koopas.h"
 #include "Platform.h"
 
-#define REVERSEOBJECT_BBOX_WIDTH 48
-#define REVERSEOBJECT_BBOX_HEIGHT 48
+#define REVERSEOBJECT_BBOX_WIDTH 58
+#define REVERSEOBJECT_BBOX_HEIGHT 58
 
-#define REVERSEOBJECT_AY 0.003f
+#define REVERSEOBJECT_AY 0.004f
 
 
 class CReverseObject : public CGameObject
@@ -22,7 +22,7 @@ public:
 	int IsCollidable() { return 1; };
 	virtual void OnNoCollision(DWORD dt);
 	void OnCollisionWith(LPCOLLISIONEVENT e);
-	void Render();
+	virtual void Render();
 	void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	void GetBoundingBox(float& l, float& t, float& r, float& b);
 	int getIsFall() { return this->isFall; }

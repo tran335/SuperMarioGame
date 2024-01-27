@@ -29,12 +29,12 @@ void CReverseObject::OnCollisionWith(LPCOLLISIONEVENT e)
 
 void CReverseObject::Render()
 {
-	RenderBoundingBox();
+	//RenderBoundingBox();
 }
 
 void CReverseObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
-	//vy += ay * dt;
+	vy += ay * dt;
 	isFall = 0;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);

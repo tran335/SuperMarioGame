@@ -8,7 +8,7 @@ scene\objectscene.txt
 # See OBJECT_TYPE constants in AssetIDs.h
 
 # MARIO
-0	6000	1000
+0	120	1000
 # BRICKS
 #1	0	148
 #1	0	164

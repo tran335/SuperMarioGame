@@ -183,8 +183,8 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 	// fix tam truong hop koopa luc quay dau luc rot dat
 	float cx, cy;
 	game->GetCamPos(cx, cy);
-	if (x <= (cx + game->GetBackBufferWidth()/2)) {
-		//DebugOut(L"AAAA");
+	if (x <= (cx + game->GetBackBufferWidth()/1.5f)) {
+		DebugOut(L"AAAA");
 
 		CGameObject::Update(dt, coObjects);
 	}

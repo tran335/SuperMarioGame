@@ -7,6 +7,7 @@
 #include "ReverseObject.h"
 #include "CameraBound.h"
 #include "Goomba.h"
+#include "Platform.h"
 
 #define KOOPAS_GRAVITY 0.002f
 #define KOOPAS_WALKING_SPEED 0.07f
@@ -41,6 +42,9 @@
 #define MARIO_RACCOON_HANDLED_WIDTH 35
 #define MARIO_RACCOON_HANDLED_HEIGHT 10
 
+
+#define REVERSE_OBJECT_X 58 
+
 class CKoopas : public CGameObject
 {
 protected:
@@ -54,8 +58,8 @@ protected:
 
 	BOOLEAN isHandled = false;
 	BOOLEAN isDrop;
+	BOOLEAN isPlatform;
 	BOOLEAN isOnPlatform;
-
 	virtual void GetBoundingBox(float& left, float& top, float& right, float& bottom);
 	virtual void Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects);
 	virtual void Render();
@@ -69,6 +73,7 @@ protected:
 	void OnCollisionWithGoomba(LPCOLLISIONEVENT e);
 	void OnCollisionWithCameraBound(LPCOLLISIONEVENT e);
 	void OnCollisionWithParaGoomba(LPCOLLISIONEVENT e);
+	void OnCollisionWithPlatform(LPCOLLISIONEVENT e);
 	//void OnCollisionWithReverseObject(LPCOLLISIONEVENT e);
 	
 

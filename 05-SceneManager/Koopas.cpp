@@ -3,6 +3,7 @@
 #include "ParaGoomba.h"
 
 LPGAME game = CGame::GetInstance();
+
 CReverseObject* reverseobject = NULL;
 CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
 {
@@ -10,7 +11,15 @@ CKoopas::CKoopas(float x, float y) :CGameObject(x, y)
 	this->ay = KOOPAS_GRAVITY;
 	die_start = -1;
 	isOnPlatform = false;
+	isPlatform = false;
 	SetState(KOOPAS_STATE_WALKING);
+		reverseobject = new CReverseObject(x, y);
+		if (vx > 0) {
+			reverseobject->SetPosition(x + REVERSE_OBJECT_X, y);
+		}
+		else {
+			reverseobject->SetPosition(x - REVERSE_OBJECT_X, y);
+		}
 	mario = (CMario*)((LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene())->GetPlayer();
 }
 
@@ -70,6 +79,8 @@ void CKoopas::OnCollisionWith(LPCOLLISIONEVENT e)
 		OnCollisionWithCameraBound(e);
 	else if (dynamic_cast<CParaGoomba*>(e->obj))
 		OnCollisionWithParaGoomba(e);
+	else if (dynamic_cast<CPlatform*>(e->obj))
+		OnCollisionWithPlatform(e);
 
 }
 void CKoopas::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
@@ -85,10 +96,18 @@ void CKoopas::OnCollisionWithQuestionBrick(LPCOLLISIONEVENT e)
 
 }
 
+void CKoopas::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
+{
+	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj);
+	if (e->ny < 0) {
+		isPlatform=true;
+	}
+}
+
 void CKoopas::OnCollisionWithGoomba(LPCOLLISIONEVENT e)
 {
 	CGoomba* goomba = dynamic_cast<CGoomba*>(e->obj);
-	if (e->nx != 0) {
+	if (e->nx != 0 && state != KOOPAS_STATE_WALKING) {
 		//DebugOut(L"Vo ham cua koopas");
 		goomba->SetState(GOOMBA_STATE_KICK_BY_KOOPAS);
 
@@ -137,23 +156,23 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 		SetState(KOOPAS_STATE_WALKING);
 		waking_start = 0;
 	}
-	CPlayScene* scene = (LPPLAYSCENE)CGame::GetInstance()->GetCurrentScene();
-	if (reverseobject == NULL) {
-		reverseobject = new CReverseObject(x, y);
-		scene->objects.push_back(reverseobject);
-	}
-	else {
-		if (vx > 0)
-		{
-			reverseobject->SetPosition(x + 58, y);
-		}
-		else
-		{
-			reverseobject->SetPosition(x - 58, y);
-		}
-	}
 	
-	
+	float x_reverseobject, y_reverseobject;
+	reverseobject->GetPosition(x_reverseobject, y_reverseobject);
+	if (/*reverseobject->getIsFall() == 1*/ y_reverseobject - this->y >=20  && !isPlatform && !isHandled) {
+		vx = -vx;
+		if (vx > 0) {
+			reverseobject->SetPosition(x + REVERSE_OBJECT_X, y);
+			reverseobject->SetSpeed(vx, vy);
+		}
+		else {
+			reverseobject->SetPosition(x - REVERSE_OBJECT_X, y);
+			reverseobject->SetSpeed(vx, vy);
+		}
+	}
+	reverseobject->Update(dt, coObjects);
+	reverseobject->SetSpeed(vx, vy);
+
 	
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
@@ -161,6 +180,7 @@ void CKoopas::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 
 void CKoopas::Render()
 {
+	reverseobject->Render();
 	int aniId = 0;
 	if (state == KOOPAS_STATE_WALKING) {
 		if (vx > 0)

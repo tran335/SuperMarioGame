@@ -5,31 +5,37 @@ CReverseObject::CReverseObject(float x, float y)
 {
 	this->x = x;
 	this->y = y;
+	isFall = 0;
+}
+void CReverseObject::OnNoCollision(DWORD dt)
+{
+	x += vx * dt;
+	y += vy * dt;
 }
 void CReverseObject::OnCollisionWith(LPCOLLISIONEVENT e)
 {
 	if (!e->obj->IsBlocking()) return;
 	if (dynamic_cast<CKoopas*>(e->obj)) return;
-	if (dynamic_cast<CItems*>(e->obj)) return;
-	if (dynamic_cast<CReverseObject*>(e->obj)) return;
-	if (dynamic_cast<CPlatform*>(e->obj))
-		OnCollisionWithPlatform(e);
 
-}
-void CReverseObject::OnCollisionWithPlatform(LPCOLLISIONEVENT e)
-{
-	CPlatform* platform = dynamic_cast<CPlatform*>(e->obj); 
-	if (e->nx != 0 || e->ny !=0) {
-		DebugOut(L"ZOO");
+	if (e->ny != 0)
+	{
+		vy = 0;
+	}
+	else if (e->nx != 0)
+	{
+		vx = 0;
 	}
 }
+
 void CReverseObject::Render()
 {
-	//RenderBoundingBox();
+	RenderBoundingBox();
 }
 
 void CReverseObject::Update(DWORD dt, vector<LPGAMEOBJECT>* coObjects)
 {
+	//vy += ay * dt;
+	isFall = 0;
 	CGameObject::Update(dt, coObjects);
 	CCollision::GetInstance()->Process(this, dt, coObjects);
 }
